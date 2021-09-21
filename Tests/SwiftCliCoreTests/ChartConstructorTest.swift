@@ -66,17 +66,17 @@ class StitchRowPrinterTests: XCTestCase {
     
     
     func testPrintStitchRowMany() throws {
-        let result = ChartConstructor().make_stitch_row(row: "k1 k1 p1 p1 k1 k1")
+        let result = ChartConstructor().make_stitch_row(row: ["k1", "k1", "p1", "p1", "k1", "k1"])
         XCTAssertEqual(result, "│ │ │-│-│ │ │\n")
     }
     
     func testPrintStitchRowOne() throws {
-        let result = ChartConstructor().make_stitch_row(row: "k1")
+        let result = ChartConstructor().make_stitch_row(row: ["k1"])
         XCTAssertEqual(result, "│ │\n")
     }
     
     func testPrintStitchRowZero() throws {
-        let result = ChartConstructor().make_stitch_row(row: "")
+        let result = ChartConstructor().make_stitch_row(row: [""])
         XCTAssertEqual(result, "\n")
     }
     
@@ -86,7 +86,7 @@ class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
     
     func testFullPatternOneRow() throws {
-        let result = ChartConstructor().make_chart(pattern: "k1 k1 p1 p1 k1 k1")
+        let result = ChartConstructor().make_chart(stitch_array: [["k1", "k1", "p1", "p1", "k1", "k1"]])
         let expectedresult = """
 ┌─┬─┬─┬─┬─┬─┐
 │ │ │-│-│ │ │
@@ -95,7 +95,7 @@ class FullChartPrinterTests: XCTestCase {
         XCTAssertEqual(result, expectedresult)
     }
     func testFullPatternTwoRow() throws {
-        let result = ChartConstructor().make_chart(pattern: "k1 k1 p1 p1 k1 k1 \n k1 k1 p1 p1 k1 k1")
+        let result = ChartConstructor().make_chart(stitch_array: [["k1", "k1", "p1", "p1", "k1", "k1"],["k1", "k1", "p1", "p1", "k1", "k1"]])
         let expectedresult = """
 ┌─┬─┬─┬─┬─┬─┐
 │ │ │-│-│ │ │

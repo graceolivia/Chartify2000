@@ -4,28 +4,35 @@ import Foundation
 // printing class
 public class ChartConstructor {
     public init() {}
-    public func make_chart(pattern: String) -> String {
-        let pattern_rows = pattern.components(separatedBy: "\n")
-        print(pattern_rows)
-        let row_length = pattern_rows[0].components(separatedBy: " ").count
-        let number_of_rows = pattern_rows.count
+    public func make_chart(stitch_array: [[String]]) -> String {
+        
+        let number_of_rows = stitch_array.count
         var finished_chart = ""
         
-        // Create top row bars
-        let the_top_row_bars = self.make_top_row(width: row_length)
-        finished_chart += the_top_row_bars;
-        // Add each row of bars
-        for row in pattern_rows{
-            var stitch_row = self.make_stitch_row(row: row)
-            finished_chart += stitch_row;
-            finished_chart += self.make_middle_row(width: row_length)
+        // NEW LOGIC
+        for row in 0...(number_of_rows - 1) {
+            let row_length = stitch_array[row].count
+            //if first row
+            if (row == 0){
+                print("first")
+                finished_chart += self.make_top_row(width: row_length)
+                finished_chart += self.make_stitch_row(row: stitch_array[row])
+            }
+            //if non-first row
+            else {
+                finished_chart += self.make_middle_row(width: row_length)
+                finished_chart += self.make_stitch_row(row: stitch_array[row])
+                //if last row
+
+            }
+            if (row == (number_of_rows - 1)){
+                print("last")
+                finished_chart +=  self.make_bottom_row(width: row_length)
+            }
         }
         
-        // Add botton bars
-        let bottom_row_bars = self.make_bottom_row(width: row_length)
-        finished_chart += bottom_row_bars
         
-
+        
         return(finished_chart)
     }
     public func make_top_row(width: Int) -> String {
@@ -33,7 +40,7 @@ public class ChartConstructor {
         if (width > 0){
         top_row_bars += "┌"
         if (width > 1){
-        for n in 1...(width - 1) {
+            for _ in 1...(width - 1) {
             top_row_bars += "─┬"
         }
         }
@@ -47,7 +54,7 @@ public class ChartConstructor {
         if (width > 0){
         middle_row_bars += "├"
         if (width > 1){
-        for i in 1...(width - 1) {
+            for _ in 1...(width - 1) {
             middle_row_bars += "─┼"
         }
         }
@@ -61,7 +68,7 @@ public class ChartConstructor {
         if (width > 0) {
         bottom_row_bars += "└"
         if (width > 1){
-        for i in 1...(width - 1) {
+            for _ in 1...(width - 1) {
             bottom_row_bars += "─┴"
         }
         }
@@ -70,15 +77,11 @@ public class ChartConstructor {
         return(bottom_row_bars)
     }
     
-    public func make_stitch_row(row: String) -> String {
-        var pattern_stitches = row.components(separatedBy: " ")
-
-        pattern_stitches.removeAll(where: { $0 == "" })
-        print(pattern_stitches)
+    public func make_stitch_row(row: [String]) -> String {
         var stitch_row_symbols = ""
-        if (row.count > 0 ) {
+        if (row[0] != "" ) {
         stitch_row_symbols += "│"
-        for stitch in pattern_stitches {
+        for stitch in row {
             stitch_row_symbols += stitchPrinting[stitch] ?? ""
             stitch_row_symbols += "│"
         }
