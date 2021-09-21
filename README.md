@@ -1,3 +1,3 @@
-# SwiftCli
+# Chartify
 
-A description of this package.
+Turn your written knitting pattern into a handsome chart!
