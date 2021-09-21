@@ -6,6 +6,7 @@ public class ChartConstructor {
     public init() {}
     public func make_chart(pattern: String) -> String {
         let pattern_rows = pattern.components(separatedBy: "\n")
+        print(pattern_rows)
         let row_length = pattern_rows[0].components(separatedBy: " ").count
         let number_of_rows = pattern_rows.count
         var finished_chart = ""
@@ -17,6 +18,7 @@ public class ChartConstructor {
         for row in pattern_rows{
             var stitch_row = self.make_stitch_row(row: row)
             finished_chart += stitch_row;
+            finished_chart += self.make_middle_row(width: row_length)
         }
         
         // Add botton bars
@@ -69,12 +71,15 @@ public class ChartConstructor {
     }
     
     public func make_stitch_row(row: String) -> String {
-        let pattern_stitches = row.components(separatedBy: " ")
+        var pattern_stitches = row.components(separatedBy: " ")
+
+        pattern_stitches.removeAll(where: { $0 == "" })
+        print(pattern_stitches)
         var stitch_row_symbols = ""
         if (row.count > 0 ) {
         stitch_row_symbols += "│"
         for stitch in pattern_stitches {
-            stitch_row_symbols += stitchPrinting[stitch]!
+            stitch_row_symbols += stitchPrinting[stitch] ?? ""
             stitch_row_symbols += "│"
         }
         }

@@ -22,3 +22,75 @@ class ValidatorTests: XCTestCase {
     }
     
 }
+
+class ArrayMakerTests: XCTestCase {
+    
+    func testValidatorForTwoRowInput() throws {
+        let result : [[String]] = Validator().ArrayMaker(cleanedpattern: "k1 p1 \n k1 p1")
+        let expected : [[String]] = [["k1", "p1"], ["k1", "p1"]]
+        print("Result:")
+        print(result)
+        print("Expected:")
+        print(expected)
+        var IsItTheSame : Bool! = nil
+        if (result == expected){
+            IsItTheSame = true
+        }
+        else{
+            IsItTheSame = false
+        }
+        XCTAssertEqual(IsItTheSame, true)
+    }
+    
+    func testValidatorForManyRowInputs() throws {
+        let result : [[String]] = Validator().ArrayMaker(cleanedpattern: "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n")
+        let expected : [[String]] = [["k1", "p1"], ["k1", "p1"], ["k1", "p1"], ["k1", "p1"], ["k1", "p1"]]
+        print("Result:")
+        print(result)
+        print("Expected:")
+        print(expected)
+        var IsItTheSame : Bool! = nil
+        if (result == expected){
+            IsItTheSame = true
+        }
+        else{
+            IsItTheSame = false
+        }
+        XCTAssertEqual(IsItTheSame, true)
+    }
+    
+    func testValidatorForExtraLinebreak() throws {
+        let result : [[String]] = Validator().ArrayMaker(cleanedpattern: "k1 p1 \n")
+        let expected : [[String]] = [["k1", "p1"]]
+        print("Result:")
+        print(result)
+        print("Expected:")
+        print(expected)
+        var IsItTheSame : Bool! = nil
+        if (result == expected){
+            IsItTheSame = true
+        }
+        else{
+            IsItTheSame = false
+        }
+        XCTAssertEqual(IsItTheSame, true)
+    }
+    
+    func testValidatorForOneStitch() throws {
+        let result : [[String]] = Validator().ArrayMaker(cleanedpattern: "k1")
+        let expected : [[String]] = [["k1"]]
+        print("Result:")
+        print(result)
+        print("Expected:")
+        print(expected)
+        var IsItTheSame : Bool! = nil
+        if (result == expected){
+            IsItTheSame = true
+        }
+        else{
+            IsItTheSame = false
+        }
+        XCTAssertEqual(IsItTheSame, true)
+    }
+    
+}

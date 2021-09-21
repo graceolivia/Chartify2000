@@ -85,10 +85,21 @@ class StitchRowPrinterTests: XCTestCase {
 class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
     
-    func testFullPatternMany() throws {
+    func testFullPatternOneRow() throws {
         let result = ChartConstructor().make_chart(pattern: "k1 k1 p1 p1 k1 k1")
         let expectedresult = """
 ┌─┬─┬─┬─┬─┬─┐
+│ │ │-│-│ │ │
+└─┴─┴─┴─┴─┴─┘
+"""
+        XCTAssertEqual(result, expectedresult)
+    }
+    func testFullPatternTwoRow() throws {
+        let result = ChartConstructor().make_chart(pattern: "k1 k1 p1 p1 k1 k1 \n k1 k1 p1 p1 k1 k1")
+        let expectedresult = """
+┌─┬─┬─┬─┬─┬─┐
+│ │ │-│-│ │ │
+├─┼─┼─┼─┼─┼─┤
 │ │ │-│-│ │ │
 └─┴─┴─┴─┴─┴─┘
 """
