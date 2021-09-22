@@ -15,6 +15,20 @@ public class InputValidator {
         return isItValid
     }
     
+
+    public func FindWidestRow(patternarray: [[String]]) -> Int {
+        var widest = -1;
+        
+        for row in (0...(patternarray.count - 1)){
+            if (patternarray[row].count > widest) {
+                widest = row
+            }
+        }
+        
+        return widest;
+    }
+    
+    
     public func ArrayMaker(cleanedpattern: String) -> [[String]] {
         var stitch_array: [[String]] = []
         let pattern_rows = cleanedpattern.split(separator: "\n")
@@ -26,4 +40,7 @@ public class InputValidator {
         }
         return(stitch_array)
     }
+    
+    public func CenteredArrayMaker(array: [[String]]) -> [[String]] {
+        return array}
 }

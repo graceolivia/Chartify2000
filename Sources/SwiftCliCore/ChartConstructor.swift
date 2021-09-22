@@ -12,19 +12,22 @@ public class ChartConstructor {
         for row in 0...lastrow {
             let row_length = stitch_array[row].count
             if (row == 0){
-                print("first")
-                finished_chart += self.make_top_row(width: row_length)
-                finished_chart += self.make_stitch_row(row: stitch_array[row])
+                finished_chart =  self.make_bottom_row(width: row_length) + finished_chart
+                finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
             }
             else {
-                finished_chart += self.make_middle_row(width: row_length)
-                finished_chart += self.make_stitch_row(row: stitch_array[row])
+
                 
+                finished_chart = self.make_middle_row(width: row_length) + finished_chart
+                finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
+                
+                //if last row
+                if (row == (number_of_rows - 1)){
+                    finished_chart = self.make_top_row(width: row_length) + finished_chart
+                }
+
             }
-            if (row == lastrow){
-                print("last")
-                finished_chart +=  self.make_bottom_row(width: row_length)
-            }
+
         }
         
         
