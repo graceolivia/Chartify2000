@@ -86,12 +86,12 @@ class ArrayMakerTests: XCTestCase {
 
 class findWidestTests: XCTestCase {
     func testValidatorForWidestRowMultiple() throws {
-        let result = Validator().FindWidestRow(patternarray: [["k1", "p1"], ["k1", "p1", "k1"],["p1"]])
+        let result = InputValidator().FindWidestRow(patternarray: [["k1", "p1"], ["k1", "p1", "k1"],["p1"]])
         XCTAssertEqual(result, 1)
     }
     
     func testValidatorForWidestRowSingle() throws {
-        let result = Validator().FindWidestRow(patternarray: [["p1"]])
+        let result = InputValidator().FindWidestRow(patternarray: [["p1"]])
         XCTAssertEqual(result, 0)
     }
 }
@@ -99,7 +99,7 @@ class findWidestTests: XCTestCase {
 
 class CenteredArrayMaker: XCTestCase {
     func testCenteredArrayMakerDecrease() throws{
-        let result = Validator().CenteredArrayMaker(array: [["k1", "ssk"],["k1"]])
+        let result = InputValidator().CenteredArrayMaker(array: [["k1", "ssk"],["k1"]])
         let expected = [["k1", "ssk"],["k1", "NOSTITCH"]]
         print(result)
         print(expected)
