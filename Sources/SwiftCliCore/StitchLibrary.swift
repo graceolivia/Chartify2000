@@ -1,7 +1,7 @@
 
 import Foundation
 
-let allowed_stitches = ["k1", "p1", "\n", "ssk", "k2tog", "yo", "m1"]
+let allowed_stitches = ["k1", "p1",  "ssk", "k2tog", "yo", "m1", "\n"]
 let stitchPrinting = ["k1":" ",
                       "p1":"-",
                       "ssk":"\\",

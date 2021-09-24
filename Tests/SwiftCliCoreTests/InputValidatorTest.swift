@@ -47,20 +47,12 @@ class ArrayMakerTests: XCTestCase {
     func testValidatorForTwoRowInput() throws {
         let result : [[String]] = InputValidator().ArrayMaker(cleanedpattern: "k1 p1 \n k1 p1")
         let expected : [[String]] = [["k1", "p1"], ["k1", "p1"]]
-        print("Result:")
-        print(result)
-        print("Expected:")
-        print(expected)
         XCTAssertEqual(result, expected)
     }
     
     func testValidatorForManyRowInputs() throws {
         let result : [[String]] = InputValidator().ArrayMaker(cleanedpattern: "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n")
         let expected : [[String]] = [["k1", "p1"], ["k1", "p1"], ["k1", "p1"], ["k1", "p1"], ["k1", "p1"]]
-        print("Result:")
-        print(result)
-        print("Expected:")
-        print(expected)
         XCTAssertEqual(result, expected)
     }
     
@@ -97,13 +89,11 @@ class findWidestTests: XCTestCase {
 }
 
 
-class CenteredArrayMaker: XCTestCase {
-    func testCenteredArrayMakerDecrease() throws{
-        let result = InputValidator().CenteredArrayMaker(array: [["k1", "ssk"],["k1"]])
-        let expected = [["k1", "ssk"],["k1", "NOSTITCH"]]
-        print(result)
-        print(expected)
-        let IsItTheSame = arrayCompare(array1: result, array2: expected)
-        XCTAssertEqual(IsItTheSame, true)
-    }
+//class CenteredArrayMaker: XCTestCase {
+//    func testCenteredArrayMakerDecrease() throws{
+//        let result = InputValidator().CenteredArrayMaker(array: [["k1", "ssk"],["k1"]])
+//        let expected = [["k1", "ssk"],["k1", "NOSTITCH"]]
+//        let IsItTheSame = arrayCompare(array1: result, array2: expected)
+//        XCTAssertEqual(IsItTheSame, true)
+//    }
 }

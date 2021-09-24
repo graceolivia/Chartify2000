@@ -15,16 +15,19 @@ public class ChartConstructor {
                 finished_chart =  self.make_bottom_row(width: row_length) + finished_chart
                 finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
             }
+            
+            
             else {
 
                 
                 finished_chart = self.make_middle_row(width: row_length) + finished_chart
                 finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
-                
-                //if last row
-                if (row == (number_of_rows - 1)){
-                    finished_chart = self.make_top_row(width: row_length) + finished_chart
+
                 }
+            
+            //if last row
+            if (row == (number_of_rows - 1)){
+                finished_chart = self.make_top_row(width: row_length) + finished_chart
 
             }
 

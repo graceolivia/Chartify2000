@@ -119,45 +119,45 @@ class FullChartPrinterTests: XCTestCase {
 """
         XCTAssertEqual(result, expectedresult)
     }
-    
-        func testFullPatternLeftK2togDecrease() throws {
-            let result = ChartConstructor().make_chart(stitch_array: [["k2tog", "k1", "p1", "p1", "k1", "k1"],["k1", "p1", "p1", "k1", "k1"]])
-            let expectedresult = """
-      ┌─┬─┬─┬─┬─┐
-      │ │-│-│ │ │
-    ┌─┼─┼─┼─┼─┼─┤
-    │/│ │-│-│ │ │
-    └─┴─┴─┴─┴─┴─┘
-    """
-            XCTAssertEqual(result, expectedresult)
-        }
-    
-    func testFullPatternRight9YODecrease() throws {
-        let result = ChartConstructor().make_chart(stitch_array: [["k1", "p1", "k1", "yo"],["k1", "p1", "k1", "k1", "k1"]])
-        let expectedresult = """
-┌─┬─┬─┬─┬─┐
-│ │-│ │ │ │
-├─┼─┼─┼─┼─┘
-│ │-│ │o│
-└─┴─┴─┴─┘
-"""
-        XCTAssertEqual(result, expectedresult)
-    }
-    
-    func testIncreaseAndDecrease() throws {
-        let result = ChartConstructor().make_chart(stitch_array: [["k2tog", "k1", "k1", "k1", "ssk"],["k2tog", "k1", "ssk"], ["k1"]])
-        let expectedresult = """
-    ┌─┐
-    │ │
-  ┌─┼─┼─┐
-  │/│ │\\│
-┌─┼─┼─┼─┤─┐
-│/│ │ │ │\\│
-└─┴─┴─┴─┴─┘
-"""
-        XCTAssertEqual(result, expectedresult)
-    }
-    
+//
+//        func testFullPatternLeftK2togDecrease() throws {
+//            let result = ChartConstructor().make_chart(stitch_array: [["k2tog", "k1", "p1", "p1", "k1", "k1"],["k1", "p1", "p1", "k1", "k1"]])
+//            let expectedresult = """
+//      ┌─┬─┬─┬─┬─┐
+//      │ │-│-│ │ │
+//    ┌─┼─┼─┼─┼─┼─┤
+//    │/│ │-│-│ │ │
+//    └─┴─┴─┴─┴─┴─┘
+//    """
+//            XCTAssertEqual(result, expectedresult)
+//        }
+//
+//    func testFullPatternRight9YODecrease() throws {
+//        let result = ChartConstructor().make_chart(stitch_array: [["k1", "p1", "k1", "yo"],["k1", "p1", "k1", "k1", "k1"]])
+//        let expectedresult = """
+//┌─┬─┬─┬─┬─┐
+//│ │-│ │ │ │
+//├─┼─┼─┼─┼─┘
+//│ │-│ │o│
+//└─┴─┴─┴─┘
+//"""
+//        XCTAssertEqual(result, expectedresult)
+//    }
+//
+//    func testIncreaseAndDecrease() throws {
+//        let result = ChartConstructor().make_chart(stitch_array: [["k2tog", "k1", "k1", "k1", "ssk"],["k2tog", "k1", "ssk"], ["k1"]])
+//        let expectedresult = """
+//    ┌─┐
+//    │ │
+//  ┌─┼─┼─┐
+//  │/│ │\\│
+//┌─┼─┼─┼─┤─┐
+//│/│ │ │ │\\│
+//└─┴─┴─┴─┴─┘
+//"""
+//        XCTAssertEqual(result, expectedresult)
+//    }
+//
     
     
 }
