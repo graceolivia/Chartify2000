@@ -6,7 +6,6 @@ import ArgumentParser
 public final class Chartify {
     public init() {}
     public func run() {
-        print("Knitting!")
         // Replace this variable with user input
         let input = "g1"
         let isValid = InputValidator().validate(pattern: input)
