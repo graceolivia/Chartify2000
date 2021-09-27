@@ -8,13 +8,13 @@ public class ChartConstructor {
         let number_of_rows = stitch_array.count
         var finished_chart = ""
         let lastrow = number_of_rows - 1
-        // NEW LOGIC
+        
         for row in 0...lastrow {
             let row_length = stitch_array[row].count
             
             if (row == 0){
-                finished_chart =  self.make_bottom_row(width: row_length) + finished_chart
-                finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
+                finished_chart =  makeBottomRow(width: row_length) + finished_chart
+                finished_chart = makeStitchRow(row: stitch_array[row]) + finished_chart
             }
             
             
@@ -22,98 +22,88 @@ public class ChartConstructor {
                 let prev_row_length = stitch_array[row - 1].count
                 let right_side_diff = (row_length - prev_row_length)
                 if (right_side_diff < 0){
-                    print("here")
-                    finished_chart =  make_middle_row_stitch_count_change(width: row_length, right_difference: right_side_diff, left_difference: 0) + finished_chart
+                    
+                    finished_chart =  makeMiddleRowStitchCountChange(width: row_length, right_difference: right_side_diff, left_difference: 0) + finished_chart
                 }
                 else {
-                    finished_chart = self.make_middle_row(width: row_length) + finished_chart
+                    finished_chart = makeMiddleRow(width: row_length) + finished_chart
                 }
                 
-                finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
-
-                }
-            
-            //if last row
-            if (row == (number_of_rows - 1)){
-                finished_chart = self.make_top_row(width: row_length) + finished_chart
-
+                finished_chart = makeStitchRow(row: stitch_array[row]) + finished_chart
+                
             }
-
+            
+            
+            if (row == (number_of_rows - 1)){
+                finished_chart = makeTopRow(width: row_length) + finished_chart
+                
+            }
+            
         }
         
         
         
         return(finished_chart)
     }
-    public func make_top_row(width: Int) -> String {
+    public func makeTopRow(width: Int) -> String {
         var top_row_bars = ""
         if (width > 0){
             top_row_bars += "┌"
             if (width > 1){
-                for _ in 1...(width - 1) {
-                    top_row_bars += "─┬"
-                }
+                top_row_bars += String(repeating: "─┬", count: width - 1)
+                
             }
             top_row_bars += "─┐"
         }
         top_row_bars += "\n"
         return(top_row_bars)
     }
-    public func make_middle_row(width: Int) -> String {
-        var middle_row_bars = ""
+    public func makeMiddleRow(width: Int) -> String {
+        var middleRowBars = ""
         if (width > 0){
-            middle_row_bars += "├"
+            middleRowBars += "├"
             if (width > 1){
-                for _ in 1...(width - 1) {
-                    middle_row_bars += "─┼"
-                }
+                middleRowBars += String(repeating: "─┼", count: width - 1)
             }
-            middle_row_bars += "─┤"
+            middleRowBars += "─┤"
         }
-        middle_row_bars += "\n"
-        return(middle_row_bars)
+        middleRowBars += "\n"
+        return(middleRowBars)
     }
     
-    public func make_middle_row_stitch_count_change(width: Int, right_difference: Int, left_difference: Int) -> String {
-        
+    public func makeMiddleRowStitchCountChange(width: Int, right_difference: Int, left_difference: Int) -> String {
         
         var middle_row_bars = ""
         if (width > 0){
             middle_row_bars += "├"
             if (right_difference < 0){
-            if (width > 1){
-                for _ in 1...(width) {
-                    middle_row_bars += "─┼"
+                middle_row_bars += String(repeating: "─┼", count: (width))
+                if (abs(right_difference) >= 2){
+                    middle_row_bars += String(repeating: "─┬", count: ((abs(right_difference))-1))
+                    
                 }
-                    if (abs(right_difference) > 1){
-                    for _ in 0...((abs(right_difference))-2){
-                        middle_row_bars += "─┬"
-                    }
-                       
-                    }
                 middle_row_bars += "─┐"
-                }
             }
         }
         middle_row_bars += "\n"
         return(middle_row_bars)
     }
     
-    public func make_bottom_row(width: Int) -> String {
+    
+    
+    public func makeBottomRow(width: Int) -> String {
         var bottom_row_bars = ""
         if (width > 0) {
             bottom_row_bars += "└"
             if (width > 1){
-                for _ in 1...(width - 1) {
-                    bottom_row_bars += "─┴"
-                }
+                bottom_row_bars += String(repeating: "─┴", count: width - 1)
             }
             bottom_row_bars += "─┘"
         }
         return(bottom_row_bars)
     }
     
-    public func make_stitch_row(row: [String]) -> String {
+    public func makeStitchRow(row: [String]) -> String {
         var stitch_row_symbols = ""
         if (row[0] != "" ) {
             stitch_row_symbols += "│"
@@ -126,10 +116,3 @@ public class ChartConstructor {
         return(stitch_row_symbols)
     }
 }
-
-
-//┌─┬─┬─┬─┐
-//│k│p│k│p│
-//├─┼─┼─┼─┤
-//│p│k│p│k│
-//└─┴─┴─┴─┘
