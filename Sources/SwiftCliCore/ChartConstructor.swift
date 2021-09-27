@@ -11,6 +11,7 @@ public class ChartConstructor {
         // NEW LOGIC
         for row in 0...lastrow {
             let row_length = stitch_array[row].count
+            
             if (row == 0){
                 finished_chart =  self.make_bottom_row(width: row_length) + finished_chart
                 finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
@@ -18,9 +19,16 @@ public class ChartConstructor {
             
             
             else {
-
+                let prev_row_length = stitch_array[row - 1].count
+                let right_side_diff = (row_length - prev_row_length)
+                if (right_side_diff < 0){
+                    print("here")
+                    finished_chart =  make_middle_row_stitch_count_change(width: row_length, right_difference: right_side_diff, left_difference: 0) + finished_chart
+                }
+                else {
+                    finished_chart = self.make_middle_row(width: row_length) + finished_chart
+                }
                 
-                finished_chart = self.make_middle_row(width: row_length) + finished_chart
                 finished_chart = self.make_stitch_row(row: stitch_array[row]) + finished_chart
 
                 }
@@ -65,6 +73,32 @@ public class ChartConstructor {
         middle_row_bars += "\n"
         return(middle_row_bars)
     }
+    
+    public func make_middle_row_stitch_count_change(width: Int, right_difference: Int, left_difference: Int) -> String {
+        
+        
+        var middle_row_bars = ""
+        if (width > 0){
+            middle_row_bars += "├"
+            if (right_difference < 0){
+            if (width > 1){
+                for _ in 1...(width) {
+                    middle_row_bars += "─┼"
+                }
+                    if (abs(right_difference) > 1){
+                    for _ in 0...((abs(right_difference))-2){
+                        middle_row_bars += "─┬"
+                    }
+                       
+                    }
+                middle_row_bars += "─┐"
+                }
+            }
+        }
+        middle_row_bars += "\n"
+        return(middle_row_bars)
+    }
+    
     public func make_bottom_row(width: Int) -> String {
         var bottom_row_bars = ""
         if (width > 0) {

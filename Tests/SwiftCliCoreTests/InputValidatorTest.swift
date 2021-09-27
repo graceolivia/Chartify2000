@@ -96,4 +96,4 @@ class findWidestTests: XCTestCase {
 //        let IsItTheSame = arrayCompare(array1: result, array2: expected)
 //        XCTAssertEqual(IsItTheSame, true)
 //    }
-}
+

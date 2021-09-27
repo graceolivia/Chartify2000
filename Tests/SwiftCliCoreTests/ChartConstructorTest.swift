@@ -82,6 +82,28 @@ class StitchRowPrinterTests: XCTestCase {
     
     
 }
+
+class RightDecreaseMiddlePrinterTests: XCTestCase {
+    func testOneRightDecrease() throws {
+    let result = ChartConstructor().make_middle_row_stitch_count_change(width: 6, right_difference: -1, left_difference: 0)
+    let expected = "├─┼─┼─┼─┼─┼─┼─┐\n"
+        XCTAssertEqual(result, expected)}
+    
+    func testThreeRightDecrease() throws {
+    let result = ChartConstructor().make_middle_row_stitch_count_change(width: 3, right_difference: -3, left_difference: 0)
+    let expected = "├─┼─┼─┼─┬─┬─┐\n"
+        XCTAssertEqual(result, expected)}
+    
+    func testTwoRightDecrease() throws {
+    let result = ChartConstructor().make_middle_row_stitch_count_change(width: 3, right_difference: -2, left_difference: 0)
+    let expected = "├─┼─┼─┼─┬─┐\n"
+        XCTAssertEqual(result, expected)}
+    
+}
+
+
+
+
 class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
     
@@ -107,15 +129,29 @@ class FullChartPrinterTests: XCTestCase {
     }
     
     func testFullPatternRightSSKDecrease() throws {
-        let result = ChartConstructor().make_chart(stitch_array: [["k1", "k1", "p1", "p1", "k1", "k1", "p1", "ssk"],["k1", "k1", "p1", "p1", "k1", "k1", "ssk"],["k1", "k1", "p1", "p1", "k1", "k1"]])
+        let result = ChartConstructor().make_chart(stitch_array: [["k1", "k1", "p1", "p1", "k1", "k1", "p1", "k1"],["k1", "k1", "p1", "p1", "k1", "k1", "ssk"],["k1", "k1", "p1", "p1", "k1", "ssk"]])
         let expectedresult = """
 ┌─┬─┬─┬─┬─┬─┐
-│ │ │-│-│ │ │
-├─┼─┼─┼─┼─┼─┤─┐
+│ │ │-│-│ │\\│
+├─┼─┼─┼─┼─┼─┼─┐
 │ │ │-│-│ │ │\\│
-├─┼─┼─┼─┼─┼─┼─┤─┐
-│ │ │-│-│ │ │-│\\│
+├─┼─┼─┼─┼─┼─┼─┼─┐
+│ │ │-│-│ │ │-│ │
 └─┴─┴─┴─┴─┴─┴─┴─┘
+"""
+        XCTAssertEqual(result, expectedresult)
+    }
+    
+    
+    
+    func testFullPatternTripleRightSSKDecrease() throws {
+        let result = ChartConstructor().make_chart(stitch_array: [["k1", "k1", "p1", "p1", "k1", "k1","k1", "k1","k1", "k1"],["k1", "k1", "p1", "p1", "ssk", "ssk", "ssk"]])
+        let expectedresult = """
+┌─┬─┬─┬─┬─┬─┬─┐
+│ │ │-│-│\\│\\│\\│
+├─┼─┼─┼─┼─┼─┼─┼─┬─┬─┐
+│ │ │-│-│ │ │ │ │ │ │
+└─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
 """
         XCTAssertEqual(result, expectedresult)
     }

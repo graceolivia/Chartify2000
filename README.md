@@ -6,7 +6,7 @@ Chartify takes input in the form of allowed stitches, seperated by line breaks (
 
 For example, input the string "k1 k1 p1 p1 k1 k1 \n p1 p1 k1 k1 p1 p1," and Chartify will crate this pattern:
 
-┌─┬─┬─┬─┬─┬─┐
+┌─┬─┬─┬─┬─┬─┐  
 │-│-│ │ │-│-│
 ├─┼─┼─┼─┼─┼─┤
 │ │ │-│-│ │ │
