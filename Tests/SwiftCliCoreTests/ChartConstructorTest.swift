@@ -81,21 +81,21 @@ class StitchRowPrinterTests: XCTestCase {
 
 class RightDecreaseMiddlePrinterTests: XCTestCase {
     func testOneRightDecrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 6, rightDifference: -1, leftDifference: 0)
+        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 6, rDiff: -1, lDiff: 0)
         let expected = "├─┼─┼─┼─┼─┼─┼─┐\n"
         XCTAssertEqual(result, expected)
 
     }
 
     func testThreeRightDecrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 3, rightDifference: -3, leftDifference: 0)
+        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 3, rDiff: -3, lDiff: 0)
         let expected = "├─┼─┼─┼─┬─┬─┐\n"
         XCTAssertEqual(result, expected)
 
     }
 
     func testTwoRightDecrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 3, rightDifference: -2, leftDifference: 0)
+        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 3, rDiff: -2, lDiff: 0)
         let expected = "├─┼─┼─┼─┬─┐\n"
         XCTAssertEqual(result, expected)
 
