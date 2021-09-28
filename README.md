@@ -31,10 +31,11 @@ Minimum Swift version required to run this project: 5.3
 
 To install this project on your machine use 
 `git clone https://github.com/graceolivia/Chartify2000.git`
+`swift build`
 
 To run the project, either use the Run command on XCODE, or cd into the directory on the terminal and do:
 
-`swift build`
+
 `swift run`
 
 To test the project, either use XCODE tools to run tests as you wish, or in the project directory on the terminal run:

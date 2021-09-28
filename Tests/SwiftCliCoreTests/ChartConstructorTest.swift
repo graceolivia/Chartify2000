@@ -58,7 +58,6 @@ class StitchRowPrinterTests: XCTestCase {
         expect(ChartConstructor().makeStitchRow(row: ["k1"]))=="│ │\n"
     }
 
-
 }
 
 class RightDecreaseMiddlePrinterTests: XCTestCase {
@@ -69,7 +68,6 @@ class RightDecreaseMiddlePrinterTests: XCTestCase {
 
     func testThreeRightDecrease() throws {
         expect(ChartConstructor().makeMiddleRowStitchCountChange(width: 3, rDiff: -3, lDiff: 0))=="├─┼─┼─┼─┬─┬─┐\n"
-
 
     }
 

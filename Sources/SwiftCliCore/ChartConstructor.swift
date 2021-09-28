@@ -66,7 +66,6 @@ public class ChartConstructor {
         var middleStitches = ""
         var rightStitches = ""
 
-
         switch lDiff {
         case 0:
             leftStitches = "├"
@@ -81,8 +80,7 @@ public class ChartConstructor {
             middleStitches = String(repeating: "─┼", count: (width-1))
         }
 
-
-        switch (true){
+        switch true {
         case (rDiff >= 1):
             rightStitches = ""
         case (rDiff == -1):
@@ -93,8 +91,6 @@ public class ChartConstructor {
         default:
             rightStitches = "─┤\n"
         }
-
-
 
         return leftStitches + middleStitches + rightStitches
 
@@ -115,7 +111,7 @@ public class ChartConstructor {
 
     public func makeStitchRow(row: [String]) -> String {
         var width = row.count
-        switch width{
+        switch width {
         case 0:
             return "\n"
         default:

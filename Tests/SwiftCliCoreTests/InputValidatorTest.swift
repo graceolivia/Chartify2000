@@ -49,12 +49,12 @@ class ArrayMakerTests: XCTestCase {
     }
 
     func testValidatorForThreeExtraLinebreak() throws {
-        expect(InputValidator().arrayMaker(cleanedpattern:"k1 p1 \n \n \n"))==[["k1", "p1"]]
+        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n \n \n"))==[["k1", "p1"]]
 
     }
 
     func testValidatorForOneStitch() throws {
-        expect(InputValidator().arrayMaker(cleanedpattern:"k1"))==[["k1"]]
+        expect(InputValidator().arrayMaker(cleanedpattern: "k1"))==[["k1"]]
     }
 
 }
