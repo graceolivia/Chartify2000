@@ -38,71 +38,94 @@ public class ChartConstructor {
         return(finishedChart)
     }
     public func makeTopRow(width: Int) -> String {
-        var topRowBars = ""
-        if width > 0 {
-            topRowBars += "┌"
-            if width > 1 {
-                topRowBars += String(repeating: "─┬", count: width - 1)
-
-            }
-            topRowBars += "─┐"
+        switch width {
+        case 0:
+            return "\n"
+        case 1:
+            return "┌─┐\n"
+        default:
+            let middleBoxes = String(repeating: "─┬", count: width - 1)
+            return "┌\(middleBoxes)─┐\n"
         }
-        topRowBars += "\n"
-        return(topRowBars)
+
     }
     public func makeMiddleRow(width: Int) -> String {
-        var middleRowBars = ""
-        if width > 0 {
-            middleRowBars += "├"
-            if width > 1 {
-                middleRowBars += String(repeating: "─┼", count: width - 1)
-            }
-            middleRowBars += "─┤"
+        switch width {
+        case 0:
+            return "\n"
+        case 1:
+            return "├─┤\n"
+        default:
+            let middleBoxes = String(repeating: "─┼", count: width - 1)
+            return "├\(middleBoxes)─┤\n"
         }
-        middleRowBars += "\n"
-        return(middleRowBars)
     }
 
     public func makeMiddleRowStitchCountChange(width: Int, rDiff: Int, lDiff: Int) -> String {
+        var leftStitches = ""
+        var middleStitches = ""
+        var rightStitches = ""
 
-        var middleRowBars = ""
-        if width > 0 {
-            middleRowBars += "├"
-            if rDiff < 0 {
-                middleRowBars += String(repeating: "─┼", count: (width))
-                if abs(rDiff) >= 2 {
-                    middleRowBars += String(repeating: "─┬", count: ((abs(rDiff))-1))
 
-                }
-                middleRowBars += "─┐"
-            }
+        switch lDiff {
+        case 0:
+            leftStitches = "├"
+        default:
+            leftStitches = "├"
         }
-        middleRowBars += "\n"
-        return(middleRowBars)
+
+        switch width {
+        case 1:
+            middleStitches = "─"
+        default:
+            middleStitches = String(repeating: "─┼", count: (width-1))
+        }
+
+
+        switch (true){
+        case (rDiff >= 1):
+            rightStitches = ""
+        case (rDiff == -1):
+            rightStitches = "─┼─┐\n"
+        case (rDiff < -1):
+            let midRightSt = String(repeating: "─┬", count: ((abs(rDiff))-1))
+            rightStitches = "─┼\(midRightSt)─┐\n"
+        default:
+            rightStitches = "─┤\n"
+        }
+
+
+
+        return leftStitches + middleStitches + rightStitches
+
     }
 
     public func makeBottomRow(width: Int) -> String {
-        var bottomRowBars = ""
-        if width > 0 {
-            bottomRowBars += "└"
-            if width > 1 {
-                bottomRowBars += String(repeating: "─┴", count: width - 1)
-            }
-            bottomRowBars += "─┘"
-        }
-        return(bottomRowBars)
+
+        switch width {
+        case 0:
+            return ""
+        case 1:
+            return "└─┘"
+        default:
+            let middleBoxes = String(repeating: "─┴", count: width - 1)
+            return "└\(middleBoxes)─┘"
+    }
     }
 
     public func makeStitchRow(row: [String]) -> String {
-        var stitchRowSymbols = ""
-        if row[0] != "" {
-            stitchRowSymbols += "│"
+        let width = row.count
+        switch width{
+        case 0:
+            return "\n"
+        default:
+            var middleStitches = ""
             for stitch in row {
-                stitchRowSymbols += stitchPrinting[stitch] ?? ""
-                stitchRowSymbols += "│"
+                middleStitches += stitchPrinting[stitch] ?? ""
+                middleStitches += "│"
             }
+            return "│\(middleStitches)\n"
         }
-        stitchRowSymbols += "\n"
-        return(stitchRowSymbols)
+
     }
 }
