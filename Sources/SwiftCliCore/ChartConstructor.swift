@@ -114,7 +114,7 @@ public class ChartConstructor {
     }
 
     public func makeStitchRow(row: [String]) -> String {
-        let width = row.count
+        var width = row.count
         switch width{
         case 0:
             return "\n"

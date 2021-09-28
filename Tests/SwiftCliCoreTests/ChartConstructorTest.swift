@@ -58,9 +58,6 @@ class StitchRowPrinterTests: XCTestCase {
         expect(ChartConstructor().makeStitchRow(row: ["k1"]))=="│ │\n"
     }
 
-    func testPrintStitchRowZero() throws {
-        expect(ChartConstructor().makeStitchRow(row: [""]))=="\n"
-    }
 
 }
 
