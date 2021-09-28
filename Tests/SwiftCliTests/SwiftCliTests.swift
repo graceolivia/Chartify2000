@@ -27,7 +27,7 @@ final class SwiftCliTests: XCTestCase {
         process.waitUntilExit()
 
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: data, encoding: .utf8)
+        var output = String(data: data, encoding: .utf8)
 
         //    XCTAssertEqual(output, "Hello, world!\n")
         #endif

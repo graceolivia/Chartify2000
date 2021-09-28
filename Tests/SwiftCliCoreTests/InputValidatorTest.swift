@@ -1,38 +1,34 @@
 import Foundation
 import XCTest
+import Nimble
 @testable import SwiftCliCore
 
 class ValidatorTests: XCTestCase {
     // Valid Input
 
     func testValidatorForP1Input() throws {
-        let result = InputValidator().validate(pattern: "p1")
-        XCTAssertEqual(result, true)
+        expect(InputValidator().validate(pattern: "p1"))==true
     }
     func testValidatorForK1P1Input() throws {
-        let result = InputValidator().validate(pattern: "k1 p1")
-        XCTAssertEqual(result, true)
+        expect(InputValidator().validate(pattern: "k1 p1"))==true
+
     }
 
     func testValidatorForLineBreaks() throws {
-        let result = InputValidator().validate(pattern: "k1 p1 \n")
-        XCTAssertEqual(result, true)
+        expect(InputValidator().validate(pattern: "k1 p1 \n"))==true
     }
 
     // Invalid Input
     func testValidatorForG1P1Input() throws {
-        let result = InputValidator().validate(pattern: "g1 p1")
-        XCTAssertEqual(result, false)
+        expect(InputValidator().validate(pattern: "g1 p1"))==false
     }
 
     func testValidatorFor0Input() throws {
-        let result = InputValidator().validate(pattern: "")
-        XCTAssertEqual(result, false)
+        expect(InputValidator().validate(pattern: ""))==false
     }
 
     func testValidatorForMiscBadInput() throws {
-        let result = InputValidator().validate(pattern: "3")
-        XCTAssertEqual(result, false)
+        expect(InputValidator().validate(pattern: "3"))==false
     }
 
 }
@@ -40,33 +36,25 @@ class ValidatorTests: XCTestCase {
 class ArrayMakerTests: XCTestCase {
 
     func testValidatorForTwoRowInput() throws {
-        let result: [[String]] = InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n k1 p1")
-        let expected: [[String]] = [["k1", "p1"], ["k1", "p1"]]
-        XCTAssertEqual(result, expected)
+        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n k1 p1"))==[["k1", "p1"], ["k1", "p1"]]
     }
 
     func testValidatorForManyRowInputs() throws {
-        let result: [[String]] = InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n")
-        let expected: [[String]] = [["k1", "p1"], ["k1", "p1"], ["k1", "p1"], ["k1", "p1"]]
-        XCTAssertEqual(result, expected)
+        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n"))==[["k1", "p1"], ["k1", "p1"], ["k1", "p1"], ["k1", "p1"]]
+
     }
 
     func testValidatorForExtraLinebreak() throws {
-        let result: [[String]] = InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n")
-        let expected: [[String]] = [["k1", "p1"]]
-        XCTAssertEqual(result, expected)
+        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n")) == [["k1", "p1"]]
     }
 
     func testValidatorForThreeExtraLinebreak() throws {
-        let result: [[String]] = InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n \n \n")
-        let expected: [[String]] = [["k1", "p1"]]
-        XCTAssertEqual(result, expected)
+        expect(InputValidator().arrayMaker(cleanedpattern:"k1 p1 \n \n \n"))==[["k1", "p1"]]
+
     }
 
     func testValidatorForOneStitch() throws {
-        let result: [[String]] = InputValidator().arrayMaker(cleanedpattern: "k1")
-        let expected: [[String]] = [["k1"]]
-        XCTAssertEqual(result, expected)
+        expect(InputValidator().arrayMaker(cleanedpattern:"k1"))==[["k1"]]
     }
 
 }
