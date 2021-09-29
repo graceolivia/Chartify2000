@@ -110,7 +110,7 @@ public class ChartConstructor {
         default:
             var middleStitches = ""
             for stitch in row {
-                middleStitches += "\(stitchPrinting[stitch] ?? "")|"
+                middleStitches += "\(stitchPrinting[stitch] ?? "")│"
             }
             return "│\(middleStitches)\n"
         }
