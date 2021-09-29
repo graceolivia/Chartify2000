@@ -10,9 +10,8 @@ public class ChartConstructor {
 
         for row in 0...lastRow {
             let rowLength = stitchArray[row].count
-
             if row == 0 {
-                finishedChart =  makeBottomRow(width: rowLength) + finishedChart
+                finishedChart = makeBottomRow(width: rowLength) + finishedChart
                 finishedChart = makeStitchRow(row: stitchArray[row]) + finishedChart
             } else {
                 let prevRowLength = stitchArray[row - 1].count
@@ -25,18 +24,18 @@ public class ChartConstructor {
                 }
 
                 finishedChart = makeStitchRow(row: stitchArray[row]) + finishedChart
-
             }
-
-            if row == (numberOfRows - 1) {
+            if row == (lastRow) {
                 finishedChart = makeTopRow(width: rowLength) + finishedChart
-
             }
-
         }
-
         return(finishedChart)
     }
+
+    
+
+
+
     public func makeTopRow(width: Int) -> String {
         switch width {
         case 0:
@@ -62,7 +61,7 @@ public class ChartConstructor {
     }
 
     public func makeMiddleRowStitchCountChange(width: Int, rDiff: Int, lDiff: Int) -> String {
-        let leftStitches = "├"
+        var leftStitches = ""
         var rightStitches = ""
         var middleStitches = ""
         switch true {
@@ -70,6 +69,8 @@ public class ChartConstructor {
             middleStitches = String(repeating: "─┼", count: (width-rDiff-1))
         case (rDiff < 0):
             middleStitches = String(repeating: "─┼", count: (width-1))
+        case (lDiff > 0):
+            middleStitches = String(repeating: "─┼", count: (width-lDiff-1))
         default:
             middleStitches = String(repeating: "─┼", count: (width-1))
         }
@@ -88,6 +89,20 @@ public class ChartConstructor {
             let midRightSt = String(repeating: "─┴", count: ((abs(rDiff))-1))
             rightStitches = "─┼\(midRightSt)─┘\n"
         }
+
+
+        switch true {
+        case (lDiff == 0):
+            leftStitches = "├"
+        case (lDiff == 1):
+            leftStitches = "└─┼"
+        case (lDiff >  1):
+            let midLeftSt = String(repeating: "─┴", count: ((abs(lDiff))-1))
+            leftStitches = "└\(midLeftSt)─┼"
+        default:
+            leftStitches = "├"
+        }
+
 
         return leftStitches + middleStitches + rightStitches
 

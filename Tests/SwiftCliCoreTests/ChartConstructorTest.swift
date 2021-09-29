@@ -120,6 +120,24 @@ class RightIncreaseMiddlePrinterTests: XCTestCase {
 
     }
 }
+
+class LeftIncreaseTests: XCTestCase {
+    func testOneLeftInc() throws {
+        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 5, rDiff: 0, lDiff: 1)
+        let expectedOutput = "└─┼─┼─┼─┼─┤\n"
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testManyLeftInc() throws {
+        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 7, rDiff: 0, lDiff: 3)
+        let expectedOutput = "└─┴─┴─┼─┼─┼─┼─┤\n"
+        expect(result).to(equal(expectedOutput))
+    }
+}
+
+
+
+
 class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
 
@@ -209,4 +227,7 @@ class FullChartPrinterTests: XCTestCase {
 """
         expect(result).to(equal(expectedOutput))
     }
+
+
+
 }
