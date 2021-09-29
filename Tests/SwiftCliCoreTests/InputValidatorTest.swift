@@ -55,7 +55,7 @@ class ArrayMakerTests: XCTestCase {
     }
 
     func testValidatorForManyRowInputs() throws {
-        let result = InputValidator().arrayMaker(cleanedPattern:  "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n")
+        let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n")
         let expectedResult = [["k1", "p1"],
                               ["k1", "p1"],
                               ["k1", "p1"],
@@ -65,20 +65,20 @@ class ArrayMakerTests: XCTestCase {
     }
 
     func testValidatorForExtraLinebreak() throws {
-        let result = InputValidator().arrayMaker(cleanedPattern:  "k1 p1 \n")
+        let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n")
         let expectedResult = [["k1", "p1"]]
         expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForThreeExtraLinebreak() throws {
-        let result = InputValidator().arrayMaker(cleanedPattern:  "k1 p1 \n \n \n")
+        let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n \n \n")
         let expectedResult = [["k1", "p1"]]
         expect(result).to(equal(expectedResult))
 
     }
 
     func testValidatorForOneStitch() throws {
-        let result = InputValidator().arrayMaker(cleanedPattern:  "k1")
+        let result = InputValidator().arrayMaker(cleanedPattern: "k1")
         let expectedResult = [["k1"]]
         expect(result).to(equal(expectedResult))
     }

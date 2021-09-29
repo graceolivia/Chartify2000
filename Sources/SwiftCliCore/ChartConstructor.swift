@@ -90,7 +90,6 @@ public class ChartConstructor {
     }
 
     public func makeBottomRow(width: Int) -> String {
-
         switch width {
         case 0:
             return ""
