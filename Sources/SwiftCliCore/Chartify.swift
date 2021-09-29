@@ -9,7 +9,7 @@ public final class Chartify {
         let input = "g1"
         let isValid = InputValidator().validate(pattern: input)
         if isValid == true {
-            let patternArray = InputValidator().arrayMaker(cleanedpattern: input)
+            let patternArray = InputValidator().arrayMaker(cleanedPattern: input)
             print(ChartConstructor().makeChart(stitchArray: patternArray))
         } else {
             print("""

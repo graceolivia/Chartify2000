@@ -62,16 +62,9 @@ public class ChartConstructor {
     }
 
     public func makeMiddleRowStitchCountChange(width: Int, rDiff: Int, lDiff: Int) -> String {
-        var leftStitches = ""
-        var middleStitches = ""
+        let leftStitches = "├"
         var rightStitches = ""
-
-        switch lDiff {
-        case 0:
-            leftStitches = "├"
-        default:
-            leftStitches = "├"
-        }
+        var middleStitches = ""
 
         switch width {
         case 1:
@@ -81,13 +74,13 @@ public class ChartConstructor {
         }
 
         switch true {
-        case (rDiff >= 1):
-            rightStitches = ""
-        case (rDiff == -1):
-            rightStitches = "─┼─┐\n"
         case (rDiff < -1):
             let midRightSt = String(repeating: "─┬", count: ((abs(rDiff))-1))
             rightStitches = "─┼\(midRightSt)─┐\n"
+        case (rDiff == -1):
+            rightStitches = "─┼─┐\n"
+        case (rDiff == 0):
+            rightStitches = "─┤\n"
         default:
             rightStitches = "─┤\n"
         }
@@ -106,19 +99,18 @@ public class ChartConstructor {
         default:
             let middleBoxes = String(repeating: "─┴", count: width - 1)
             return "└\(middleBoxes)─┘"
-    }
+        }
     }
 
     public func makeStitchRow(row: [String]) -> String {
-        var width = row.count
+        let width = row.count
         switch width {
         case 0:
             return "\n"
         default:
             var middleStitches = ""
             for stitch in row {
-                middleStitches += stitchPrinting[stitch] ?? ""
-                middleStitches += "│"
+                middleStitches += "\(stitchPrinting[stitch] ?? "")|"
             }
             return "│\(middleStitches)\n"
         }

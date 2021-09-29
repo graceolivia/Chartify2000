@@ -5,30 +5,43 @@ import Nimble
 
 class ValidatorTests: XCTestCase {
     // Valid Input
-
     func testValidatorForP1Input() throws {
-        expect(InputValidator().validate(pattern: "p1"))==true
+        let result = InputValidator().validate(pattern: "p1")
+        let expectedResult = true
+        expect(result).to(equal(expectedResult))
+
     }
     func testValidatorForK1P1Input() throws {
-        expect(InputValidator().validate(pattern: "k1 p1"))==true
+        let result = InputValidator().validate(pattern: "k1 p1")
+        let expectedResult = true
+        expect(result).to(equal(expectedResult))
 
     }
 
     func testValidatorForLineBreaks() throws {
-        expect(InputValidator().validate(pattern: "k1 p1 \n"))==true
+        let result = InputValidator().validate(pattern: "k1 p1 \n")
+        let expectedResult = true
+        expect(result).to(equal(expectedResult))
+
     }
 
     // Invalid Input
     func testValidatorForG1P1Input() throws {
-        expect(InputValidator().validate(pattern: "g1 p1"))==false
+        let result = InputValidator().validate(pattern: "g1 p1")
+        let expectedResult = false
+        expect(result).to(equal(expectedResult))
     }
 
     func testValidatorFor0Input() throws {
-        expect(InputValidator().validate(pattern: ""))==false
+        let result = InputValidator().validate(pattern: "")
+        let expectedResult = false
+        expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForMiscBadInput() throws {
-        expect(InputValidator().validate(pattern: "3"))==false
+        let result = InputValidator().validate(pattern: "3")
+        let expectedResult = false
+        expect(result).to(equal(expectedResult))
     }
 
 }
@@ -36,25 +49,38 @@ class ValidatorTests: XCTestCase {
 class ArrayMakerTests: XCTestCase {
 
     func testValidatorForTwoRowInput() throws {
-        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n k1 p1"))==[["k1", "p1"], ["k1", "p1"]]
+        let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n k1 p1")
+        let expectedResult = [["k1", "p1"], ["k1", "p1"]]
+        expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForManyRowInputs() throws {
-        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n"))==[["k1", "p1"], ["k1", "p1"], ["k1", "p1"], ["k1", "p1"]]
+        let result = InputValidator().arrayMaker(cleanedPattern:  "k1 p1 \n k1 p1 \n k1 p1 \n k1 p1 \n")
+        let expectedResult = [["k1", "p1"],
+                              ["k1", "p1"],
+                              ["k1", "p1"],
+                              ["k1", "p1"]]
+        expect(result).to(equal(expectedResult))
 
     }
 
     func testValidatorForExtraLinebreak() throws {
-        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n")) == [["k1", "p1"]]
+        let result = InputValidator().arrayMaker(cleanedPattern:  "k1 p1 \n")
+        let expectedResult = [["k1", "p1"]]
+        expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForThreeExtraLinebreak() throws {
-        expect(InputValidator().arrayMaker(cleanedpattern: "k1 p1 \n \n \n"))==[["k1", "p1"]]
+        let result = InputValidator().arrayMaker(cleanedPattern:  "k1 p1 \n \n \n")
+        let expectedResult = [["k1", "p1"]]
+        expect(result).to(equal(expectedResult))
 
     }
 
     func testValidatorForOneStitch() throws {
-        expect(InputValidator().arrayMaker(cleanedpattern: "k1"))==[["k1"]]
+        let result = InputValidator().arrayMaker(cleanedPattern:  "k1")
+        let expectedResult = [["k1"]]
+        expect(result).to(equal(expectedResult))
     }
 
 }

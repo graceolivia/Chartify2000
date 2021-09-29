@@ -14,9 +14,9 @@ public class InputValidator {
         return isItValid
     }
 
-    public func arrayMaker(cleanedpattern: String) -> [[String]] {
+    public func arrayMaker(cleanedPattern: String) -> [[String]] {
         var stitchArray: [[String]] = []
-        let patternRows = cleanedpattern.split(separator: "\n")
+        let patternRows = cleanedPattern.split(separator: "\n")
         for row in patternRows {
             let substringPatternStitches = row.split(separator: " ")
             let patternStitches = substringPatternStitches.map {(String($0))}
