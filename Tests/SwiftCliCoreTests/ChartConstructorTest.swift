@@ -105,6 +105,21 @@ class RightDecreaseMiddlePrinterTests: XCTestCase {
 
 }
 
+class RightIncreaseMiddlePrinterTests: XCTestCase {
+    func testOneRightIncrease() throws {
+        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 5, rDiff: 1, lDiff: 0)
+        let expectedOutput = "├─┼─┼─┼─┼─┘\n"
+        expect(result).to(equal(expectedOutput))
+
+    }
+
+    func testOneMultiIncrease() throws {
+        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 7, rDiff: 3, lDiff: 0)
+        let expectedOutput = "├─┼─┼─┼─┼─┴─┴─┘\n"
+        expect(result).to(equal(expectedOutput))
+
+    }
+}
 class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
 
@@ -162,4 +177,38 @@ class FullChartPrinterTests: XCTestCase {
 
     }
 
+    func testFullPatternRightYOInc() throws {
+        let result = ChartConstructor().makeChart(stitchArray: [["p1", "k1", "k1", "k1"],
+                                                                ["p1", "k1", "k1", "yo", "k1"],
+                                                                ["p1", "k1", "k1", "k1", "yo", "k1"]])
+        let expectedOutput = """
+┌─┬─┬─┬─┬─┬─┐
+│-│ │ │ │o│ │
+├─┼─┼─┼─┼─┼─┘
+│-│ │ │o│ │
+├─┼─┼─┼─┼─┘
+│-│ │ │ │
+└─┴─┴─┴─┘
+"""
+
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testFullPatternRightMultipleInc() throws {
+        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "k1", "k1"],
+                                                                ["k1", "k1", "k1", "yo", "m1", "k1"],
+                                                                ["k1", "k1", "k1", "k1", "k1", "yo", "m1", "k1"]])
+        let expectedOutput = """
+┌─┬─┬─┬─┬─┬─┬─┬─┐
+│ │ │ │ │ │o│m│ │
+├─┼─┼─┼─┼─┼─┼─┴─┘
+│ │ │ │o│m│ │
+├─┼─┼─┼─┼─┴─┘
+│ │ │ │ │
+└─┴─┴─┴─┘
+"""
+print (result)
+        print(expectedOutput)
+        expect(result).to(equal(expectedOutput))
+    }
 }
