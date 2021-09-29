@@ -1,95 +1,118 @@
-
 import Foundation
 
 public class ChartConstructor {
     public init() {}
-    public func make_chart(stitch_array: [[String]]) -> String {
-        
-        let number_of_rows = stitch_array.count
-        var finished_chart = ""
-        let lastrow = number_of_rows - 1
-        // NEW LOGIC
-        for row in 0...lastrow {
-            let row_length = stitch_array[row].count
-            if (row == 0){
-                print("first")
-                finished_chart += self.make_top_row(width: row_length)
-                finished_chart += self.make_stitch_row(row: stitch_array[row])
-            }
-            else {
-                finished_chart += self.make_middle_row(width: row_length)
-                finished_chart += self.make_stitch_row(row: stitch_array[row])
-                
-            }
-            if (row == lastrow){
-                print("last")
-                finished_chart +=  self.make_bottom_row(width: row_length)
-            }
-        }
-        
-        
-        
-        return(finished_chart)
-    }
-    public func make_top_row(width: Int) -> String {
-        var top_row_bars = ""
-        if (width > 0){
-            top_row_bars += "┌"
-            if (width > 1){
-                for _ in 1...(width - 1) {
-                    top_row_bars += "─┬"
+    public func makeChart(stitchArray: [[String]]) -> String {
+
+        let numberOfRows = stitchArray.count
+        var finishedChart = ""
+        let lastRow = numberOfRows - 1
+
+        for row in 0...lastRow {
+            let rowLength = stitchArray[row].count
+
+            if row == 0 {
+                finishedChart =  makeBottomRow(width: rowLength) + finishedChart
+                finishedChart = makeStitchRow(row: stitchArray[row]) + finishedChart
+            } else {
+                let prevRowLength = stitchArray[row - 1].count
+                let rightSideDiff = (rowLength - prevRowLength)
+                if rightSideDiff < 0 {
+                    let middleLine = makeMiddleRowStitchCountChange(width: rowLength, rDiff: rightSideDiff, lDiff: 0)
+                    finishedChart =  middleLine + finishedChart
+                } else {
+                    finishedChart = makeMiddleRow(width: rowLength) + finishedChart
                 }
+
+                finishedChart = makeStitchRow(row: stitchArray[row]) + finishedChart
+
             }
-            top_row_bars += "─┐"
-        }
-        top_row_bars += "\n"
-        return(top_row_bars)
-    }
-    public func make_middle_row(width: Int) -> String {
-        var middle_row_bars = ""
-        if (width > 0){
-            middle_row_bars += "├"
-            if (width > 1){
-                for _ in 1...(width - 1) {
-                    middle_row_bars += "─┼"
-                }
+
+            if row == (numberOfRows - 1) {
+                finishedChart = makeTopRow(width: rowLength) + finishedChart
+
             }
-            middle_row_bars += "─┤"
+
         }
-        middle_row_bars += "\n"
-        return(middle_row_bars)
+
+        return(finishedChart)
     }
-    public func make_bottom_row(width: Int) -> String {
-        var bottom_row_bars = ""
-        if (width > 0) {
-            bottom_row_bars += "└"
-            if (width > 1){
-                for _ in 1...(width - 1) {
-                    bottom_row_bars += "─┴"
-                }
-            }
-            bottom_row_bars += "─┘"
+    public func makeTopRow(width: Int) -> String {
+        switch width {
+        case 0:
+            return "\n"
+        case 1:
+            return "┌─┐\n"
+        default:
+            let middleBoxes = String(repeating: "─┬", count: width - 1)
+            return "┌\(middleBoxes)─┐\n"
         }
-        return(bottom_row_bars)
+
     }
-    
-    public func make_stitch_row(row: [String]) -> String {
-        var stitch_row_symbols = ""
-        if (row[0] != "" ) {
-            stitch_row_symbols += "│"
+    public func makeMiddleRow(width: Int) -> String {
+        switch width {
+        case 0:
+            return "\n"
+        case 1:
+            return "├─┤\n"
+        default:
+            let middleBoxes = String(repeating: "─┼", count: width - 1)
+            return "├\(middleBoxes)─┤\n"
+        }
+    }
+
+    public func makeMiddleRowStitchCountChange(width: Int, rDiff: Int, lDiff: Int) -> String {
+        let leftStitches = "├"
+        var rightStitches = ""
+        var middleStitches = ""
+
+        switch width {
+        case 1:
+            middleStitches = "─"
+        default:
+            middleStitches = String(repeating: "─┼", count: (width-1))
+        }
+
+        switch true {
+        case (rDiff < -1):
+            let midRightSt = String(repeating: "─┬", count: ((abs(rDiff))-1))
+            rightStitches = "─┼\(midRightSt)─┐\n"
+        case (rDiff == -1):
+            rightStitches = "─┼─┐\n"
+        case (rDiff == 0):
+            rightStitches = "─┤\n"
+        default:
+            rightStitches = "─┤\n"
+        }
+
+        return leftStitches + middleStitches + rightStitches
+
+    }
+
+    public func makeBottomRow(width: Int) -> String {
+        switch width {
+        case 0:
+            return ""
+        case 1:
+            return "└─┘"
+        default:
+            let middleBoxes = String(repeating: "─┴", count: width - 1)
+            return "└\(middleBoxes)─┘"
+        }
+    }
+
+    public func makeStitchRow(row: [String]) -> String {
+        let width = row.count
+        switch width {
+        case 0:
+            return "\n"
+        default:
+            var middleStitches = ""
             for stitch in row {
-                stitch_row_symbols += stitchPrinting[stitch] ?? ""
-                stitch_row_symbols += "│"
+                middleStitches += "\(stitchPrinting[stitch] ?? "")│"
             }
+            return "│\(middleStitches)\n"
         }
-        stitch_row_symbols += "\n"
-        return(stitch_row_symbols)
+
     }
 }
-
-
-//┌─┬─┬─┬─┐
-//│k│p│k│p│
-//├─┼─┼─┼─┤
-//│p│k│p│k│
-//└─┴─┴─┴─┘
