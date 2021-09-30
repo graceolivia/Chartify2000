@@ -8,8 +8,8 @@ let stitchPrinting = ["k1": " ",
                       "yo": "o",
                       "m1": "m" ]
 
-let increases = ["ssk", "k2tog"]
-let decreases = ["m1", "yo"]
+let decreases = ["ssk", "k2tog"]
+let increases = ["m1", "yo"]
 
 public struct stitchInfo{
     var name: String
@@ -18,11 +18,3 @@ public struct stitchInfo{
     var incDec: Int
 }
 
-public struct rowInfo{
-    var row: [String]
-    var center: Int
-    var leftIncDec: Int
-    var rightIncDec: Int
-    //This is about the number of "empty stitches" that should be added on the left to account for future increases
-    var leftSpacing: Int
-}
