@@ -23,9 +23,7 @@ public class ChartConstructor {
             let middleBoxes = String(repeating: "─┬", count: width - 1)
             return "┌\(middleBoxes)─┐\n"
         }
-
     }
-
 
     public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
         var leftStitches = ""

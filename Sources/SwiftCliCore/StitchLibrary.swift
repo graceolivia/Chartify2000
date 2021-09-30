@@ -10,4 +10,3 @@ let stitchPrinting = ["k1": " ",
 
 let decreases = ["ssk", "k2tog"]
 let increases = ["m1", "yo"]
-

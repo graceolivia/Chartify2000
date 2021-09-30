@@ -19,7 +19,9 @@ public class InputValidator {
             let substringPatternStitches = row.split(separator: " ")
             let patternStitches = substringPatternStitches.map {(String($0))}
             if patternStitches.count > 0 {
-                stitchArray.append(patternStitches)}
+                stitchArray.append(patternStitches)
+
+            }
         }
         return(stitchArray)
     }

@@ -1,7 +1,6 @@
-
 import Foundation
 
-public struct rowInfo: Equatable {
+public struct RowInfo: Equatable {
     var row: [String]
     var rowNumber: Int
     var bottomLine: String = ""
@@ -20,30 +19,32 @@ public struct rowInfo: Equatable {
 public class OffsetUtility {
     public init() {}
 
-    public func gatherAllMetaData(stitchArray: [[String]]) -> [rowInfo] {
-        var allRowsMetaData = [] as [rowInfo]
+    public func gatherAllMetaData(stitchArray: [[String]]) -> [RowInfo] {
+        var allRowsMetaData = [] as [RowInfo]
         let rowsNum = stitchArray.count
         for row in 0..<(rowsNum) {
-            var newRowMetadata = makeRowMetadata(stitchRow: stitchArray[row], rowNumber: row)
+            let newRowMetadata = makeRowMetadata(stitchRow: stitchArray[row], rowNumber: row)
             allRowsMetaData.append(newRowMetadata)
             if newRowMetadata.leftIncDec != 0 {
-                for i in (0...(row-1)).reversed() {
-                    allRowsMetaData[i].leftOffset += newRowMetadata.leftIncDec
+                for prevRow in (0...(row-1)).reversed() {
+                    allRowsMetaData[prevRow].leftOffset += newRowMetadata.leftIncDec
                 }
             }
         }
         return(allRowsMetaData)
     }
 
-    public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> rowInfo {
-        var rowData = rowInfo(row: stitchRow, rowNumber: rowNumber)
+    public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
+        var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)
         rowData.leftIncDec = findLeftChanges(stitchRow: stitchRow)
         rowData.rightIncDec = findRightChanges(stitchRow: stitchRow)
         rowData.width = stitchRow.count
         if rowNumber == 0 {
             rowData.bottomLine = ChartConstructor().makeBottomRow(width: rowData.width)
         } else {
-            rowData.bottomLine = ChartConstructor().makeMiddleRow(width: rowData.width, rDiff: rowData.rightIncDec, lDiff: rowData.leftIncDec)
+            rowData.bottomLine = ChartConstructor().makeMiddleRow(width: rowData.width,
+                                                                  rDiff: rowData.rightIncDec,
+                                                                  lDiff: rowData.leftIncDec)
         }
         rowData.stitchSymbols = ChartConstructor().makeStitchRow(row: rowData.row)
         return(rowData)
@@ -57,11 +58,11 @@ public class OffsetUtility {
     public func findLeftChanges(stitchRow: [String]) -> Int {
         let center = findCenter(stitchRow: stitchRow)
         var totalLeftChange = 0
-        for n in 0..<(center) {
-            if increases.contains(stitchRow[n]) {
+        for stitch in 0..<(center) {
+            if increases.contains(stitchRow[stitch]) {
                 totalLeftChange += 1
             }
-            if decreases.contains(stitchRow[n]) {
+            if decreases.contains(stitchRow[stitch]) {
                 totalLeftChange += -1
             }
         }
@@ -71,11 +72,11 @@ public class OffsetUtility {
     public func findRightChanges(stitchRow: [String]) -> Int {
         let center = findCenter(stitchRow: stitchRow)
         var totalRightChange = 0
-        for n in center..<(stitchRow.count) {
-            if increases.contains(stitchRow[n]) {
+        for stitch in center..<(stitchRow.count) {
+            if increases.contains(stitchRow[stitch]) {
                 totalRightChange += 1
             }
-            if decreases.contains(stitchRow[n]) {
+            if decreases.contains(stitchRow[stitch]) {
                 totalRightChange += -1
             }
         }

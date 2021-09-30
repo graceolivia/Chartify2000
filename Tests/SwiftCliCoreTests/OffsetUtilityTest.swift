@@ -75,7 +75,7 @@ class MakeRowMetadataTests: XCTestCase {
 
     func testFindRightDecForManyStith() throws {
         let result = OffsetUtility().makeRowMetadata(stitchRow: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"], rowNumber: 0)
-        let expectedResult = rowInfo(row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
+        let expectedResult = RowInfo(row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
                                      rowNumber: 0,
                                      bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",
                                      stitchSymbols: "│ │o│ │-│ │-│o│ │\n",
@@ -93,7 +93,7 @@ class gatherAllMetaDataTests: XCTestCase {
     func testGatherAllMetaDataTests() throws {
         let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "p1"], ["k1", "p1"]])
 
-        let expectedResult = [rowInfo(row: ["k1", "p1"],
+        let expectedResult = [RowInfo(row: ["k1", "p1"],
                                      rowNumber: 0,
                                      bottomLine: "└─┴─┘",
                                      stitchSymbols: "│ │-│\n",
@@ -101,7 +101,7 @@ class gatherAllMetaDataTests: XCTestCase {
                                      leftIncDec: 0,
                                      rightIncDec: 0,
                                      leftOffset: 0),
-                              rowInfo(row: ["k1", "p1"],
+                              RowInfo(row: ["k1", "p1"],
                                        rowNumber: 1,
                                        bottomLine: "├─┼─┤\n",
                                        stitchSymbols: "│ │-│\n",
@@ -115,7 +115,7 @@ class gatherAllMetaDataTests: XCTestCase {
     func testGatherAllMetaDataTestsLeftInc() throws {
         let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"], ["k1", "yo", "k1", "p1"]])
 
-        let expectedResult = [rowInfo(row: ["k1", "k1", "p1"],
+        let expectedResult = [RowInfo(row: ["k1", "k1", "p1"],
                                       rowNumber: 0,
                                       bottomLine: "└─┴─┴─┘",
                                       stitchSymbols: "│ │ │-│\n",
@@ -123,7 +123,7 @@ class gatherAllMetaDataTests: XCTestCase {
                                       leftIncDec: 0,
                                       rightIncDec: 0,
                                       leftOffset: 1),
-                              rowInfo(row: ["k1", "yo", "k1", "p1"],
+                              RowInfo(row: ["k1", "yo", "k1", "p1"],
                                       rowNumber: 1,
                                       bottomLine: "└─┼─┼─┼─┤\n",
                                       stitchSymbols: "│ │o│ │-│\n",
@@ -138,7 +138,7 @@ class gatherAllMetaDataTests: XCTestCase {
     func testGatherAllMetaDataTestsMultiLeftInc() throws {
         let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"], ["k1", "yo", "k1", "p1"], ["k1", "yo", "k1", "k1", "p1"]])
 
-        let expectedResult = [rowInfo(row: ["k1", "k1", "p1"],
+        let expectedResult = [RowInfo(row: ["k1", "k1", "p1"],
                                       rowNumber: 0,
                                       bottomLine: "└─┴─┴─┘",
                                       stitchSymbols: "│ │ │-│\n",
@@ -146,7 +146,7 @@ class gatherAllMetaDataTests: XCTestCase {
                                       leftIncDec: 0,
                                       rightIncDec: 0,
                                       leftOffset: 2),
-                              rowInfo(row: ["k1", "yo", "k1", "p1"],
+                              RowInfo(row: ["k1", "yo", "k1", "p1"],
                                       rowNumber: 1,
                                       bottomLine: "└─┼─┼─┼─┤\n",
                                       stitchSymbols: "│ │o│ │-│\n",
@@ -154,7 +154,7 @@ class gatherAllMetaDataTests: XCTestCase {
                                       leftIncDec: 1,
                                       rightIncDec: 0,
                                       leftOffset: 1),
-                              rowInfo(row: ["k1", "yo", "k1", "k1", "p1"],
+                              RowInfo(row: ["k1", "yo", "k1", "k1", "p1"],
                                       rowNumber: 2,
                                       bottomLine: "└─┼─┼─┼─┼─┤\n",
                                       stitchSymbols: "│ │o│ │ │-│\n",
