@@ -12,7 +12,6 @@ public class ChartConstructor {
                 finishedChart = makeTopRow(width: patternMetaData[row].width) + finishedChart
             }
         }
-
         return(finishedChart)
     }
 

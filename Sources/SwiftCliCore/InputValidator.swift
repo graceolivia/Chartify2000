@@ -1,10 +1,8 @@
 import Foundation
 
-// validator class
 public class InputValidator {
     init() {}
 
-    // this will validate if the string contains only approved stitches
     public func validate(pattern: String) -> Bool {
         let patternStitches = pattern.split(separator: " ")
         if patternStitches.count == 0 {

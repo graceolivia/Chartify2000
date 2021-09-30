@@ -1,6 +1,6 @@
 import Foundation
 import ArgumentParser
-// the allowable stitches
+
 
 public final class Chartify {
     public init() {}
