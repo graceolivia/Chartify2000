@@ -6,44 +6,15 @@ public class ChartConstructor {
         let lastRow = stitchArray.count - 1
         var patternMetaData = OffsetUtility().gatherAllMetaData(stitchArray: stitchArray)
         var finishedChart = ""
-        for row in 0...lastRow{
+        for row in 0...lastRow {
             finishedChart = patternMetaData[row].totalRow + finishedChart
             if row == (lastRow) {
                 finishedChart = makeTopRow(width: patternMetaData[row].width) + finishedChart
             }
         }
-//
-//        let numberOfRows = stitchArray.count
-//        var finishedChart = ""
-//        let lastRow = numberOfRows - 1
-//
-//        for row in 0...lastRow {
-//            let rowLength = stitchArray[row].count
-//            if row == 0 {
-//                finishedChart = makeBottomRow(width: rowLength) + finishedChart
-//                finishedChart = makeStitchRow(row: stitchArray[row]) + finishedChart
-//            } else {
-//                let prevRowLength = stitchArray[row - 1].count
-//                let rightSideDiff = (rowLength - prevRowLength)
-//                if rightSideDiff != 0 {
-//                    let middleLine = makeMiddleRowStitchCountChange(width: rowLength, rDiff: rightSideDiff, lDiff: 0)
-//                    finishedChart =  middleLine + finishedChart
-//                } else {
-//                    finishedChart = makeMiddleRow(width: rowLength) + finishedChart
-//                }
-//
-//                finishedChart = makeStitchRow(row: stitchArray[row]) + finishedChart
-//            }
-//            if row == (lastRow) {
-//                finishedChart = makeTopRow(width: rowLength) + finishedChart
-//            }
-//        }
+
         return(finishedChart)
     }
-
-    
-
-
 
     public func makeTopRow(width: Int) -> String {
         switch width {
@@ -99,7 +70,6 @@ public class ChartConstructor {
             rightStitches = "─┼\(midRightSt)─┘\n"
         }
 
-
         switch true {
         case (lDiff == 0):
             leftStitches = "├"
@@ -111,7 +81,6 @@ public class ChartConstructor {
         default:
             leftStitches = "├"
         }
-
 
         return leftStitches + middleStitches + rightStitches
 
