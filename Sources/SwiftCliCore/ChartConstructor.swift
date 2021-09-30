@@ -25,19 +25,9 @@ public class ChartConstructor {
         }
 
     }
-    public func makeMiddleRow(width: Int) -> String {
-        switch width {
-        case 0:
-            return "\n"
-        case 1:
-            return "├─┤\n"
-        default:
-            let middleBoxes = String(repeating: "─┼", count: width - 1)
-            return "├\(middleBoxes)─┤\n"
-        }
-    }
 
-    public func makeMiddleRowStitchCountChange(width: Int, rDiff: Int, lDiff: Int) -> String {
+
+    public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
         var leftStitches = ""
         var rightStitches = ""
         var middleStitches = ""

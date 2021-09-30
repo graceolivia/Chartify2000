@@ -45,27 +45,7 @@ class BottomLevelPrinterTests: XCTestCase {
         expect(result).to(equal(expectedOutput))
     }
 }
-class MiddleLevelPrinterTests: XCTestCase {
 
-    func testPrintMiddleLevelMany() throws {
-        let result = ChartConstructor().makeMiddleRow(width: 4)
-        let expectedOutput = "├─┼─┼─┼─┤\n"
-        expect(result).to(equal(expectedOutput))
-    }
-
-    func testPrintMiddleLevelOne() throws {
-        let result = ChartConstructor().makeMiddleRow(width: 1)
-        let expectedOutput = "├─┤\n"
-        expect(result).to(equal(expectedOutput))
-    }
-
-    func testPrintMiddleLevelZero() throws {
-        let result = ChartConstructor().makeMiddleRow(width: 0)
-        let expectedOutput = "\n"
-        expect(result).to(equal(expectedOutput))
-    }
-
-}
 class StitchRowPrinterTests: XCTestCase {
 
     func testPrintStitchRowMany() throws {
@@ -84,20 +64,20 @@ class StitchRowPrinterTests: XCTestCase {
 
 class RightDecreaseMiddlePrinterTests: XCTestCase {
     func testOneRightDecrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 6, rDiff: -1, lDiff: 0)
+        let result = ChartConstructor().makeMiddleRow(width: 6, rDiff: -1, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┼─┼─┐\n"
         expect(result).to(equal(expectedOutput))
 
     }
 
     func testThreeRightDecrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 3, rDiff: -3, lDiff: 0)
+        let result = ChartConstructor().makeMiddleRow(width: 3, rDiff: -3, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┬─┬─┐\n"
         expect(result).to(equal(expectedOutput))
     }
 
     func testTwoRightDecrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 3, rDiff: -2, lDiff: 0)
+        let result = ChartConstructor().makeMiddleRow(width: 3, rDiff: -2, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┬─┐\n"
         expect(result).to(equal(expectedOutput))
 
@@ -107,14 +87,14 @@ class RightDecreaseMiddlePrinterTests: XCTestCase {
 
 class RightIncreaseMiddlePrinterTests: XCTestCase {
     func testOneRightIncrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 5, rDiff: 1, lDiff: 0)
+        let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 1, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┘\n"
         expect(result).to(equal(expectedOutput))
 
     }
 
     func testOneMultipleRightIncrease() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 7, rDiff: 3, lDiff: 0)
+        let result = ChartConstructor().makeMiddleRow(width: 7, rDiff: 3, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┴─┴─┘\n"
         expect(result).to(equal(expectedOutput))
 
@@ -123,13 +103,13 @@ class RightIncreaseMiddlePrinterTests: XCTestCase {
 
 class LeftIncreaseTests: XCTestCase {
     func testOneLeftInc() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 5, rDiff: 0, lDiff: 1)
+        let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 0, lDiff: 1)
         let expectedOutput = "└─┼─┼─┼─┼─┤\n"
         expect(result).to(equal(expectedOutput))
     }
 
     func testManyLeftInc() throws {
-        let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 7, rDiff: 0, lDiff: 3)
+        let result = ChartConstructor().makeMiddleRow(width: 7, rDiff: 0, lDiff: 3)
         let expectedOutput = "└─┴─┴─┼─┼─┼─┼─┤\n"
         expect(result).to(equal(expectedOutput))
     }

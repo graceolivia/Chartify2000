@@ -22,7 +22,7 @@ public class OffsetUtility {
 
     public func gatherAllMetaData(stitchArray: [[String]]) -> [rowInfo] {
         var allRowsMetaData = [] as [rowInfo]
-        var rowsNum = stitchArray.count
+        let rowsNum = stitchArray.count
         for row in 0..<(rowsNum) {
             var newRowMetadata = makeRowMetadata(stitchRow: stitchArray[row], rowNumber: row)
             allRowsMetaData.append(newRowMetadata)
@@ -43,7 +43,7 @@ public class OffsetUtility {
         if rowNumber == 0 {
             rowData.bottomLine = ChartConstructor().makeBottomRow(width: rowData.width)
         } else {
-            rowData.bottomLine = ChartConstructor().makeMiddleRowStitchCountChange(width: rowData.width, rDiff: rowData.rightIncDec, lDiff: rowData.leftIncDec)
+            rowData.bottomLine = ChartConstructor().makeMiddleRow(width: rowData.width, rDiff: rowData.rightIncDec, lDiff: rowData.leftIncDec)
         }
         rowData.stitchSymbols = ChartConstructor().makeStitchRow(row: rowData.row)
         return(rowData)
