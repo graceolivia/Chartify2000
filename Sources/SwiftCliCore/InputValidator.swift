@@ -1,5 +1,6 @@
 import Foundation
 
+
 // validator class
 public class InputValidator {
     init() {}
@@ -27,3 +28,4 @@ public class InputValidator {
     }
 
 }
+
