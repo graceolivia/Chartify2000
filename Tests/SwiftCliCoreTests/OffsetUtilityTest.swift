@@ -91,7 +91,7 @@ class MakeRowMetadataTests: XCTestCase {
 class gatherAllMetaDataTests: XCTestCase {
 
     func testGatherAllMetaDataTests() throws {
-        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "p1"],["k1", "p1"]])
+        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "p1"], ["k1", "p1"]])
 
         let expectedResult = [rowInfo(row: ["k1", "p1"],
                                      rowNumber: 0,
@@ -113,7 +113,7 @@ class gatherAllMetaDataTests: XCTestCase {
     }
 
     func testGatherAllMetaDataTestsLeftInc() throws {
-        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],["k1", "yo", "k1", "p1"]])
+        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"], ["k1", "yo", "k1", "p1"]])
 
         let expectedResult = [rowInfo(row: ["k1", "k1", "p1"],
                                       rowNumber: 0,
@@ -136,7 +136,7 @@ class gatherAllMetaDataTests: XCTestCase {
     }
 
     func testGatherAllMetaDataTestsMultiLeftInc() throws {
-        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],["k1", "yo", "k1", "p1"],["k1", "yo", "k1", "k1", "p1"]])
+        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"], ["k1", "yo", "k1", "p1"], ["k1", "yo", "k1", "k1", "p1"]])
 
         let expectedResult = [rowInfo(row: ["k1", "k1", "p1"],
                                       rowNumber: 0,
@@ -165,7 +165,5 @@ class gatherAllMetaDataTests: XCTestCase {
 
         expect(result).to(equal(expectedResult))
     }
-    
+
 }
-
-

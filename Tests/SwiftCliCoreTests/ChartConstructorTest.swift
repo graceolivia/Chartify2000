@@ -135,9 +135,6 @@ class LeftIncreaseTests: XCTestCase {
     }
 }
 
-
-
-
 class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
 
@@ -225,11 +222,8 @@ class FullChartPrinterTests: XCTestCase {
 │ │ │ │ │
 └─┴─┴─┴─┘
 """
-print (result)
-        print(expectedOutput)
-        expect(result).to(equal(expectedOutput))
-    }
 
+    }
 
     func testFullPatternLeftSingleSinc() throws {
         let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1"],
@@ -244,8 +238,7 @@ print (result)
     │ │ │-│
     └─┴─┴─┘
 """
-        print (result)
-        print(expectedOutput)
+
         expect(result).to(equal(expectedOutput))
     }
 
@@ -259,8 +252,7 @@ print (result)
   │ │ │ │
   └─┴─┴─┘
 """
-        print (result)
-        print(expectedOutput)
+
         expect(result).to(equal(expectedOutput))
     }
 
@@ -277,8 +269,7 @@ print (result)
     │ │ │-│
     └─┴─┴─┘
 """
-        print (result)
-        print(expectedOutput)
+
         expect(result).to(equal(expectedOutput))
     }
 
@@ -292,11 +283,8 @@ print (result)
     │ │ │-│
     └─┴─┴─┘
 """
-        print (result)
-        print(expectedOutput)
+
         expect(result).to(equal(expectedOutput))
     }
-
-
 
 }

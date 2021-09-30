@@ -11,10 +11,9 @@ let stitchPrinting = ["k1": " ",
 let decreases = ["ssk", "k2tog"]
 let increases = ["m1", "yo"]
 
-public struct stitchInfo{
+public struct stitchInfo {
     var name: String
     var printed: String
-    //If the stitch is not an increase or decrease, value is 0. If it increases 1, value is 1. If it decreases 1, value is -1. Etc.
+    // If the stitch is not an increase or decrease, value is 0. If it increases 1, value is 1. If it decreases 1, value is -1. Etc.
     var incDec: Int
 }
-
