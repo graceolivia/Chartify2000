@@ -84,11 +84,9 @@ public class ChartConstructor {
             rightStitches = "─┤\n"
         case (rDiff == 1):
             rightStitches = "─┼─┘\n"
-        case (rDiff > 1):
+        default:
             let midRightSt = String(repeating: "─┴", count: ((abs(rDiff))-1))
             rightStitches = "─┼\(midRightSt)─┘\n"
-        default:
-            rightStitches = "─┤\n"
         }
 
         return leftStitches + middleStitches + rightStitches

@@ -113,7 +113,7 @@ class RightIncreaseMiddlePrinterTests: XCTestCase {
 
     }
 
-    func testOneMultiIncrease() throws {
+    func testOneMultipleRightIncrease() throws {
         let result = ChartConstructor().makeMiddleRowStitchCountChange(width: 7, rDiff: 3, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┴─┴─┘\n"
         expect(result).to(equal(expectedOutput))
@@ -207,8 +207,6 @@ class FullChartPrinterTests: XCTestCase {
 │ │ │ │ │
 └─┴─┴─┴─┘
 """
-print (result)
-        print(expectedOutput)
         expect(result).to(equal(expectedOutput))
     }
 }
