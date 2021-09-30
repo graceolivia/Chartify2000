@@ -1,9 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Grace on 9/30/21.
-//
 
 import Foundation
 
