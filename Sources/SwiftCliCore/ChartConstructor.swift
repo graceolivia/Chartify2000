@@ -8,10 +8,8 @@ public class ChartConstructor {
         var finishedChart = ""
         for row in 0...lastRow {
             finishedChart = patternMetaData[row].totalRow + finishedChart
-            if row == (lastRow) {
-                finishedChart = makeTopRow(width: patternMetaData[row].width) + finishedChart
-            }
         }
+            finishedChart = makeTopRow(width: patternMetaData[lastRow].width) + finishedChart
         return(finishedChart)
     }
 
@@ -43,16 +41,19 @@ public class ChartConstructor {
         var leftStitches = ""
         var rightStitches = ""
         var middleStitches = ""
+        var totalIncreases = 0
         switch true {
         case (lDiff > 0 && rDiff > 0):
-            middleStitches = String(repeating: "─┼", count: (width-rDiff-lDiff-1))
+            totalIncreases = rDiff-lDiff
         case (rDiff > 0):
-            middleStitches = String(repeating: "─┼", count: (width-rDiff-1))
+            totalIncreases = rDiff
         case (lDiff > 0):
-            middleStitches = String(repeating: "─┼", count: (width-lDiff-1))
+            totalIncreases = lDiff
         default:
-            middleStitches = String(repeating: "─┼", count: (width-1))
+            totalIncreases = 0
         }
+
+        middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
 
         switch true {
         case (rDiff < -1):
