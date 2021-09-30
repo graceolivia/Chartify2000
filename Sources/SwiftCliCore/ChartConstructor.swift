@@ -81,6 +81,18 @@ public class ChartConstructor {
             leftStitches = "├"
         }
 
+        switch true {
+        case (lDiff == 0):
+            leftStitches = "├"
+        case (lDiff == 1):
+            leftStitches = "└─┼"
+        case (lDiff >  1):
+            let midLeftSt = String(repeating: "─┴", count: ((abs(lDiff))-1))
+            leftStitches = "└\(midLeftSt)─┼"
+        default:
+            leftStitches = "├"
+        }
+
         return leftStitches + middleStitches + rightStitches
 
     }

@@ -222,6 +222,7 @@ class FullChartPrinterTests: XCTestCase {
 │ │ │ │ │
 └─┴─┴─┴─┘
 """
+
         expect(result).to(equal(expectedOutput))
     }
 
@@ -243,6 +244,7 @@ class FullChartPrinterTests: XCTestCase {
 
         expect(result).to(equal(expectedOutput))
     }
+
 
     func testFullPatternLeftRightSingleInc() throws {
         let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "k1"],
@@ -289,4 +291,4 @@ class FullChartPrinterTests: XCTestCase {
         expect(result).to(equal(expectedOutput))
     }
 
-}
+
