@@ -17,7 +17,7 @@ public class ChartConstructor {
             } else {
                 let prevRowLength = stitchArray[row - 1].count
                 let rightSideDiff = (rowLength - prevRowLength)
-                if rightSideDiff < 0 {
+                if rightSideDiff != 0 {
                     let middleLine = makeMiddleRowStitchCountChange(width: rowLength, rDiff: rightSideDiff, lDiff: 0)
                     finishedChart =  middleLine + finishedChart
                 } else {
@@ -65,10 +65,11 @@ public class ChartConstructor {
         let leftStitches = "├"
         var rightStitches = ""
         var middleStitches = ""
-
-        switch width {
-        case 1:
-            middleStitches = "─"
+        switch true {
+        case (rDiff > 0):
+            middleStitches = String(repeating: "─┼", count: (width-rDiff-1))
+        case (rDiff < 0):
+            middleStitches = String(repeating: "─┼", count: (width-1))
         default:
             middleStitches = String(repeating: "─┼", count: (width-1))
         }
@@ -81,8 +82,11 @@ public class ChartConstructor {
             rightStitches = "─┼─┐\n"
         case (rDiff == 0):
             rightStitches = "─┤\n"
+        case (rDiff == 1):
+            rightStitches = "─┼─┘\n"
         default:
-            rightStitches = "─┤\n"
+            let midRightSt = String(repeating: "─┴", count: ((abs(rDiff))-1))
+            rightStitches = "─┼\(midRightSt)─┘\n"
         }
 
         return leftStitches + middleStitches + rightStitches
