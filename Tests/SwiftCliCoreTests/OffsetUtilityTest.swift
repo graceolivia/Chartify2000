@@ -3,7 +3,7 @@ import XCTest
 import Nimble
 @testable import SwiftCliCore
 
-class findCenterTests: XCTestCase {
+class FindCenterTests: XCTestCase {
 
     func testFindCenterForEvenRow() throws {
     let result = OffsetUtility().findCenter(stitchRow: ["k1", "p1", "k1", "p1"])
@@ -17,9 +17,9 @@ class findCenterTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 }
-class findLeftDecTests: XCTestCase {
+class FindLeftDecTests: XCTestCase {
 
-    func testFindLeftDecForManyStith() throws {
+    func testFindLeftDecForManyStitch() throws {
         let result = OffsetUtility().findLeftChanges(stitchRow: ["k1", "k2tog", "k1", "p1", "k1", "p1", "k1"])
         let expectedResult = -1
         expect(result).to(equal(expectedResult))
@@ -44,9 +44,9 @@ class findLeftDecTests: XCTestCase {
 
 }
 
-class findRightDecTests: XCTestCase {
+class FindRightDecTests: XCTestCase {
 
-    func testFindRightDecForManyStith() throws {
+    func testFindRightDecForManyStitch() throws {
         let result = OffsetUtility().findRightChanges(stitchRow: ["k1", "k2tog", "k1", "p1", "k1", "p1", "k2tog"])
         let expectedResult = -1
         expect(result).to(equal(expectedResult))
@@ -70,4 +70,102 @@ class findRightDecTests: XCTestCase {
     }
 
 }
+
+class MakeRowMetadataTests: XCTestCase {
+
+    func testFindRightDecForManyStith() throws {
+        let result = OffsetUtility().makeRowMetadata(stitchRow: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"], rowNumber: 0)
+        let expectedResult = rowInfo(row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
+                                     rowNumber: 0,
+                                     bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",
+                                     stitchSymbols: "│ │o│ │-│ │-│o│ │\n",
+                                     width: 8,
+                                     leftIncDec: 1,
+                                     rightIncDec: 1,
+                                     leftOffset: 0)
+        expect(result).to(equal(expectedResult))
+    }
+
+}
+
+class gatherAllMetaDataTests: XCTestCase {
+
+    func testGatherAllMetaDataTests() throws {
+        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "p1"],["k1", "p1"]])
+
+        let expectedResult = [rowInfo(row: ["k1", "p1"],
+                                     rowNumber: 0,
+                                     bottomLine: "└─┴─┘",
+                                     stitchSymbols: "│ │-│\n",
+                                     width: 2,
+                                     leftIncDec: 0,
+                                     rightIncDec: 0,
+                                     leftOffset: 0),
+                              rowInfo(row: ["k1", "p1"],
+                                       rowNumber: 1,
+                                       bottomLine: "├─┼─┤\n",
+                                       stitchSymbols: "│ │-│\n",
+                                       width: 2,
+                                       leftIncDec: 0,
+                                       rightIncDec: 0,
+                                       leftOffset: 0)]
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataTestsLeftInc() throws {
+        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],["k1", "yo", "k1", "p1"]])
+
+        let expectedResult = [rowInfo(row: ["k1", "k1", "p1"],
+                                      rowNumber: 0,
+                                      bottomLine: "└─┴─┴─┘",
+                                      stitchSymbols: "│ │ │-│\n",
+                                      width: 3,
+                                      leftIncDec: 0,
+                                      rightIncDec: 0,
+                                      leftOffset: 1),
+                              rowInfo(row: ["k1", "yo", "k1", "p1"],
+                                      rowNumber: 1,
+                                      bottomLine: "└─┼─┼─┼─┤\n",
+                                      stitchSymbols: "│ │o│ │-│\n",
+                                      width: 4,
+                                      leftIncDec: 1,
+                                      rightIncDec: 0,
+                                      leftOffset: 0)]
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataTestsMultiLeftInc() throws {
+        let result = OffsetUtility().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],["k1", "yo", "k1", "p1"],["k1", "yo", "k1", "k1", "p1"]])
+
+        let expectedResult = [rowInfo(row: ["k1", "k1", "p1"],
+                                      rowNumber: 0,
+                                      bottomLine: "└─┴─┴─┘",
+                                      stitchSymbols: "│ │ │-│\n",
+                                      width: 3,
+                                      leftIncDec: 0,
+                                      rightIncDec: 0,
+                                      leftOffset: 2),
+                              rowInfo(row: ["k1", "yo", "k1", "p1"],
+                                      rowNumber: 1,
+                                      bottomLine: "└─┼─┼─┼─┤\n",
+                                      stitchSymbols: "│ │o│ │-│\n",
+                                      width: 4,
+                                      leftIncDec: 1,
+                                      rightIncDec: 0,
+                                      leftOffset: 1),
+                              rowInfo(row: ["k1", "yo", "k1", "k1", "p1"],
+                                      rowNumber: 2,
+                                      bottomLine: "└─┼─┼─┼─┼─┤\n",
+                                      stitchSymbols: "│ │o│ │ │-│\n",
+                                      width: 5,
+                                      leftIncDec: 1,
+                                      rightIncDec: 0,
+                                      leftOffset: 0)]
+
+        expect(result).to(equal(expectedResult))
+    }
+    
+}
+
 

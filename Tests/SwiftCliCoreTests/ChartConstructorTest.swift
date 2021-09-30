@@ -229,5 +229,72 @@ class FullChartPrinterTests: XCTestCase {
     }
 
 
+    func testFullPatternLeftSingleSinc() throws {
+        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1"],
+                                                                ["k1", "yo", "k1", "p1"],
+                                                                ["k1", "yo", "k1", "k1", "p1"]])
+        let expectedOutput = """
+┌─┬─┬─┬─┬─┐
+│ │o│ │ │-│
+└─┼─┼─┼─┼─┤
+  │ │o│ │-│
+  └─┼─┼─┼─┤
+    │ │ │-│
+    └─┴─┴─┘
+"""
+        print (result)
+        print(expectedOutput)
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testFullPatternLeftRightSingleInc() throws {
+        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "k1"],
+                                                                ["k1", "m1", "k1", "m1", "k1"]])
+        let expectedOutput = """
+┌─┬─┬─┬─┬─┐
+│ │m│ │m│ │
+└─┼─┼─┼─┼─┘
+  │ │ │ │
+  └─┴─┴─┘
+"""
+        print (result)
+        print(expectedOutput)
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testFullPatternLeftRightSingleSinc() throws {
+        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1"],
+                                                                ["k1", "yo", "k1", "p1"],
+                                                                ["k1", "yo", "k1", "k1", "p1"]])
+        let expectedOutput = """
+┌─┬─┬─┬─┬─┐
+│ │o│ │ │-│
+└─┼─┼─┼─┼─┤
+  │ │o│ │-│
+  └─┼─┼─┼─┤
+    │ │ │-│
+    └─┴─┴─┘
+"""
+        print (result)
+        print(expectedOutput)
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testFullPatternLeftDoubleInc() throws {
+        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1"],
+                                                                [ "m1", "yo", "k1", "k1", "p1"]])
+        let expectedOutput = """
+┌─┬─┬─┬─┬─┐
+│m│o│ │ │-│
+└─┴─┼─┼─┼─┤
+    │ │ │-│
+    └─┴─┴─┘
+"""
+        print (result)
+        print(expectedOutput)
+        expect(result).to(equal(expectedOutput))
+    }
+
+
 
 }
