@@ -78,7 +78,6 @@ public class ChartConstructor {
             leftStitches = "├"
         }
 
-
         return leftStitches + middleStitches + rightStitches
 
     }

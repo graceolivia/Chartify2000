@@ -31,7 +31,7 @@ public class OffsetUtility {
         for row in 0..<(rowsNum) {
             var newRowMetadata = makeRowMetadata(stitchRow: stitchArray[row], rowNumber: row, patternRowsCount: rowsNum)
             newRowMetadata.leftOffset += upcomingleftOffset
-            if (newRowMetadata.leftIncDec > 0 && row > 0) {
+            if newRowMetadata.leftIncDec > 0 && row > 0 {
                 for prevRow in (0...(row-1)).reversed() {
                     allRowsMetaData[prevRow].leftOffset += newRowMetadata.leftIncDec
                 }
@@ -44,7 +44,6 @@ public class OffsetUtility {
         }
         return(allRowsMetaData)
     }
-
 
     public func makeRowMetadata(stitchRow: [String], rowNumber: Int, patternRowsCount: Int) -> RowInfo {
         var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)

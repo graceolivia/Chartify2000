@@ -1,10 +1,8 @@
 import Foundation
 import ArgumentParser
 
-
 // Replace this variable with user input
 let userInput = "k1 k1 k1 \n ssk k1 \n"
-
 
 public final class Chartify {
     public init() {}
