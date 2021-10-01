@@ -34,6 +34,7 @@ public class OffsetUtility {
         return(allRowsMetaData)
     }
 
+
     public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
         var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)
         rowData.leftIncDec = findLeftChanges(stitchRow: stitchRow)

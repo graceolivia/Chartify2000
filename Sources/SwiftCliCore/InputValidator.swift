@@ -20,7 +20,6 @@ public class InputValidator {
             let patternStitches = substringPatternStitches.map {(String($0))}
             if patternStitches.count > 0 {
                 stitchArray.append(patternStitches)
-
             }
         }
         return(stitchArray)
