@@ -115,6 +115,43 @@ class LeftIncreaseTests: XCTestCase {
     }
 }
 
+class LeftDecreaseTests: XCTestCase {
+    func testOneLeftDec() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 4, rDiff: 0, lDiff: -1)
+        let expectedOutput = "┌─┼─┼─┼─┼─┤\n"
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testManyLeftDec() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 4, rDiff: 0, lDiff: -3)
+        let expectedOutput = "┌─┬─┬─┼─┼─┼─┼─┤\n"
+        expect(result).to(equal(expectedOutput))
+    }
+}
+
+class LeftAndRightTests: XCTestCase {
+    func testOneLeftDecOneRightInc() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 1, lDiff: -1)
+        let expectedOutput = "┌─┼─┼─┼─┼─┼─┘\n"
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testManyLeftDecManyRightDec() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 4, rDiff: -3, lDiff: -3)
+        let expectedOutput = "┌─┬─┬─┼─┼─┼─┼─┼─┬─┬─┐\n"
+        expect(result).to(equal(expectedOutput))
+    }
+    func testOneLeftIncOneRightInc() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 1, lDiff: 1)
+        let expectedOutput = "└─┼─┼─┼─┼─┘\n"
+        expect(result).to(equal(expectedOutput))
+    }
+
+
+}
+
+
+
 class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
 
@@ -211,7 +248,7 @@ class FullChartPrinterTests: XCTestCase {
         expect(result).to(equal(expectedOutput))
     }
 
-    }
+
 
     func testFullPatternLeftSingleInc() throws {
         let testArray = [["k1", "k1", "p1"],
@@ -242,7 +279,8 @@ class FullChartPrinterTests: XCTestCase {
   │ │ │ │
   └─┴─┴─┘
 """
-
+        print(result)
+        print(expectedOutput)
         expect(result).to(equal(expectedOutput))
     }
 
@@ -260,7 +298,8 @@ class FullChartPrinterTests: XCTestCase {
     │ │ │-│
     └─┴─┴─┘
 """
-
+        print(result)
+        print(expectedOutput)
         expect(result).to(equal(expectedOutput))
     }
 
@@ -269,11 +308,17 @@ class FullChartPrinterTests: XCTestCase {
                          [ "m1", "yo", "k1", "k1", "p1"]]
         let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
-┌─┬─┬─┬─┬─┐
-│m│o│ │ │-│
-└─┴─┼─┼─┼─┤
-    │ │ │-│
-    └─┴─┴─┘
+  ┌─┬─┬─┬─┐
+  │/│ │ │-│
+┌─┼─┼─┼─┼─┤
+│ │ │ │ │-│
+└─┴─┴─┴─┴─┘
 """
+        print(result)
+        print(expectedOutput)
         expect(result).to(equal(expectedOutput))
+
+
     }
+
+}

@@ -5,6 +5,7 @@ public struct RowInfo: Equatable {
     var rowNumber: Int
     var bottomLine: String = ""
     var stitchSymbols: String = ""
+    var c: String = ""
     var width: Int = 0
     var patternRowsCount: Int = 0
     var leftIncDec: Int = 0
@@ -17,6 +18,7 @@ public struct RowInfo: Equatable {
     lazy var offsetBottomLine: String = leftOffsetString + bottomLine
     lazy var offsetStitchSymbols: String = transRowLeftOffsetString + leftOffsetString + stitchSymbols
     lazy var totalRow: String = offsetStitchSymbols + offsetBottomLine
+
 }
 public class MetaDataBuilder {
     public init() {}
@@ -36,13 +38,16 @@ public class MetaDataBuilder {
             if newRowMetadata.leftIncDec < 0 {
                 upcomingleftOffset += abs(newRowMetadata.leftIncDec)
                 newRowMetadata.transRowLeftOffset += upcomingleftOffset
-            }
+                }
             allRowsMetaData.append(newRowMetadata)
         }
         return(allRowsMetaData)
     }
 
+
+
     public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
+
         var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)
         rowData.leftIncDec = findLeftChanges(stitchRow: stitchRow)
         rowData.rightIncDec = findRightChanges(stitchRow: stitchRow)

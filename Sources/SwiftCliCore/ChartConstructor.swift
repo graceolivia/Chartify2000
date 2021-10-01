@@ -9,7 +9,8 @@ public class ChartConstructor {
         for row in 0...lastRow {
             finishedChart = patternMetaData[row].totalRow + finishedChart
         }
-            finishedChart = makeTopRow(width: patternMetaData[lastRow].width) + finishedChart
+        let topRow = patternMetaData[lastRow].transRowLeftOffsetString + makeTopRow(width: patternMetaData[lastRow].width)
+            finishedChart = topRow  + finishedChart
         return(finishedChart)
     }
 
@@ -23,21 +24,12 @@ public class ChartConstructor {
             let middleBoxes = String(repeating: "─┬", count: width - 1)
             return "┌\(middleBoxes)─┐\n"
         }
+
     }
 
     public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
         var leftStitches = ""
         var rightStitches = ""
-
-        switch true {
-        case (lDiff == 1):
-            leftStitches = "└─┼"
-        case (lDiff >  1):
-            let midLeftSt = String(repeating: "─┴", count: ((abs(lDiff))-1))
-            leftStitches = "└\(midLeftSt)─┼"
-        default:
-            leftStitches = "├"
-        }
 
         var totalIncreases = 0
 
@@ -56,6 +48,24 @@ public class ChartConstructor {
         let middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
 
         switch true {
+        case (lDiff < -1):
+            let midLeftSt = String(repeating: "┬─", count: ((abs(lDiff))-1))
+            leftStitches = "┌─\(midLeftSt)┼"
+        case (lDiff == -1):
+            leftStitches = "┌─┼"
+        case (lDiff == 0):
+            leftStitches = "├"
+        case (lDiff == 1):
+            leftStitches = "└─┼"
+        case (lDiff >  1):
+            let midLeftSt = String(repeating: "─┴", count: ((abs(lDiff))-1))
+            leftStitches = "└\(midLeftSt)─┼"
+        default:
+            leftStitches = "├"
+        }
+
+
+        switch true {
         case (rDiff < -1):
             let midRightSt = String(repeating: "─┬", count: ((abs(rDiff))-1))
             rightStitches = "─┼\(midRightSt)─┐\n"
@@ -70,8 +80,16 @@ public class ChartConstructor {
             rightStitches = "─┤\n"
         }
 
+
+
+
+
         return leftStitches + middleStitches + rightStitches
 
+    case true:
+        <#code#>
+    case false:
+        <#code#>
     }
 
     public func makeBottomRow(width: Int) -> String {

@@ -1,15 +1,5 @@
 import Foundation
 
-let stitchPrinting = ["k1": " ",
-                      "p1": "-",
-                      "ssk": "\\",
-                      "k2tog": "/",
-                      "yo": "o",
-                      "m1": "m" ]
-
-let decreases = ["ssk", "k2tog"]
-let increases = ["m1", "yo"]
-
 struct StitchInfo {
     var name: String
     var incDecValue: Int = 0
