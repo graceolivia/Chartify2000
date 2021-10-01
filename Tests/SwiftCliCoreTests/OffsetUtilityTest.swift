@@ -74,7 +74,7 @@ class FindRightDecTests: XCTestCase {
 class MakeRowMetadataTests: XCTestCase {
 
     func testFindRightDecForManyStith() throws {
-        let result = OffsetUtility().makeRowMetadata(stitchRow: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"], rowNumber: 0)
+        let result = OffsetUtility().makeRowMetadata(stitchRow: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"], rowNumber: 0, patternRowsCount: 1)
         let expectedResult = RowInfo(row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
                                      rowNumber: 0,
                                      bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",

@@ -9,7 +9,8 @@ public class ChartConstructor {
         for row in 0...lastRow {
             finishedChart = patternMetaData[row].totalRow + finishedChart
         }
-            finishedChart = makeTopRow(width: patternMetaData[lastRow].width) + finishedChart
+        let topRow = patternMetaData[lastRow].transRowLeftOffsetString + makeTopRow(width: patternMetaData[lastRow].width)
+            finishedChart = topRow  + finishedChart
         return(finishedChart)
     }
 
@@ -23,6 +24,7 @@ public class ChartConstructor {
             let middleBoxes = String(repeating: "─┬", count: width - 1)
             return "┌\(middleBoxes)─┐\n"
         }
+
     }
 
     public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
@@ -32,11 +34,12 @@ public class ChartConstructor {
         var totalIncreases = 0
         switch true {
         case (lDiff > 0 && rDiff > 0):
-            totalIncreases = rDiff-lDiff
+            totalIncreases += rDiff
+            totalIncreases += lDiff
         case (rDiff > 0):
-            totalIncreases = rDiff
+            totalIncreases += rDiff
         case (lDiff > 0):
-            totalIncreases = lDiff
+            totalIncreases += lDiff
         default:
             totalIncreases = 0
         }
@@ -59,6 +62,11 @@ public class ChartConstructor {
         }
 
         switch true {
+        case (lDiff < -1):
+            let midLeftSt = String(repeating: "┬─", count: ((abs(lDiff))-1))
+            leftStitches = "┌─\(midLeftSt)┼"
+        case (lDiff == -1):
+            leftStitches = "┌─┼"
         case (lDiff == 0):
             leftStitches = "├"
         case (lDiff == 1):
@@ -70,17 +78,6 @@ public class ChartConstructor {
             leftStitches = "├"
         }
 
-        switch true {
-        case (lDiff == 0):
-            leftStitches = "├"
-        case (lDiff == 1):
-            leftStitches = "└─┼"
-        case (lDiff >  1):
-            let midLeftSt = String(repeating: "─┴", count: ((abs(lDiff))-1))
-            leftStitches = "└\(midLeftSt)─┼"
-        default:
-            leftStitches = "├"
-        }
 
         return leftStitches + middleStitches + rightStitches
 
