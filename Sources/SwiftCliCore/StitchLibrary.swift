@@ -6,6 +6,7 @@ struct StitchInfo {
     var symbol: String
 }
 
+
 let allowedStitchesInfo = [StitchInfo(name: "k1", incDecValue: 0, symbol: " "),
                            StitchInfo(name: "p1", incDecValue: 0, symbol: "-"),
                            StitchInfo(name: "ssk", incDecValue: -1, symbol: "\\"),

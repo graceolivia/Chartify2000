@@ -44,8 +44,6 @@ public class MetaDataBuilder {
         return(allRowsMetaData)
     }
 
-
-
     public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
 
         var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)

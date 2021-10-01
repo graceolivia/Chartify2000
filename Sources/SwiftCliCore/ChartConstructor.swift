@@ -82,14 +82,8 @@ public class ChartConstructor {
 
 
 
-
-
         return leftStitches + middleStitches + rightStitches
 
-    case true:
-        <#code#>
-    case false:
-        <#code#>
     }
 
     public func makeBottomRow(width: Int) -> String {
