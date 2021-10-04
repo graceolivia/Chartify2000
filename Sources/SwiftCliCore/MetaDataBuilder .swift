@@ -5,7 +5,6 @@ public struct RowInfo: Equatable {
     var rowNumber: Int
     var bottomLine: String = ""
     var stitchSymbols: String = ""
-    var c: String = ""
     var width: Int = 0
     var patternRowsCount: Int = 0
     var leftIncDec: Int = 0
@@ -56,20 +55,15 @@ public class MetaDataBuilder  {
     }
 
     public func findCenter(stitchRow: [String]) -> Int {
-        let center = floor(Double(stitchRow.count/2))
-    return(Int(center))
+        return(stitchRow.count/2)
     }
 
     public func findLeftChanges(stitchRow: [String]) -> Int {
         let center = findCenter(stitchRow: stitchRow)
         var totalLeftChange = 0
         for stitch in 0..<(center) {
-            if increases.contains(stitchRow[stitch]) {
-                totalLeftChange += 1
-            }
-            if decreases.contains(stitchRow[stitch]) {
-                totalLeftChange += -1
-            }
+            let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitchRow[stitch] })
+            totalLeftChange += lookupStitch!.incDecValue
         }
         return(totalLeftChange)
     }
@@ -78,12 +72,8 @@ public class MetaDataBuilder  {
         let center = findCenter(stitchRow: stitchRow)
         var totalRightChange = 0
         for stitch in center..<(stitchRow.count) {
-            if increases.contains(stitchRow[stitch]) {
-                totalRightChange += 1
-            }
-            if decreases.contains(stitchRow[stitch]) {
-                totalRightChange += -1
-            }
+            let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitchRow[stitch] })
+            totalRightChange += lookupStitch!.incDecValue
         }
         return(totalRightChange)
     }

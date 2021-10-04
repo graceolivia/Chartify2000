@@ -1,5 +1,6 @@
 import Foundation
 
+
 public class ChartConstructor {
     public init() {}
     public func makeChart(stitchArray: [[String]]) -> String {

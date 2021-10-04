@@ -1,6 +1,7 @@
 import Foundation
 import ArgumentParser
 
+
 public final class Chartify {
     public init() {}
     public func run() {
