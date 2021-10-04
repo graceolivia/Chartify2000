@@ -1,11 +1,10 @@
 import Foundation
 
-
 public class ChartConstructor {
     public init() {}
     public func makeChart(stitchArray: [[String]]) -> String {
         let lastRow = stitchArray.count - 1
-        var patternMetaData = MetaDataBuilder ().gatherAllMetaData(stitchArray: stitchArray)
+        var patternMetaData = MetaDataBuilder().gatherAllMetaData(stitchArray: stitchArray)
         var finishedChart = ""
         for row in 0...lastRow {
             finishedChart = patternMetaData[row].totalRow + finishedChart
@@ -55,7 +54,6 @@ public class ChartConstructor {
             totalIncreases = 0
         }
 
-
         middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
 
         switch true {
@@ -72,7 +70,6 @@ public class ChartConstructor {
         default:
             rightStitches = "─┤\n"
         }
-
 
         return leftStitches + middleStitches + rightStitches
 

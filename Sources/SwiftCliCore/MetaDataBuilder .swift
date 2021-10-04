@@ -19,7 +19,7 @@ public struct RowInfo: Equatable {
     lazy var totalRow: String = offsetStitchSymbols + offsetBottomLine
 
 }
-public class MetaDataBuilder  {
+public class MetaDataBuilder {
     public init() {}
 
     public func gatherAllMetaData(stitchArray: [[String]]) -> [RowInfo] {
@@ -42,7 +42,6 @@ public class MetaDataBuilder  {
         }
         return(allRowsMetaData)
     }
-
 
     public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
         var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)

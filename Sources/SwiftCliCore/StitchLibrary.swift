@@ -1,6 +1,5 @@
 import Foundation
 
-
 let stitchPrinting = ["k1": " ",
                       "p1": "-",
                       "ssk": "\\",
