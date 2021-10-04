@@ -25,14 +25,20 @@ public class MetaDataBuilder  {
     public func gatherAllMetaData(stitchArray: [[String]]) -> [RowInfo] {
         var allRowsMetaData = [] as [RowInfo]
         let rowsNum = stitchArray.count
+        var upcomingleftOffset = 0
         for row in 0..<(rowsNum) {
-            let newRowMetadata = makeRowMetadata(stitchRow: stitchArray[row], rowNumber: row)
-            allRowsMetaData.append(newRowMetadata)
-            if newRowMetadata.leftIncDec != 0 {
+            var newRowMetadata = makeRowMetadata(stitchRow: stitchArray[row], rowNumber: row)
+            newRowMetadata.leftOffset += upcomingleftOffset
+            if newRowMetadata.leftIncDec > 0 && row > 0 {
                 for prevRow in (0...(row-1)).reversed() {
                     allRowsMetaData[prevRow].leftOffset += newRowMetadata.leftIncDec
                 }
             }
+            if newRowMetadata.leftIncDec < 0 {
+                upcomingleftOffset += abs(newRowMetadata.leftIncDec)
+                newRowMetadata.transRowLeftOffset += upcomingleftOffset
+            }
+            allRowsMetaData.append(newRowMetadata)
         }
         return(allRowsMetaData)
     }
