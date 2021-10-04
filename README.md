@@ -5,6 +5,7 @@ Turn your written knitting pattern into a handsome chart!
 Chartify takes input in the form of allowed stitches, seperated by line breaks (eventually user input), and returns an ASCII chart.
 
 For example, input the string "k1 k1 p1 p1 k1 k1 \n p1 p1 k1 k1 p1 p1," and Chartify will crate this pattern:
+
 ```
 ┌─┬─┬─┬─┬─┬─┐  
 │-│-│ │ │-│-│
@@ -27,11 +28,13 @@ Because of the box-drawing characters used to draw the chart, the middle bars mu
 The chart drawing happens in phases. For each row, we draw the row-delineating-line below it, and then the row of stitches.
 
 So, first, we would draw the bottom row:
+
 ```
 │ │ │-│-│ │ │
 └─┴─┴─┴─┴─┴─┘
 ```
 Next, we would draw the next row:
+
 ```
 │-│-│ │ │-│-│
 ├─┼─┼─┼─┼─┼─┤

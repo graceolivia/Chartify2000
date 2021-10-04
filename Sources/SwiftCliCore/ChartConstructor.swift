@@ -31,22 +31,6 @@ public class ChartConstructor {
         var leftStitches = ""
         var rightStitches = ""
 
-        var totalIncreases = 0
-
-        switch true {
-        case (lDiff > 0 && rDiff > 0):
-            totalIncreases += rDiff
-            totalIncreases += lDiff
-        case (rDiff > 0):
-            totalIncreases += rDiff
-        case (lDiff > 0):
-            totalIncreases += lDiff
-        default:
-            totalIncreases = 0
-        }
-
-        let middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
-
         switch true {
         case (lDiff < -1):
             let midLeftSt = String(repeating: "┬─", count: ((abs(lDiff))-1))
@@ -63,6 +47,23 @@ public class ChartConstructor {
         default:
             leftStitches = "├"
         }
+
+        var totalIncreases = 0
+
+        switch true {
+        case (lDiff > 0 && rDiff > 0):
+            totalIncreases += rDiff
+            totalIncreases += lDiff
+        case (rDiff > 0):
+            totalIncreases += rDiff
+        case (lDiff > 0):
+            totalIncreases += lDiff
+        default:
+            totalIncreases = 0
+        }
+
+        let middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
+
 
 
         switch true {
