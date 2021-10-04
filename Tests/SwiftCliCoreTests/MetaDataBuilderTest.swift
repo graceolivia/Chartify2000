@@ -73,7 +73,20 @@ class FindRightDecTests: XCTestCase {
 
 class MakeRowMetadataTests: XCTestCase {
 
-    func testFindRightDecForManyStith() throws {
+    func testMetaDataBuilderOneIncEachSide() throws {
+        let result = MetaDataBuilder ().makeRowMetadata(stitchRow: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"], rowNumber: 0)
+        let expectedResult = RowInfo(row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
+                                     rowNumber: 0,
+                                     bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",
+                                     stitchSymbols: "│ │o│ │-│ │-│o│ │\n",
+                                     width: 8,
+                                     leftIncDec: 1,
+                                     rightIncDec: 1,
+                                     leftOffset: 0)
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testMetaDataBuilderBottomRow() throws {
         let result = MetaDataBuilder ().makeRowMetadata(stitchRow: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"], rowNumber: 0)
         let expectedResult = RowInfo(row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
                                      rowNumber: 0,
@@ -91,7 +104,8 @@ class MakeRowMetadataTests: XCTestCase {
 class gatherAllMetaDataTests: XCTestCase {
 
     func testGatherAllMetaDataTests() throws {
-        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "p1"], ["k1", "p1"]])
+        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "p1"],
+                                                                        ["k1", "p1"]])
 
         let expectedResult = [RowInfo(row: ["k1", "p1"],
                                       rowNumber: 0,
@@ -113,7 +127,8 @@ class gatherAllMetaDataTests: XCTestCase {
     }
 
     func testGatherAllMetaDataTestsLeftInc() throws {
-        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"], ["k1", "yo", "k1", "p1"]])
+        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],
+                                                                        ["k1", "yo", "k1", "p1"]])
 
         let expectedResult = [RowInfo(row: ["k1", "k1", "p1"],
                                       rowNumber: 0,
@@ -136,7 +151,9 @@ class gatherAllMetaDataTests: XCTestCase {
     }
 
     func testGatherAllMetaDataTestsMultiLeftInc() throws {
-        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"], ["k1", "yo", "k1", "p1"], ["k1", "yo", "k1", "k1", "p1"]])
+        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],
+                                                                        ["k1", "yo", "k1", "p1"],
+                                                                        ["k1", "yo", "k1", "k1", "p1"]])
 
         let expectedResult = [RowInfo(row: ["k1", "k1", "p1"],
                                       rowNumber: 0,

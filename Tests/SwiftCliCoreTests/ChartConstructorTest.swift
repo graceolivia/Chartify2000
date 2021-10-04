@@ -93,7 +93,7 @@ class RightIncreaseMiddlePrinterTests: XCTestCase {
 
     }
 
-    func testOneMultipleRightIncrease() throws {
+    func testMultipleRightIncrease() throws {
         let result = ChartConstructor().makeMiddleRow(width: 7, rDiff: 3, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┴─┴─┘\n"
         expect(result).to(equal(expectedOutput))
