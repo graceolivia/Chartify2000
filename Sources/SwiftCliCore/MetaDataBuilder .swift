@@ -5,17 +5,21 @@ public struct RowInfo: Equatable {
     var rowNumber: Int
     var bottomLine: String = ""
     var stitchSymbols: String = ""
+    var c: String = ""
     var width: Int = 0
+    var patternRowsCount: Int = 0
     var leftIncDec: Int = 0
     var rightIncDec: Int = 0
     // This is about the number of "empty stitches" that should be added on the left to account for future increases
     var leftOffset: Int = 0
+    var transRowLeftOffset: Int = 0
     lazy var leftOffsetString: String = String(repeating: "  ", count: leftOffset)
+    lazy var transRowLeftOffsetString: String = String(repeating: "  ", count: transRowLeftOffset)
     lazy var offsetBottomLine: String = leftOffsetString + bottomLine
-    lazy var offsetStitchSymbols: String = leftOffsetString + stitchSymbols
+    lazy var offsetStitchSymbols: String = transRowLeftOffsetString + leftOffsetString + stitchSymbols
     lazy var totalRow: String = offsetStitchSymbols + offsetBottomLine
-}
 
+}
 public class MetaDataBuilder  {
     public init() {}
 
