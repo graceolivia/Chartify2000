@@ -183,4 +183,68 @@ class gatherAllMetaDataTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 
+
+
+}
+
+class gatherAllMetaDataLazyValues: XCTestCase {
+
+    func testGatherAllMetaDataLeftOffsetString() throws {
+        var testOffset = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "k1", "k1", "p1"],
+                                                                            ["k1", "m1", "yo", "k1", "k1", "k1", "p1"],
+                                                                           ])
+        let result = testOffset[0].leftOffsetString
+        let expectedResult = "    "
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataTransRowLeftOffsetString() throws {
+        var testOffset = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "k1", "k1", "p1"],
+                                                                            ["k1", "m1", "yo", "k1", "k1", "k1", "p1"],
+                                                                           ])
+        let result = testOffset[0].transRowLeftOffsetString
+        let expectedResult = ""
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    //------
+    
+
+    func testGatherAllMetaDataOffsetBottomLine() throws {
+        var testOffset = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "k1", "k1", "p1"],
+                                                                            ["k1", "m1", "yo", "k1", "k1", "k1", "p1"],
+                                                                           ])
+        let result = testOffset[0].offsetBottomLine
+        let expectedResult = "    └─┴─┴─┴─┴─┘"
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataOffsetStitchSymbols() throws {
+        var testOffset = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "k1", "k1", "p1"],
+                                                                            ["k1", "m1", "yo", "k1", "k1", "k1", "p1"],
+                                                                           ])
+        let result = testOffset[0].offsetStitchSymbols
+        let expectedResult = "    │ │ │ │ │-│\n"
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataTotalRow() throws {
+        var testOffset = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "k1", "k1", "p1"],
+                                                                            ["k1", "m1", "yo", "k1", "k1", "k1", "p1"],
+                                                                           ])
+        let result = testOffset[0].totalRow
+        print(result)
+        let expectedResult = """
+        │ │ │ │ │-│
+        └─┴─┴─┴─┴─┘
+"""
+
+        expect(result).to(equal(expectedResult))
+    }
+
+
 }
