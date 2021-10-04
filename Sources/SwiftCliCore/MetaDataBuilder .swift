@@ -16,7 +16,7 @@ public struct RowInfo: Equatable {
     lazy var totalRow: String = offsetStitchSymbols + offsetBottomLine
 }
 
-public class OffsetUtility {
+public class MetaDataBuilder  {
     public init() {}
 
     public func gatherAllMetaData(stitchArray: [[String]]) -> [RowInfo] {
