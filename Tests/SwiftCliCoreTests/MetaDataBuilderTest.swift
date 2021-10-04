@@ -103,7 +103,7 @@ class MakeRowMetadataTests: XCTestCase {
 
 class gatherAllMetaDataTests: XCTestCase {
 
-    func testGatherAllMetaDataTests() throws {
+    func testGatherAllMetaDataTestNoIncDec() throws {
         let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "p1"],
                                                                         ["k1", "p1"]])
 
@@ -126,7 +126,7 @@ class gatherAllMetaDataTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 
-    func testGatherAllMetaDataTestsLeftInc() throws {
+    func testGatherAllMetaDataTestSingleLeftInc() throws {
         let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],
                                                                         ["k1", "yo", "k1", "p1"]])
 
@@ -150,7 +150,7 @@ class gatherAllMetaDataTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 
-    func testGatherAllMetaDataTestsMultiLeftInc() throws {
+    func testGatherAllMetaDataTestMultiLeftInc() throws {
         let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],
                                                                         ["k1", "yo", "k1", "p1"],
                                                                         ["k1", "yo", "k1", "k1", "p1"]])
@@ -183,6 +183,101 @@ class gatherAllMetaDataTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 
+    func testGatherAllMetaDataTestSingleRightInc() throws {
+        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],
+                                                                        ["k1", "k1", "yo", "p1"]])
+
+        let expectedResult = [RowInfo(row: ["k1", "k1", "p1"],
+                                      rowNumber: 0,
+                                      bottomLine: "└─┴─┴─┘",
+                                      stitchSymbols: "│ │ │-│\n",
+                                      width: 3,
+                                      leftIncDec: 0,
+                                      rightIncDec: 0,
+                                      leftOffset: 0),
+                              RowInfo(row: ["k1", "k1", "yo", "p1"],
+                                      rowNumber: 1,
+                                      bottomLine: "├─┼─┼─┼─┘\n",
+                                      stitchSymbols: "│ │ │o│-│\n",
+                                      width: 4,
+                                      leftIncDec: 0,
+                                      rightIncDec: 1,
+                                      leftOffset: 0)]
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataTestMultiRightInc() throws {
+        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],
+                                                                        ["k1", "k1", "yo", "m1", "p1"]])
+
+        let expectedResult = [RowInfo(row: ["k1", "k1", "p1"],
+                                      rowNumber: 0,
+                                      bottomLine: "└─┴─┴─┘",
+                                      stitchSymbols: "│ │ │-│\n",
+                                      width: 3,
+                                      leftIncDec: 0,
+                                      rightIncDec: 0,
+                                      leftOffset: 0),
+                              RowInfo(row: ["k1", "k1", "yo", "m1", "p1"],
+                                      rowNumber: 1,
+                                      bottomLine: "├─┼─┼─┼─┴─┘\n",
+                                      stitchSymbols: "│ │ │o│m│-│\n",
+                                      width: 5,
+                                      leftIncDec: 0,
+                                      rightIncDec: 2,
+                                      leftOffset: 0)]
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataTestSingleRightDec() throws {
+        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1"],
+                                                                        ["k1", "ssk"]])
+
+        let expectedResult = [RowInfo(row: ["k1", "k1", "p1"],
+                                      rowNumber: 0,
+                                      bottomLine: "└─┴─┴─┘",
+                                      stitchSymbols: "│ │ │-│\n",
+                                      width: 3,
+                                      leftIncDec: 0,
+                                      rightIncDec: 0,
+                                      leftOffset: 0),
+                              RowInfo(row: ["k1", "ssk"],
+                                      rowNumber: 1,
+                                      bottomLine: "├─┼─┼─┐\n",
+                                      stitchSymbols: "│ │\\│\n",
+                                      width: 2,
+                                      leftIncDec: 0,
+                                      rightIncDec: -1,
+                                      leftOffset: 0)]
+
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testGatherAllMetaDataTestMultiRightDec() throws {
+        let result = MetaDataBuilder ().gatherAllMetaData(stitchArray: [["k1", "k1", "p1", "k1", "k1"],
+                                                                        ["k1", "ssk", "ssk"]])
+
+        let expectedResult = [RowInfo(row: ["k1", "k1", "p1", "k1", "k1"],
+                                      rowNumber: 0,
+                                      bottomLine: "└─┴─┴─┴─┴─┘",
+                                      stitchSymbols: "│ │ │-│ │ │\n",
+                                      width: 5,
+                                      leftIncDec: 0,
+                                      rightIncDec: 0,
+                                      leftOffset: 0),
+                              RowInfo(row: ["k1", "ssk", "ssk"],
+                                      rowNumber: 1,
+                                      bottomLine: "├─┼─┼─┼─┬─┐\n",
+                                      stitchSymbols: "│ │\\│\\│\n",
+                                      width: 3,
+                                      leftIncDec: 0,
+                                      rightIncDec: -2,
+                                      leftOffset: 0)]
+
+        expect(result).to(equal(expectedResult))
+    }
 
 
 }
