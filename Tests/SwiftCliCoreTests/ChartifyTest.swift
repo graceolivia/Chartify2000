@@ -4,6 +4,24 @@ import Nimble
 @testable import SwiftCliCore
 
 class ChartifyFinishedTest: XCTestCase {
-    // to do
 
+    func testRunValidatesTheInput() throws {
+    
+    }
+    
+    func testRunTransformsTheInputIntoAnArrayIfInputIsValid() throws {
+    
+    }
+    
+    func testRunMakesTheChartIfInputIsValid() throws {
+    
+    }
+    
+    func testRunPrintsTheChartIfInputIsValid() throws {
+    
+    }
+    
+    func testRunPrintsAnErrorMessageIfInputIsInvalid() throws {
+    
+    }
 }
