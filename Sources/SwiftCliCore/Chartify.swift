@@ -4,10 +4,9 @@ import ArgumentParser
 
 public final class Chartify {
     public init() {}
-    public func run() {
+    public func run(input: String, inputValidator: InputValidator) {
         // Replace this variable with user input
-        let input = "p1 k1 k1 k1 \n p1 k1 k1 yo k1 \n p1 k1 k1 k1 yo k1"
-        let isValid = InputValidator().validate(pattern: input)
+        let isValid = inputValidator.validate(pattern: input)
         if isValid == true {
             let patternArray = InputValidator().arrayMaker(cleanedPattern: input)
             print(ChartConstructor().makeChart(stitchArray: patternArray))

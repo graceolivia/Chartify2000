@@ -2,7 +2,7 @@ import Foundation
 
 // validator class
 public class InputValidator {
-    init() {}
+    public init() {}
 
     // this will validate if the string contains only approved stitches
     public func validate(pattern: String) -> Bool {
