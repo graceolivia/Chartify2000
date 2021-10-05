@@ -296,7 +296,6 @@ class gatherAllMetaDataTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 
-
 }
 
 class gatherAllMetaDataLazyValues: XCTestCase {
@@ -322,7 +321,6 @@ class gatherAllMetaDataLazyValues: XCTestCase {
     }
 
     // ------
-
 
     func testGatherAllMetaDataOffsetBottomLine() throws {
         var testOffset = MetaDataBuilder().gatherAllMetaData(stitchArray: [["k1", "k1", "k1", "k1", "p1"],
@@ -357,6 +355,5 @@ class gatherAllMetaDataLazyValues: XCTestCase {
 
         expect(result).to(equal(expectedResult))
     }
-
 
 }
