@@ -26,7 +26,6 @@ class TopLevelPrinterTests: XCTestCase {
 }
 class BottomLevelPrinterTests: XCTestCase {
 
-    // Bottom Level Tests
     func testPrintBottomLevelMany() throws {
         let result = ChartConstructor().makeBottomRow(width: 4)
         let expectedOutput = "└─┴─┴─┴─┘"
@@ -150,7 +149,7 @@ class LeftAndRightTests: XCTestCase {
 }
 
 class FullChartPrinterTests: XCTestCase {
-    // Full Chart Tests
+
 
     func testFullPatternOneRow() throws {
         let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"]]
@@ -275,8 +274,6 @@ class FullChartPrinterTests: XCTestCase {
   │ │ │ │
   └─┴─┴─┘
 """
-        print(result)
-        print(expectedOutput)
         expect(result).to(equal(expectedOutput))
     }
 
@@ -294,8 +291,6 @@ class FullChartPrinterTests: XCTestCase {
     │ │ │-│
     └─┴─┴─┘
 """
-        print(result)
-        print(expectedOutput)
         expect(result).to(equal(expectedOutput))
     }
 
@@ -310,8 +305,6 @@ class FullChartPrinterTests: XCTestCase {
     │ │ │-│
     └─┴─┴─┘
 """
-        print(result)
-        print(expectedOutput)
         expect(result).to(equal(expectedOutput))
 
     }

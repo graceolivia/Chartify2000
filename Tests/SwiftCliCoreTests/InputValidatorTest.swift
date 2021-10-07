@@ -4,7 +4,7 @@ import Nimble
 @testable import SwiftCliCore
 
 class ValidatorTests: XCTestCase {
-    // Valid Input
+
     func testValidatorForP1Input() throws {
         let result = InputValidator().validate(pattern: "p1")
         let expectedResult = true
@@ -25,7 +25,6 @@ class ValidatorTests: XCTestCase {
 
     }
 
-    // Invalid Input
     func testValidatorForG1P1Input() throws {
         let result = InputValidator().validate(pattern: "g1 p1")
         let expectedResult = false
