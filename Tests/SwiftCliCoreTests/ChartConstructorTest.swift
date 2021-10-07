@@ -119,7 +119,8 @@ class FullChartPrinterTests: XCTestCase {
     // Full Chart Tests
 
     func testFullPatternOneRow() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1", "p1", "k1", "k1"]])
+        let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │ │ │-│-│ │ │
@@ -129,8 +130,9 @@ class FullChartPrinterTests: XCTestCase {
 
     }
     func testFullPatternTwoRow() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1", "p1", "k1", "k1"],
-                                                                ["p1", "p1", "k1", "k1", "p1", "p1"]])
+        let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"],
+                        ["p1", "p1", "k1", "k1", "p1", "p1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │-│-│ │ │-│-│
@@ -143,9 +145,10 @@ class FullChartPrinterTests: XCTestCase {
     }
 
     func testFullPatternRightSSKDecrease() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1", "p1", "k1", "k1", "p1", "k1"],
-                                                                ["k1", "k1", "p1", "p1", "k1", "k1", "ssk"],
-                                                                ["k1", "k1", "p1", "p1", "k1", "ssk"]])
+        let testArray = [["k1", "k1", "p1", "p1", "k1", "k1", "p1", "k1"],
+                         ["k1", "k1", "p1", "p1", "k1", "k1", "ssk"],
+                         ["k1", "k1", "p1", "p1", "k1", "ssk"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │ │ │-│-│ │\\│
@@ -173,9 +176,10 @@ class FullChartPrinterTests: XCTestCase {
     }
 
     func testFullPatternRightYOInc() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["p1", "k1", "k1", "k1"],
-                                                                ["p1", "k1", "k1", "yo", "k1"],
-                                                                ["p1", "k1", "k1", "k1", "yo", "k1"]])
+        let testArray = [["p1", "k1", "k1", "k1"],
+                         ["p1", "k1", "k1", "yo", "k1"],
+                         ["p1", "k1", "k1", "k1", "yo", "k1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │-│ │ │ │o│ │
@@ -190,9 +194,10 @@ class FullChartPrinterTests: XCTestCase {
     }
 
     func testFullPatternRightMultipleInc() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "k1", "k1"],
-                                                                ["k1", "k1", "k1", "yo", "m1", "k1"],
-                                                                ["k1", "k1", "k1", "k1", "k1", "yo", "m1", "k1"]])
+        let testArray = [["k1", "k1", "k1", "k1"],
+                        ["k1", "k1", "k1", "yo", "m1", "k1"],
+                        ["k1", "k1", "k1", "k1", "k1", "yo", "m1", "k1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┬─┬─┐
 │ │ │ │ │ │o│m│ │
@@ -208,10 +213,11 @@ class FullChartPrinterTests: XCTestCase {
 
     }
 
-    func testFullPatternLeftSingleSinc() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1"],
-                                                                ["k1", "yo", "k1", "p1"],
-                                                                ["k1", "yo", "k1", "k1", "p1"]])
+    func testFullPatternLeftSingleInc() throws {
+        let testArray = [["k1", "k1", "p1"],
+                         ["k1", "yo", "k1", "p1"],
+                         ["k1", "yo", "k1", "k1", "p1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │ │o│ │ │-│
@@ -226,8 +232,9 @@ class FullChartPrinterTests: XCTestCase {
     }
 
     func testFullPatternLeftRightSingleInc() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "k1"],
-                                                                ["k1", "m1", "k1", "m1", "k1"]])
+        let testArray = [["k1", "k1", "k1"],
+                         ["k1", "m1", "k1", "m1", "k1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │ │m│ │m│ │
@@ -240,9 +247,10 @@ class FullChartPrinterTests: XCTestCase {
     }
 
     func testFullPatternLeftRightSingleSinc() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1"],
-                                                                ["k1", "yo", "k1", "p1"],
-                                                                ["k1", "yo", "k1", "k1", "p1"]])
+        let testArray = [["k1", "k1", "p1"],
+                        ["k1", "yo", "k1", "p1"],
+                        ["k1", "yo", "k1", "k1", "p1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │ │o│ │ │-│
@@ -257,8 +265,9 @@ class FullChartPrinterTests: XCTestCase {
     }
 
     func testFullPatternLeftDoubleInc() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "p1"],
-                                                                [ "m1", "yo", "k1", "k1", "p1"]])
+        let testArray = [["k1", "k1", "p1"],
+                         [ "m1", "yo", "k1", "k1", "p1"]]
+        let result = ChartConstructor().makeChart(stitchArray: testArray)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │m│o│ │ │-│

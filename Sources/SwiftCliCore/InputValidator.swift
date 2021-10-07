@@ -8,7 +8,7 @@ public class InputValidator {
         if patternStitches.count == 0 {
             return false
         }
-        let isItValid = patternStitches.allSatisfy({ allowedStitches.contains(String($0)) })
+        let isItValid = patternStitches.allSatisfy({ allowedUserInput.contains(String($0)) })
         return isItValid
     }
 

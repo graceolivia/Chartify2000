@@ -6,6 +6,7 @@ public class ChartConstructor {
         let lastRow = stitchArray.count - 1
         var patternMetaData = MetaDataBuilder().gatherAllMetaData(stitchArray: stitchArray)
         var finishedChart = ""
+
         for row in 0...lastRow {
             finishedChart = patternMetaData[row].totalRow + finishedChart
         }
@@ -28,7 +29,6 @@ public class ChartConstructor {
     public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
         var leftStitches = ""
         var rightStitches = ""
-        var middleStitches = ""
 
         switch true {
         case (lDiff == 1):
@@ -54,7 +54,7 @@ public class ChartConstructor {
             totalIncreases = 0
         }
 
-        middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
+        let middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
 
         switch true {
         case (rDiff < -1):

@@ -16,7 +16,7 @@ public final class Chartify {
                   Please include only allowed stitches seperated by \\n for line breaks. \
  Current allowed input includes:
 """)
-            for stitch in allowedStitches {
+            for stitch in allowedUserInput {
                 print(stitch)
             }
         }

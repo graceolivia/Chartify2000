@@ -17,7 +17,6 @@ public struct RowInfo: Equatable {
     lazy var offsetBottomLine: String = leftOffsetString + bottomLine
     lazy var offsetStitchSymbols: String = transRowLeftOffsetString + leftOffsetString + stitchSymbols
     lazy var totalRow: String = offsetStitchSymbols + offsetBottomLine
-
 }
 public class MetaDataBuilder {
     public init() {}
@@ -51,7 +50,8 @@ public class MetaDataBuilder {
         if rowNumber == 0 {
             rowData.bottomLine = ChartConstructor().makeBottomRow(width: rowData.width)
         } else {
-            rowData.bottomLine = ChartConstructor().makeMiddleRow(width: rowData.width,
+            rowData.bottomLine = ChartConstructor().makeMiddleRow(
+                                                                  width: rowData.width,
                                                                   rDiff: rowData.rightIncDec,
                                                                   lDiff: rowData.leftIncDec)
         }
@@ -59,28 +59,25 @@ public class MetaDataBuilder {
         return(rowData)
     }
 
-    public func findCenter(stitchRow: [String]) -> Int {
-        return(stitchRow.count/2)
-    }
-
     public func findLeftChanges(stitchRow: [String]) -> Int {
-        let center = findCenter(stitchRow: stitchRow)
-        var totalLeftChange = 0
-        for stitch in 0..<(center) {
-            let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitchRow[stitch] })
-            totalLeftChange += lookupStitch!.incDecValue
-        }
-        return(totalLeftChange)
+        let center = stitchRow.count/2
+        let leftHalf = stitchRow[..<center]
+        return(findChange(halfStitchRow: leftHalf))
     }
 
     public func findRightChanges(stitchRow: [String]) -> Int {
-        let center = findCenter(stitchRow: stitchRow)
-        var totalRightChange = 0
-        for stitch in center..<(stitchRow.count) {
-            let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitchRow[stitch] })
-            totalRightChange += lookupStitch!.incDecValue
-        }
-        return(totalRightChange)
+        let center = stitchRow.count/2
+        let leftHalf = stitchRow[center...]
+        return(findChange(halfStitchRow: leftHalf))
     }
 
+        func findChange(halfStitchRow: ArraySlice<String>) -> Int {
+            var totalChange = 0
+            for stitch in halfStitchRow {
+                if let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
+                    totalChange += lookupStitch.incDecValue
+                }
+            }
+            return totalChange
+    }
 }
