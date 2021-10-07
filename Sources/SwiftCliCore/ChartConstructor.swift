@@ -6,7 +6,6 @@ public class ChartConstructor {
         let lastRow = stitchArray.count - 1
         var patternMetaData = MetaDataBuilder().gatherAllMetaData(stitchArray: stitchArray)
         var finishedChart = ""
-
         for row in 0...lastRow {
             finishedChart = patternMetaData[row].totalRow + finishedChart
         }

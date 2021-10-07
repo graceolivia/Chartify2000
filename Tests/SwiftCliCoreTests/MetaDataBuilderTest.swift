@@ -71,7 +71,7 @@ class MakeRowMetadataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 1,
                                 leftOffset: 0
-        )
+                                )
         expect(result).to(equal(expectedResult))
     }
 
@@ -87,7 +87,7 @@ class MakeRowMetadataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 1,
                                 leftOffset: 0
-        )
+                                )
         expect(result).to(equal(expectedResult))
     }
 
@@ -108,7 +108,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 0,
                                 leftOffset: 0
-        ),
+                                ),
                               RowInfo(
                                 row: ["k1", "p1"],
                                 rowNumber: 1,
@@ -135,7 +135,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 0,
                                 leftOffset: 1
-        ),
+                                ),
                               RowInfo(
                                 row: ["k1", "yo", "k1", "p1"],
                                 rowNumber: 1,
@@ -145,7 +145,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 0,
                                 leftOffset: 0
-                              )]
+                                )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -164,7 +164,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 0,
                                 leftOffset: 2
-        ),
+                              ),
                               RowInfo(
                                 row: ["k1", "yo", "k1", "p1"],
                                 rowNumber: 1,
@@ -174,7 +174,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 0,
                                 leftOffset: 1
-                              ),
+                                ),
                               RowInfo(
                                 row: ["k1", "yo", "k1", "k1", "p1"],
                                 rowNumber: 2,
@@ -184,7 +184,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 0,
                                 leftOffset: 0
-                              )]
+                                )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -202,7 +202,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 0,
                                 leftOffset: 0
-        ),
+                                ),
                               RowInfo(
                                 row: ["k1", "k1", "yo", "p1"],
                                 rowNumber: 1,
@@ -212,7 +212,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 1,
                                 leftOffset: 0
-                              )]
+                                )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -230,7 +230,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 0,
                                 leftOffset: 0
-        ),
+                                ),
                               RowInfo(
                                 row: ["k1", "k1", "yo", "m1", "p1"],
                                 rowNumber: 1,
@@ -240,7 +240,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 2,
                                 leftOffset: 0
-                              )]
+                                )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -258,7 +258,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 0,
                                 leftOffset: 0
-        ),
+                                ),
                               RowInfo(
                                 row: ["k1", "ssk"],
                                 rowNumber: 1,
@@ -268,7 +268,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: -1,
                                 leftOffset: 0
-                              )]
+                                )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -286,7 +286,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 0,
                                 leftOffset: 0
-        ),
+                                ),
                               RowInfo(
                                 row: ["k1", "ssk", "ssk"],
                                 rowNumber: 1,
@@ -296,7 +296,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: -2,
                                 leftOffset: 0
-                              )]
+                                )]
         expect(result).to(equal(expectedResult))
     }
 }
