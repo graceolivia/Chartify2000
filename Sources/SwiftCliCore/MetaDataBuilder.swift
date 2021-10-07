@@ -5,7 +5,6 @@ public struct RowInfo: Equatable {
     var rowNumber: Int
     var bottomLine: String = ""
     var stitchSymbols: String = ""
-    var c: String = ""
     var width: Int = 0
     var patternRowsCount: Int = 0
     var leftIncDec: Int = 0
