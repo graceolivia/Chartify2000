@@ -9,20 +9,18 @@ class ValidatorTests: XCTestCase {
         let result = InputValidator().validate(pattern: "p1")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
-
     }
+
     func testValidatorForK1P1Input() throws {
         let result = InputValidator().validate(pattern: "k1 p1")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
-
     }
 
     func testValidatorForLineBreaks() throws {
         let result = InputValidator().validate(pattern: "k1 p1 \n")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
-
     }
 
     func testValidatorForG1P1Input() throws {
@@ -60,7 +58,6 @@ class ArrayMakerTests: XCTestCase {
                               ["k1", "p1"],
                               ["k1", "p1"]]
         expect(result).to(equal(expectedResult))
-
     }
 
     func testValidatorForExtraLinebreak() throws {
@@ -73,7 +70,6 @@ class ArrayMakerTests: XCTestCase {
         let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n \n \n")
         let expectedResult = [["k1", "p1"]]
         expect(result).to(equal(expectedResult))
-
     }
 
     func testValidatorForOneStitch() throws {

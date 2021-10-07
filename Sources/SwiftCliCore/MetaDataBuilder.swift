@@ -17,8 +17,8 @@ public struct RowInfo: Equatable {
     lazy var offsetBottomLine: String = leftOffsetString + bottomLine
     lazy var offsetStitchSymbols: String = transRowLeftOffsetString + leftOffsetString + stitchSymbols
     lazy var totalRow: String = offsetStitchSymbols + offsetBottomLine
-
 }
+
 public class MetaDataBuilder {
     public init() {}
 
@@ -51,11 +51,14 @@ public class MetaDataBuilder {
         rowData.width = stitchRow.count
         if rowNumber == 0 {
             rowData.bottomLine = ChartConstructor().makeBottomRow(width: rowData.width)
-        } else {
+        }
+        else
+        {
             rowData.bottomLine = ChartConstructor().makeMiddleRow(
                                                                   width: rowData.width,
                                                                   rDiff: rowData.rightIncDec,
-                                                                  lDiff: rowData.leftIncDec)
+                                                                  lDiff: rowData.leftIncDec
+                                                                  )
         }
         rowData.stitchSymbols = ChartConstructor().makeStitchRow(row: rowData.row)
         return(rowData)

@@ -111,7 +111,7 @@ public class ChartConstructor {
         default:
             var middleStitches = ""
             for stitch in row {
-                if var getStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
+                if let getStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
                     middleStitches += "\(getStitch.symbol)│"
                 }
             }
