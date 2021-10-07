@@ -107,7 +107,9 @@ public class ChartConstructor {
         default:
             var middleStitches = ""
             for stitch in row {
-                middleStitches += "\(stitchPrinting[stitch] ?? "")│"
+                if var getStitch = allowedStitchesInfo.first(where: { $0.name == stitch }){
+                    middleStitches += "\(getStitch.symbol)│"
+                }
             }
             return "│\(middleStitches)\n"
         }
