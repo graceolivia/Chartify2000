@@ -1,6 +1,5 @@
 import Foundation
 import ArgumentParser
-// the allowable stitches
 
 public final class Chartify {
     public init() {}
@@ -8,7 +7,7 @@ public final class Chartify {
         // Replace this variable with user input
         let input = "p1 k1 k1 k1 \n p1 k1 k1 yo k1 \n p1 k1 k1 k1 yo k1"
         let isValid = InputValidator().validate(pattern: input)
-        if isValid == true {
+        if isValid {
             let patternArray = InputValidator().arrayMaker(cleanedPattern: input)
             print(ChartConstructor().makeChart(stitchArray: patternArray))
         } else {
@@ -17,7 +16,7 @@ public final class Chartify {
                   Please include only allowed stitches seperated by \\n for line breaks. \
  Current allowed input includes:
 """)
-            for stitch in allowedStitches {
+            for stitch in allowedUserInput {
                 print(stitch)
             }
         }
