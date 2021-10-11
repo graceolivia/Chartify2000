@@ -1,12 +1,11 @@
 import Foundation
 import ArgumentParser
 
-// Replace this variable with user input
-let userInput = "p1 p1 k1 k1 p1 p1 \n p1 yo p1 k1 k1 p1 yo p1 \n"
+
 
 public final class Chartify {
     public init() {}
-    public func run() {
+    public func run(userInput: String) {
 
         let isValid = InputValidator().validate(pattern: userInput)
         if isValid {
