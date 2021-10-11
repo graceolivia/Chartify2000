@@ -22,7 +22,7 @@ class FindLeftDecTests: XCTestCase {
         let expectedResult = 1
         expect(result).to(equal(expectedResult))
     }
-    
+
     func testFindLeftIncForEvenRow() throws {
         let result = MetaDataBuilder().findLeftChanges(stitchRow: ["k1", "yo", "k1", "p1", "k1", "k1", "p1", "k1"])
         let expectedResult = 1

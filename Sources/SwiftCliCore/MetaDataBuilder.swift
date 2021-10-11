@@ -37,7 +37,7 @@ public class MetaDataBuilder {
             if newRowMetadata.leftIncDec < 0 {
                 upcomingleftOffset += abs(newRowMetadata.leftIncDec)
                 newRowMetadata.transRowLeftOffset += upcomingleftOffset
-                }
+            }
             allRowsMetaData.append(newRowMetadata)
         }
         return(allRowsMetaData)
@@ -51,14 +51,12 @@ public class MetaDataBuilder {
         rowData.width = stitchRow.count
         if rowNumber == 0 {
             rowData.bottomLine = ChartConstructor().makeBottomRow(width: rowData.width)
-        }
-        else
-        {
+        } else {
             rowData.bottomLine = ChartConstructor().makeMiddleRow(
-                                                                  width: rowData.width,
-                                                                  rDiff: rowData.rightIncDec,
-                                                                  lDiff: rowData.leftIncDec
-                                                                  )
+                width: rowData.width,
+                rDiff: rowData.rightIncDec,
+                lDiff: rowData.leftIncDec
+            )
         }
         rowData.stitchSymbols = ChartConstructor().makeStitchRow(row: rowData.row)
         return(rowData)
@@ -76,13 +74,14 @@ public class MetaDataBuilder {
         return(findChange(halfStitchRow: leftHalf))
     }
 
-        func findChange(halfStitchRow: ArraySlice<String>) -> Int {
-            var totalChange = 0
-            for stitch in halfStitchRow {
-                if let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
-                    totalChange += lookupStitch.incDecValue
-                }
-            }
-            return totalChange
+    func findChange(halfStitchRow: ArraySlice<String>) -> Int {
+        var totalChange = 0
+        for stitch in halfStitchRow {
+
+                let lookupStitch: StitchInfo = try! stitchLookup(stitch: stitch)
+                totalChange += lookupStitch.incDecValue
+
+        }
+        return totalChange
     }
 }

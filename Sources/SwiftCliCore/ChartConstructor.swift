@@ -30,8 +30,8 @@ public class ChartConstructor {
 
     public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
 
-        let rightStitches = rightSideHelper(rDiff: rDiff)
-        let leftStitches = leftSideHelper(lDiff: lDiff)
+        let rightStitches = rightSideStringBuilder(rDiff: rDiff)
+        let leftStitches = leftSideStringBuilder(lDiff: lDiff)
 
         var totalIncreases = 0
 
@@ -50,45 +50,42 @@ public class ChartConstructor {
         return leftStitches + middleStitches + rightStitches
     }
 
-    private func leftSideHelper(lDiff: Int) -> String {
-        var leftStitches = ""
+    private func leftSideStringBuilder(lDiff: Int) -> String {
+
         switch true {
         case (lDiff < -1):
             let midLeftSt = String(repeating: "┬─", count: ((abs(lDiff))-1))
-            leftStitches = "┌─\(midLeftSt)┼"
+            return("┌─\(midLeftSt)┼")
         case (lDiff == -1):
-            leftStitches = "┌─┼"
-        case (lDiff == 0):
-            leftStitches = "├"
+            return("┌─┼")
         case (lDiff == 1):
-            leftStitches = "└─┼"
+            return ("└─┼")
         case (lDiff >  1):
             let midLeftSt = String(repeating: "─┴", count: ((abs(lDiff))-1))
-            leftStitches = "└\(midLeftSt)─┼"
+            return("└\(midLeftSt)─┼")
         default:
-            leftStitches = "├"
+            return("├")
         }
-        return leftStitches
+
     }
 
-    private func rightSideHelper(rDiff: Int) -> String {
-        var rightStitches = ""
+    private func rightSideStringBuilder(rDiff: Int) -> String {
+
         switch true {
         case (rDiff < -1):
             let midRightSt = String(repeating: "─┬", count: ((abs(rDiff))-1))
-            rightStitches = "─┼\(midRightSt)─┐\n"
+            return("─┼\(midRightSt)─┐\n")
         case (rDiff == -1):
-            rightStitches = "─┼─┐\n"
+            return("─┼─┐\n")
         case (rDiff == 1):
-            rightStitches = "─┼─┘\n"
+            return("─┼─┘\n")
         case (rDiff > 1):
             let midRightSt = String(repeating: "─┴", count: (rDiff-1))
-            rightStitches = "─┼\(midRightSt)─┘\n"
+            return("─┼\(midRightSt)─┘\n")
         default:
-            rightStitches = "─┤\n"
+            return("─┤\n")
         }
 
-        return rightStitches
     }
 
     public func makeBottomRow(width: Int) -> String {
@@ -111,9 +108,8 @@ public class ChartConstructor {
         default:
             var middleStitches = ""
             for stitch in row {
-                if let getStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
+               let getStitch = try! stitchLookup(stitch: stitch)
                     middleStitches += "\(getStitch.symbol)│"
-                }
             }
             return "│\(middleStitches)\n"
         }

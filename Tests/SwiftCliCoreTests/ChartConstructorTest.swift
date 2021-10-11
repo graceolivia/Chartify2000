@@ -135,7 +135,7 @@ class LeftAndRightTests: XCTestCase {
         let expectedOutput = "┌─┬─┬─┼─┼─┼─┼─┼─┬─┬─┐\n"
         expect(result).to(equal(expectedOutput))
     }
-    
+
     func testOneLeftIncOneRightInc() throws {
         let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 1, lDiff: 1)
         let expectedOutput = "└─┼─┼─┼─┼─┘\n"
@@ -144,7 +144,6 @@ class LeftAndRightTests: XCTestCase {
 }
 
 class FullChartPrinterTests: XCTestCase {
-
 
     func testFullPatternOneRow() throws {
         let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"]]
