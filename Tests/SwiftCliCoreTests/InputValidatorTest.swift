@@ -4,28 +4,25 @@ import Nimble
 @testable import SwiftCliCore
 
 class ValidatorTests: XCTestCase {
-    // Valid Input
+
     func testValidatorForP1Input() throws {
         let result = InputValidator().validate(pattern: "p1")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
-
     }
+
     func testValidatorForK1P1Input() throws {
         let result = InputValidator().validate(pattern: "k1 p1")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
-
     }
 
     func testValidatorForLineBreaks() throws {
         let result = InputValidator().validate(pattern: "k1 p1 \n")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
-
     }
 
-    // Invalid Input
     func testValidatorForG1P1Input() throws {
         let result = InputValidator().validate(pattern: "g1 p1")
         let expectedResult = false
@@ -61,20 +58,18 @@ class ArrayMakerTests: XCTestCase {
                               ["k1", "p1"],
                               ["k1", "p1"]]
         expect(result).to(equal(expectedResult))
-
     }
 
-    func testValidatorForExtraLinebreak() throws {
+    func testValidatorForExtraLineBreak() throws {
         let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n")
         let expectedResult = [["k1", "p1"]]
         expect(result).to(equal(expectedResult))
     }
 
-    func testValidatorForThreeExtraLinebreak() throws {
+    func testValidatorForThreeExtraLineBreak() throws {
         let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n \n \n")
         let expectedResult = [["k1", "p1"]]
         expect(result).to(equal(expectedResult))
-
     }
 
     func testValidatorForOneStitch() throws {

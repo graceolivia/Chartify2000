@@ -22,11 +22,10 @@ class TopLevelPrinterTests: XCTestCase {
         let expectedOutput = "\n"
         expect(result).to(equal(expectedOutput))
     }
-
 }
+
 class BottomLevelPrinterTests: XCTestCase {
 
-    // Bottom Level Tests
     func testPrintBottomLevelMany() throws {
         let result = ChartConstructor().makeBottomRow(width: 4)
         let expectedOutput = "└─┴─┴─┴─┘"
@@ -59,7 +58,6 @@ class StitchRowPrinterTests: XCTestCase {
         let expectedOutput = "│ │\n"
         expect(result).to(equal(expectedOutput))
     }
-
 }
 
 class RightDecreaseMiddlePrinterTests: XCTestCase {
@@ -67,7 +65,6 @@ class RightDecreaseMiddlePrinterTests: XCTestCase {
         let result = ChartConstructor().makeMiddleRow(width: 6, rDiff: -1, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┼─┼─┐\n"
         expect(result).to(equal(expectedOutput))
-
     }
 
     func testThreeRightDecrease() throws {
@@ -80,9 +77,7 @@ class RightDecreaseMiddlePrinterTests: XCTestCase {
         let result = ChartConstructor().makeMiddleRow(width: 3, rDiff: -2, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┬─┐\n"
         expect(result).to(equal(expectedOutput))
-
     }
-
 }
 
 class RightIncreaseMiddlePrinterTests: XCTestCase {
@@ -90,14 +85,12 @@ class RightIncreaseMiddlePrinterTests: XCTestCase {
         let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 1, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┘\n"
         expect(result).to(equal(expectedOutput))
-
     }
 
     func testMultipleRightIncrease() throws {
         let result = ChartConstructor().makeMiddleRow(width: 7, rDiff: 3, lDiff: 0)
         let expectedOutput = "├─┼─┼─┼─┼─┴─┴─┘\n"
         expect(result).to(equal(expectedOutput))
-
     }
 }
 
@@ -115,8 +108,42 @@ class LeftIncreaseTests: XCTestCase {
     }
 }
 
+class LeftDecreaseTests: XCTestCase {
+    func testOneLeftDec() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 4, rDiff: 0, lDiff: -1)
+        let expectedOutput = "┌─┼─┼─┼─┼─┤\n"
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testManyLeftDec() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 4, rDiff: 0, lDiff: -3)
+        let expectedOutput = "┌─┬─┬─┼─┼─┼─┼─┤\n"
+        expect(result).to(equal(expectedOutput))
+    }
+}
+
+class LeftAndRightTests: XCTestCase {
+
+    func testOneLeftDecOneRightInc() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 1, lDiff: -1)
+        let expectedOutput = "┌─┼─┼─┼─┼─┼─┘\n"
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testManyLeftDecManyRightDec() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 4, rDiff: -3, lDiff: -3)
+        let expectedOutput = "┌─┬─┬─┼─┼─┼─┼─┼─┬─┬─┐\n"
+        expect(result).to(equal(expectedOutput))
+    }
+
+    func testOneLeftIncOneRightInc() throws {
+        let result = ChartConstructor().makeMiddleRow(width: 5, rDiff: 1, lDiff: 1)
+        let expectedOutput = "└─┼─┼─┼─┼─┘\n"
+        expect(result).to(equal(expectedOutput))
+    }
+}
+
 class FullChartPrinterTests: XCTestCase {
-    // Full Chart Tests
 
     func testFullPatternOneRow() throws {
         let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"]]
@@ -127,8 +154,8 @@ class FullChartPrinterTests: XCTestCase {
 └─┴─┴─┴─┴─┴─┘
 """
         expect(result).to(equal(expectedOutput))
-
     }
+
     func testFullPatternTwoRow() throws {
         let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"],
                         ["p1", "p1", "k1", "k1", "p1", "p1"]]
@@ -141,7 +168,6 @@ class FullChartPrinterTests: XCTestCase {
 └─┴─┴─┴─┴─┴─┘
 """
         expect(result).to(equal(expectedOutput))
-
     }
 
     func testFullPatternRightSSKDecrease() throws {
@@ -172,7 +198,6 @@ class FullChartPrinterTests: XCTestCase {
 └─┴─┴─┴─┴─┴─┴─┴─┘
 """
         expect(result).to(equal(expectedOutput))
-
     }
 
     func testFullPatternRightYOInc() throws {
@@ -189,7 +214,6 @@ class FullChartPrinterTests: XCTestCase {
 │-│ │ │ │
 └─┴─┴─┴─┘
 """
-
         expect(result).to(equal(expectedOutput))
     }
 
@@ -207,10 +231,7 @@ class FullChartPrinterTests: XCTestCase {
 │ │ │ │ │
 └─┴─┴─┴─┘
 """
-
         expect(result).to(equal(expectedOutput))
-    }
-
     }
 
     func testFullPatternLeftSingleInc() throws {
@@ -218,6 +239,7 @@ class FullChartPrinterTests: XCTestCase {
                          ["k1", "yo", "k1", "p1"],
                          ["k1", "yo", "k1", "k1", "p1"]]
         let result = ChartConstructor().makeChart(stitchArray: testArray)
+
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │ │o│ │ │-│
@@ -227,7 +249,6 @@ class FullChartPrinterTests: XCTestCase {
     │ │ │-│
     └─┴─┴─┘
 """
-
         expect(result).to(equal(expectedOutput))
     }
 
@@ -242,27 +263,9 @@ class FullChartPrinterTests: XCTestCase {
   │ │ │ │
   └─┴─┴─┘
 """
-
         expect(result).to(equal(expectedOutput))
     }
 
-    func testFullPatternLeftRightSingleSinc() throws {
-        let testArray = [["k1", "k1", "p1"],
-                        ["k1", "yo", "k1", "p1"],
-                        ["k1", "yo", "k1", "k1", "p1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
-        let expectedOutput = """
-┌─┬─┬─┬─┬─┐
-│ │o│ │ │-│
-└─┼─┼─┼─┼─┤
-  │ │o│ │-│
-  └─┼─┼─┼─┤
-    │ │ │-│
-    └─┴─┴─┘
-"""
-
-        expect(result).to(equal(expectedOutput))
-    }
 
     func testFullPatternLeftDoubleInc() throws {
         let testArray = [["k1", "k1", "p1"],
@@ -277,3 +280,4 @@ class FullChartPrinterTests: XCTestCase {
 """
         expect(result).to(equal(expectedOutput))
     }
+}

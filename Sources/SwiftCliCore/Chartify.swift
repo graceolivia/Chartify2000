@@ -1,14 +1,16 @@
 import Foundation
 import ArgumentParser
 
+// Replace this variable with user input
+let userInput = "p1 p1 k1 k1 p1 p1 \n p1 yo p1 k1 k1 p1 yo p1 \n"
+
 public final class Chartify {
     public init() {}
     public func run() {
-        // Replace this variable with user input
-        let input = "p1 k1 k1 k1 \n p1 k1 k1 yo k1 \n p1 k1 k1 k1 yo k1"
-        let isValid = InputValidator().validate(pattern: input)
+
+        let isValid = InputValidator().validate(pattern: userInput)
         if isValid {
-            let patternArray = InputValidator().arrayMaker(cleanedPattern: input)
+            let patternArray = InputValidator().arrayMaker(cleanedPattern: userInput)
             print(ChartConstructor().makeChart(stitchArray: patternArray))
         } else {
             print("""

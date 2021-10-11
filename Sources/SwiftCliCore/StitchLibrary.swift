@@ -1,16 +1,10 @@
 import Foundation
 
-let stitchPrinting = ["k1": " ",
-                      "p1": "-",
-                      "ssk": "\\",
-                      "k2tog": "/",
-                      "yo": "o",
-                      "m1": "m" ]
+enum StitchParsingError: Error {
+    case invalidInput(String)
+}
 
-let decreases = ["ssk", "k2tog"]
-let increases = ["m1", "yo"]
-
-struct StitchInfo {
+struct StitchInfo: Equatable {
     var name: String
     var incDecValue: Int = 0
     var symbol: String
@@ -26,3 +20,10 @@ let allowedStitchesInfo = [StitchInfo(name: "k1", incDecValue: 0, symbol: " "),
 let nonStitchAllowedInput = ["\n"]
 
 let allowedUserInput = allowedStitchesInfo.map { $0.name } + nonStitchAllowedInput
+
+func stitchLookup(stitch: String) throws -> StitchInfo {
+    if let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
+        return lookupStitch
+    }
+    throw StitchParsingError.invalidInput(stitch)
+    }

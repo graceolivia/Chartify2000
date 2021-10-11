@@ -18,6 +18,7 @@ public struct RowInfo: Equatable {
     lazy var offsetStitchSymbols: String = transRowLeftOffsetString + leftOffsetString + stitchSymbols
     lazy var totalRow: String = offsetStitchSymbols + offsetBottomLine
 }
+
 public class MetaDataBuilder {
     public init() {}
 
@@ -43,6 +44,7 @@ public class MetaDataBuilder {
     }
 
     public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
+
         var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)
         rowData.leftIncDec = findLeftChanges(stitchRow: stitchRow)
         rowData.rightIncDec = findRightChanges(stitchRow: stitchRow)
@@ -51,9 +53,10 @@ public class MetaDataBuilder {
             rowData.bottomLine = ChartConstructor().makeBottomRow(width: rowData.width)
         } else {
             rowData.bottomLine = ChartConstructor().makeMiddleRow(
-                                                                  width: rowData.width,
-                                                                  rDiff: rowData.rightIncDec,
-                                                                  lDiff: rowData.leftIncDec)
+                width: rowData.width,
+                rDiff: rowData.rightIncDec,
+                lDiff: rowData.leftIncDec
+            )
         }
         rowData.stitchSymbols = ChartConstructor().makeStitchRow(row: rowData.row)
         return(rowData)
@@ -71,13 +74,14 @@ public class MetaDataBuilder {
         return(findChange(halfStitchRow: leftHalf))
     }
 
-        func findChange(halfStitchRow: ArraySlice<String>) -> Int {
-            var totalChange = 0
-            for stitch in halfStitchRow {
-                if let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
-                    totalChange += lookupStitch.incDecValue
-                }
-            }
-            return totalChange
+    func findChange(halfStitchRow: ArraySlice<String>) -> Int {
+        var totalChange = 0
+        for stitch in halfStitchRow {
+
+                let lookupStitch: StitchInfo = try! stitchLookup(stitch: stitch)
+                totalChange += lookupStitch.incDecValue
+
+        }
+        return totalChange
     }
 }
