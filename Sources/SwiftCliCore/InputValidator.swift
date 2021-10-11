@@ -1,7 +1,7 @@
 import Foundation
 
 public class InputValidator {
-    init() {}
+    public init() {}
 
     public func validate(pattern: String) -> Bool {
         let patternStitches = pattern.split(separator: " ")

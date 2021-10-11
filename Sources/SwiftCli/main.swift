@@ -1,15 +1,16 @@
 import SwiftCliCore
 import ArgumentParser
 
-
 struct StartProgram: ParsableCommand {
 
     @Argument(help: "Input the pattern.")
     var pattern: String
 
-    func run(){
+    func run() {
         let chartify = Chartify()
-        chartify.run(userInput: pattern)
+        let inputValidator = InputValidator()
+        let chartConstructor = ChartConstructor()
+        chartify.run(userInput: pattern, inputValidator: inputValidator, chartConstructor: chartConstructor)
 
     }
 

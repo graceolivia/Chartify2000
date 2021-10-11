@@ -1,16 +1,14 @@
 import Foundation
 import ArgumentParser
 
-
-
 public final class Chartify {
     public init() {}
-    public func run(userInput: String) {
+    public func run(userInput: String, inputValidator: InputValidator, chartConstructor: ChartConstructor) {
 
-        let isValid = InputValidator().validate(pattern: userInput)
+        let isValid = inputValidator.validate(pattern: userInput)
         if isValid {
-            let patternArray = InputValidator().arrayMaker(cleanedPattern: userInput)
-            print(ChartConstructor().makeChart(stitchArray: patternArray))
+            let patternArray = inputValidator.arrayMaker(cleanedPattern: userInput)
+            print(chartConstructor.makeChart(stitchArray: patternArray))
         } else {
             print("""
                   Your input was not formatted correctly.\

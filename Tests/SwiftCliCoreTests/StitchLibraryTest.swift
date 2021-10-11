@@ -11,4 +11,8 @@ class StitchLookupTest: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 
+    func testStitchLookupInvalid() throws {
+        expect { try stitchLookup(stitch: "g1") }.to(throwError())
+    }
+
 }
