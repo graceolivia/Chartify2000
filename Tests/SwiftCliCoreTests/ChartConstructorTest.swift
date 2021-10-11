@@ -266,7 +266,7 @@ class FullChartPrinterTests: XCTestCase {
         expect(result).to(equal(expectedOutput))
     }
 
-    func testFullPatternLeftSingleSinc() throws {
+    func testFullPatternLeftSingleInc() throws {
         let testArray = [["k1", "k1", "p1"],
                         ["k1", "yo", "k1", "p1"],
                         ["k1", "yo", "k1", "k1", "p1"]]
