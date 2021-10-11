@@ -24,6 +24,6 @@ let allowedUserInput = allowedStitchesInfo.map { $0.name } + nonStitchAllowedInp
 func stitchLookup(stitch: String) throws -> StitchInfo {
     if let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
         return lookupStitch
-    }
+        }
     throw StitchParsingError.invalidInput(stitch)
     }
