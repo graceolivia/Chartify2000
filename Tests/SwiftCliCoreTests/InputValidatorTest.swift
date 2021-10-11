@@ -60,13 +60,13 @@ class ArrayMakerTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 
-    func testValidatorForExtraLinebreak() throws {
+    func testValidatorForExtraLineBreak() throws {
         let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n")
         let expectedResult = [["k1", "p1"]]
         expect(result).to(equal(expectedResult))
     }
 
-    func testValidatorForThreeExtraLinebreak() throws {
+    func testValidatorForThreeExtraLineBreak() throws {
         let result = InputValidator().arrayMaker(cleanedPattern: "k1 p1 \n \n \n")
         let expectedResult = [["k1", "p1"]]
         expect(result).to(equal(expectedResult))
