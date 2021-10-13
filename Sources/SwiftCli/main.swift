@@ -11,9 +11,7 @@ struct StartProgram: ParsableCommand {
         let chartConstructor = ChartConstructor()
         let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor)
         chartify.run(userInput: pattern)
-
     }
-
 }
 
 StartProgram.main()

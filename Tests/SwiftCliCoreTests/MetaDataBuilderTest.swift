@@ -364,5 +364,4 @@ class GatherAllMetaDataLazyValues: XCTestCase {
 
         expect(result).to(equal(expectedResult))
     }
-
 }

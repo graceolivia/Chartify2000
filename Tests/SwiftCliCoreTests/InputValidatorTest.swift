@@ -29,7 +29,6 @@ class ValidatorTests: XCTestCase {
     func testValidatorForMiscBadInput() throws {
         expect { try InputValidator().validate(pattern: "3") }.to(throwError())
     }
-
 }
 
 class ArrayMakerTests: XCTestCase {
@@ -51,5 +50,4 @@ class ArrayMakerTests: XCTestCase {
         let expectedResult = ["k1"]
         expect(result).to(equal(expectedResult))
     }
-
 }

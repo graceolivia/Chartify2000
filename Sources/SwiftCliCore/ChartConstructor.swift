@@ -66,7 +66,6 @@ public class ChartConstructor {
         default:
             return("├")
         }
-
     }
 
     private func rightSideStringBuilder(rDiff: Int) -> String {
@@ -113,6 +112,5 @@ public class ChartConstructor {
             }
             return "│\(middleStitches)\n"
         }
-
     }
 }

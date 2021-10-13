@@ -8,8 +8,7 @@ public class InputValidator {
         if patternStitches.count == 0 {
             throw RowParsingError.emptyRowError
 
-        }
-        do {
+        } do {
             let isItValid = try patternStitches.allSatisfy({ try stitchVerifier(stitch: String($0))  })
             return isItValid
         } catch {
@@ -25,7 +24,5 @@ public class InputValidator {
         } else {
             throw RowParsingError.emptyRowError
         }
-
     }
-
 }
