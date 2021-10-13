@@ -3,31 +3,29 @@ import Foundation
 public class InputValidator {
     public init() {}
 
-    public func validate(pattern: String) -> Bool {
+    public func validate(pattern: String) throws -> Bool {
         let patternStitches = pattern.split(separator: " ")
         if patternStitches.count == 0 {
-            return false
-        }
+            throw RowParsingError.EmptyRowError
 
-        let isItValid = patternStitches.allSatisfy({ allowedUserInput.contains(String($0)) })
-        if !isItValid {
-            var inValidStitch = patternStitches.first(where: { !allowedUserInput.contains(String($0)) })
         }
-        return isItValid
+        do {
+            let isItValid = try patternStitches.allSatisfy({ try stitchVerifier(stitch: String($0))  })
+            return isItValid
+        } catch {
+            throw error
+        }
     }
 
-    public func arrayMaker(cleanedPattern: String) -> [[String]] {
-        var stitchArray: [[String]] = []
-        let cleanedPattern = cleanedPattern.replacingOccurrences(of: "\\n", with: "\n")
-        let patternRows = cleanedPattern.split(separator: "\n")
-        for row in patternRows {
-            let substringPatternStitches = row.split(separator: " ")
-            let patternStitches = substringPatternStitches.map {(String($0))}
-            if patternStitches.count > 0 {
-                stitchArray.append(patternStitches)
-            }
+    public func arrayMaker(cleanedRow: String) throws -> [String] {
+        let substringRowStitches = cleanedRow.split(separator: " ")
+        let rowStitches = substringRowStitches.map {(String($0))}
+        if rowStitches.count > 0 {
+            return(rowStitches)
+        } else {
+            throw RowParsingError.EmptyRowError
         }
-        return(stitchArray)
+
     }
 
 }

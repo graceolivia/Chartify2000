@@ -8,21 +8,25 @@ public final class Chartify {
     }
     var inputValidator: InputValidator
     var chartConstructor: ChartConstructor
-    public func run(userInput: String) {
+    public func run(userInput: [String]) {
 
-        let isValid = inputValidator.validate(pattern: userInput)
-        if isValid {
-            let patternArray = inputValidator.arrayMaker(cleanedPattern: userInput)
-            print(chartConstructor.makeChart(stitchArray: patternArray))
-        } else {
+        do { _ = try userInput.allSatisfy({ try inputValidator.validate(pattern: $0) }) } catch {
+            print("Unexpected Invalid Input: \(error)")
             print("""
-                  Your input was not formatted correctly.\
-                  Please include only allowed stitches seperated by \\n for line breaks. \
- Current allowed input includes:
-""")
+            Current allowed input includes:
+            """)
             for stitch in allowedUserInput {
                 print(stitch)
             }
+            exit(0)
         }
+
+        do { let patternArray = try userInput.map { try inputValidator.arrayMaker(cleanedRow: $0) }
+            print(chartConstructor.makeChart(stitchArray: patternArray))
+
+        } catch {
+            print("Unexpected Invalid Input: \(error)")
+        }
+
     }
 }

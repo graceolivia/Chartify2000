@@ -6,15 +6,15 @@ import Nimble
 class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidate() throws {
         let mock = MockInputValidator()
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: "k1")
+        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"])
         let result = mock.wasValidateCalled
         let expectedResult = true
-    expect(result).to(equal(expectedResult))
-}
+        expect(result).to(equal(expectedResult))
+    }
 
     func testRunCallsArrayMakerIfInputIsValid() throws {
         let mock = MockInputValidator()
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: "k1")
+        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"])
         let result = mock.wasArrayMakerCalled
         let expectedResult = true
         expect(result).to(equal(expectedResult))
@@ -22,7 +22,7 @@ class ChartifyFinishedTest: XCTestCase {
 
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
-        Chartify(inputValidator: InputValidator(), chartConstructor: mock).run(userInput: "k1")
+        Chartify(inputValidator: InputValidator(), chartConstructor: mock).run(userInput: ["k1"])
         let result = mock.wasMakeChartCalled
         let expectedResult = true
         expect(result).to(equal(expectedResult))
@@ -39,9 +39,9 @@ class MockInputValidator: InputValidator {
         return wasValidateCalled
     }
 
-    override func arrayMaker(cleanedPattern: String) -> [[String]] {
+    override func arrayMaker(cleanedRow: String) -> [String] {
         wasArrayMakerCalled = true
-        return [[cleanedPattern]]
+        return [cleanedRow]
     }
 }
 

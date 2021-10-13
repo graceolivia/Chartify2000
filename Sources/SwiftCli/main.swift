@@ -4,7 +4,7 @@ import ArgumentParser
 struct StartProgram: ParsableCommand {
 
     @Argument(help: "Input the pattern.")
-    var pattern: String
+    var pattern: [String] = []
 
     func run() {
         let inputValidator = InputValidator()
