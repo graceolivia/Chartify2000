@@ -5,10 +5,11 @@ public class InputValidator {
 
     public func validate(pattern: String) throws -> Bool {
         let patternStitches = pattern.split(separator: " ")
-        if patternStitches.count == 0 {
+        if (patternStitches.count == 0) {
             throw RowParsingError.emptyRowError
 
-        } do {
+        }
+        do {
             let isItValid = try patternStitches.allSatisfy({ try stitchVerifier(stitch: String($0))  })
             return isItValid
         } catch {
