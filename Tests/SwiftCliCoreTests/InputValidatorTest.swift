@@ -18,7 +18,13 @@ class ValidatorTests: XCTestCase {
     }
 
     func testValidatorForLineBreaks() throws {
-        let result = InputValidator().validate(pattern: "k1 p1 \n")
+        let result = InputValidator().validate(pattern: "k1 p1 \\n")
+        let expectedResult = true
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testValidatorForLongerLineBreaks() throws {
+        let result = InputValidator().validate(pattern: "k1 k1 p1 p1 k1 k1 \\n p1 p1 k1 k1 p1 p1")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
     }

@@ -7,10 +7,10 @@ struct StartProgram: ParsableCommand {
     var pattern: String
 
     func run() {
-        let chartify = Chartify()
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
-        chartify.run(userInput: pattern, inputValidator: inputValidator, chartConstructor: chartConstructor)
+        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor)
+        chartify.run(userInput: pattern)
 
     }
 

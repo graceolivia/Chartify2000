@@ -17,7 +17,7 @@ let allowedStitchesInfo = [StitchInfo(name: "k1", incDecValue: 0, symbol: " "),
                            StitchInfo(name: "yo", incDecValue: 1, symbol: "o"),
                            StitchInfo(name: "m1", incDecValue: 1, symbol: "m")]
 
-let nonStitchAllowedInput = ["\n"]
+let nonStitchAllowedInput = ["\\n"]
 
 let allowedUserInput = allowedStitchesInfo.map { $0.name } + nonStitchAllowedInput
 

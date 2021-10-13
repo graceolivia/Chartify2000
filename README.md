@@ -72,6 +72,10 @@ To run the project, either use the Run command on XCODE, or cd into the director
 
 `swift run SwiftCli <pattern>`
 
+Note that pattern needs to be written as a string in quotes, for example, as such:
+
+`swift run SwiftCli "k1 k1 p1 p1 k1 k1"`
+
 To test the project, either use XCODE tools to run tests as you wish, or in the project directory on the terminal run:
 
 `swift test`

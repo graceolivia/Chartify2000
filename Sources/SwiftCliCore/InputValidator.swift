@@ -8,12 +8,17 @@ public class InputValidator {
         if patternStitches.count == 0 {
             return false
         }
+
         let isItValid = patternStitches.allSatisfy({ allowedUserInput.contains(String($0)) })
+        if !isItValid {
+            var inValidStitch = patternStitches.first(where: { !allowedUserInput.contains(String($0)) })
+        }
         return isItValid
     }
 
     public func arrayMaker(cleanedPattern: String) -> [[String]] {
         var stitchArray: [[String]] = []
+        let cleanedPattern = cleanedPattern.replacingOccurrences(of: "\\n", with: "\n")
         let patternRows = cleanedPattern.split(separator: "\n")
         for row in patternRows {
             let substringPatternStitches = row.split(separator: " ")
