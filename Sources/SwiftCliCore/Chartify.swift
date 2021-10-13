@@ -2,7 +2,8 @@ import Foundation
 import ArgumentParser
 
 public final class Chartify {
-    public init() {}
+    public init() {
+    }
     public func run(userInput: String, inputValidator: InputValidator, chartConstructor: ChartConstructor) {
 
         let isValid = inputValidator.validate(pattern: userInput)
