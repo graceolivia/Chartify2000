@@ -35,19 +35,19 @@ class ValidatorTests: XCTestCase {
 class ArrayMakerTests: XCTestCase {
 
     func testValidatorForTwoRowInput() throws {
-        let result = try! InputValidator().arrayMaker(cleanedRow: "k1 p1 k1 p1")
+        let result = try InputValidator().arrayMaker(cleanedRow: "k1 p1 k1 p1")
         let expectedResult = ["k1", "p1", "k1", "p1"]
         expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForThreeExtraLineBreak() throws {
-        let result = try! InputValidator().arrayMaker(cleanedRow: "k1 p1")
+        let result = try InputValidator().arrayMaker(cleanedRow: "k1 p1")
         let expectedResult = ["k1", "p1"]
         expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForOneStitch() throws {
-        let result = try! InputValidator().arrayMaker(cleanedRow: "k1")
+        let result = try InputValidator().arrayMaker(cleanedRow: "k1")
         let expectedResult = ["k1"]
         expect(result).to(equal(expectedResult))
     }

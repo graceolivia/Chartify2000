@@ -1,7 +1,7 @@
 import Foundation
 
 enum RowParsingError: Error {
-    case EmptyRowError
+    case emptyRowError
 }
 
 enum StitchParsingError: Error {

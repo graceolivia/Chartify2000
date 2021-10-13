@@ -6,7 +6,7 @@ public class InputValidator {
     public func validate(pattern: String) throws -> Bool {
         let patternStitches = pattern.split(separator: " ")
         if patternStitches.count == 0 {
-            throw RowParsingError.EmptyRowError
+            throw RowParsingError.emptyRowError
 
         }
         do {
@@ -23,7 +23,7 @@ public class InputValidator {
         if rowStitches.count > 0 {
             return(rowStitches)
         } else {
-            throw RowParsingError.EmptyRowError
+            throw RowParsingError.emptyRowError
         }
 
     }
