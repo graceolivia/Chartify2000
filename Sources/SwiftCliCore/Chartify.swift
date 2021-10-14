@@ -3,13 +3,13 @@ import ArgumentParser
 
 public final class Chartify {
 
+    var inputValidator: InputValidator
+    var chartConstructor: ChartConstructor
+
     public init(inputValidator: InputValidator, chartConstructor: ChartConstructor) {
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
     }
-
-    var inputValidator: InputValidator
-    var chartConstructor: ChartConstructor
 
     public func run(userInput: [String]) {
 
