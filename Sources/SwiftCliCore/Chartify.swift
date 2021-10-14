@@ -3,7 +3,16 @@ import ArgumentParser
 // the allowable stitches
 
 public final class Chartify {
-    public init() {}
+    //instance variables
+    // This is not Swifty!!
+    public String[] _input;
+    public InputValidator _inputValidator;
+    
+    public init(input, inputValidator) {
+        _input = input;
+        _inputValidator = inputValidator;
+    }
+    
     public func run(input: String, inputValidator: InputValidator) {
         // Replace this variable with user input
         let isValid = inputValidator.validate(pattern: input)
