@@ -63,20 +63,20 @@ Current supported stitches/input, and how they are rendered:
 Minimum Swift version required to run this project: 5.3
 
 To install this project on your machine use 
-```
-git clone https://github.com/graceolivia/Chartify2000.git
-swift build
-```
+```git clone https://github.com/graceolivia/Chartify2000.git
+swift build```
 
 To run the project, either use the Run command on XCODE, or cd into the directory on the terminal and do:
 
-`swift run SwiftCli <pattern>`
+`swift run`
 
-Note that pattern needs to be written as a string in quotes, for example, as such:
-
+Note that pattern needs to be written as a string or strings in quotes. One row would be entered as such:
 `swift run SwiftCli "k1 k1 p1 p1 k1 k1"`
+
+Multiple rows can be entered as seperate strings:
+
+`swift run SwiftCli "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1"`
 
 To test the project, either use XCODE tools to run tests as you wish, or in the project directory on the terminal run:
 
 `swift test`
-

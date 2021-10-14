@@ -65,15 +65,15 @@ class MakeRowMetadataTests: XCTestCase {
         let stitchRowArray = ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"]
         let result = MetaDataBuilder().makeRowMetadata(stitchRow: stitchRowArray, rowNumber: 0)
         let expectedResult = RowInfo(
-                                row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",
-                                stitchSymbols: "│ │o│ │-│ │-│o│ │\n",
-                                width: 8,
-                                leftIncDec: 1,
-                                rightIncDec: 1,
-                                leftOffset: 0
-                                )
+            row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",
+            stitchSymbols: "│ │o│ │-│ │-│o│ │\n",
+            width: 8,
+            leftIncDec: 1,
+            rightIncDec: 1,
+            leftOffset: 0
+        )
         expect(result).to(equal(expectedResult))
     }
 
@@ -81,15 +81,15 @@ class MakeRowMetadataTests: XCTestCase {
         let stitchRowArray = ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"]
         let result = MetaDataBuilder().makeRowMetadata(stitchRow: stitchRowArray, rowNumber: 0)
         let expectedResult = RowInfo(
-                                row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",
-                                stitchSymbols: "│ │o│ │-│ │-│o│ │\n",
-                                width: 8,
-                                leftIncDec: 1,
-                                rightIncDec: 1,
-                                leftOffset: 0
-                                )
+            row: ["k1", "yo", "k1", "p1", "k1", "p1", "yo", "k1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┴─┴─┴─┴─┴─┘",
+            stitchSymbols: "│ │o│ │-│ │-│o│ │\n",
+            width: 8,
+            leftIncDec: 1,
+            rightIncDec: 1,
+            leftOffset: 0
+        )
         expect(result).to(equal(expectedResult))
     }
 
@@ -99,19 +99,19 @@ class GatherAllMetaDataTests: XCTestCase {
 
     func testGatherAllMetaDataTestNoIncDec() throws {
         let testArray = [["k1", "p1"],
-                              ["k1", "p1"]]
+                         ["k1", "p1"]]
         let result = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
 
         let expectedResult = [RowInfo(
-                                row: ["k1", "p1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┘",
-                                stitchSymbols: "│ │-│\n",
-                                width: 2,
-                                leftIncDec: 0,
-                                rightIncDec: 0,
-                                leftOffset: 0
-                                ),
+            row: ["k1", "p1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┘",
+            stitchSymbols: "│ │-│\n",
+            width: 2,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 0
+        ),
                               RowInfo(
                                 row: ["k1", "p1"],
                                 rowNumber: 1,
@@ -127,19 +127,19 @@ class GatherAllMetaDataTests: XCTestCase {
 
     func testGatherAllMetaDataTestSingleLeftInc() throws {
         let testArray = [["k1", "k1", "p1"],
-                        ["k1", "yo", "k1", "p1"]]
+                         ["k1", "yo", "k1", "p1"]]
         let result = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
 
         let expectedResult = [RowInfo(
-                                row: ["k1", "k1", "p1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┘",
-                                stitchSymbols: "│ │ │-│\n",
-                                width: 3,
-                                leftIncDec: 0,
-                                rightIncDec: 0,
-                                leftOffset: 1
-                                ),
+            row: ["k1", "k1", "p1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┘",
+            stitchSymbols: "│ │ │-│\n",
+            width: 3,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 1
+        ),
                               RowInfo(
                                 row: ["k1", "yo", "k1", "p1"],
                                 rowNumber: 1,
@@ -149,7 +149,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 0,
                                 leftOffset: 0
-                                )]
+                              )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -161,15 +161,15 @@ class GatherAllMetaDataTests: XCTestCase {
         let result = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
 
         let expectedResult = [RowInfo(
-                                row: ["k1", "k1", "p1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┘",
-                                stitchSymbols: "│ │ │-│\n",
-                                width: 3,
-                                leftIncDec: 0,
-                                rightIncDec: 0,
-                                leftOffset: 2
-                              ),
+            row: ["k1", "k1", "p1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┘",
+            stitchSymbols: "│ │ │-│\n",
+            width: 3,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 2
+        ),
                               RowInfo(
                                 row: ["k1", "yo", "k1", "p1"],
                                 rowNumber: 1,
@@ -179,7 +179,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 0,
                                 leftOffset: 1
-                                ),
+                              ),
                               RowInfo(
                                 row: ["k1", "yo", "k1", "k1", "p1"],
                                 rowNumber: 2,
@@ -189,7 +189,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 1,
                                 rightIncDec: 0,
                                 leftOffset: 0
-                                )]
+                              )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -200,15 +200,15 @@ class GatherAllMetaDataTests: XCTestCase {
         let result = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
 
         let expectedResult = [RowInfo(
-                                row: ["k1", "k1", "p1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┘",
-                                stitchSymbols: "│ │ │-│\n",
-                                width: 3,
-                                leftIncDec: 0,
-                                rightIncDec: 0,
-                                leftOffset: 0
-                                ),
+            row: ["k1", "k1", "p1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┘",
+            stitchSymbols: "│ │ │-│\n",
+            width: 3,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 0
+        ),
                               RowInfo(
                                 row: ["k1", "k1", "yo", "p1"],
                                 rowNumber: 1,
@@ -218,7 +218,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 1,
                                 leftOffset: 0
-                                )]
+                              )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -229,15 +229,15 @@ class GatherAllMetaDataTests: XCTestCase {
         let result = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
 
         let expectedResult = [RowInfo(
-                                row: ["k1", "k1", "p1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┘",
-                                stitchSymbols: "│ │ │-│\n",
-                                width: 3,
-                                leftIncDec: 0,
-                                rightIncDec: 0,
-                                leftOffset: 0
-                                ),
+            row: ["k1", "k1", "p1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┘",
+            stitchSymbols: "│ │ │-│\n",
+            width: 3,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 0
+        ),
                               RowInfo(
                                 row: ["k1", "k1", "yo", "m1", "p1"],
                                 rowNumber: 1,
@@ -247,7 +247,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: 2,
                                 leftOffset: 0
-                                )]
+                              )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -258,15 +258,15 @@ class GatherAllMetaDataTests: XCTestCase {
         let result = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
 
         let expectedResult = [RowInfo(
-                                row: ["k1", "k1", "p1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┘",
-                                stitchSymbols: "│ │ │-│\n",
-                                width: 3,
-                                leftIncDec: 0,
-                                rightIncDec: 0,
-                                leftOffset: 0
-                                ),
+            row: ["k1", "k1", "p1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┘",
+            stitchSymbols: "│ │ │-│\n",
+            width: 3,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 0
+        ),
                               RowInfo(
                                 row: ["k1", "ssk"],
                                 rowNumber: 1,
@@ -276,7 +276,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: -1,
                                 leftOffset: 0
-                                )]
+                              )]
 
         expect(result).to(equal(expectedResult))
     }
@@ -287,15 +287,15 @@ class GatherAllMetaDataTests: XCTestCase {
         let result = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
 
         let expectedResult = [RowInfo(
-                                row: ["k1", "k1", "p1", "k1", "k1"],
-                                rowNumber: 0,
-                                bottomLine: "└─┴─┴─┴─┴─┘",
-                                stitchSymbols: "│ │ │-│ │ │\n",
-                                width: 5,
-                                leftIncDec: 0,
-                                rightIncDec: 0,
-                                leftOffset: 0
-                                ),
+            row: ["k1", "k1", "p1", "k1", "k1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┴─┴─┴─┘",
+            stitchSymbols: "│ │ │-│ │ │\n",
+            width: 5,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 0
+        ),
                               RowInfo(
                                 row: ["k1", "ssk", "ssk"],
                                 rowNumber: 1,
@@ -305,7 +305,7 @@ class GatherAllMetaDataTests: XCTestCase {
                                 leftIncDec: 0,
                                 rightIncDec: -2,
                                 leftOffset: 0
-                                )]
+                              )]
         expect(result).to(equal(expectedResult))
     }
 }
@@ -314,7 +314,7 @@ class GatherAllMetaDataLazyValues: XCTestCase {
 
     func testGatherAllMetaDataLeftOffsetString() throws {
         let testArray = [["k1", "k1", "k1", "k1", "p1"],
-                        ["k1", "m1", "yo", "k1", "k1", "k1", "p1"]]
+                         ["k1", "m1", "yo", "k1", "k1", "k1", "p1"]]
         var testOffset = MetaDataBuilder().gatherAllMetaData(stitchArray: testArray)
         let result = testOffset[0].leftOffsetString
         let expectedResult = "    "
@@ -364,4 +364,5 @@ class GatherAllMetaDataLazyValues: XCTestCase {
 
         expect(result).to(equal(expectedResult))
     }
+
 }

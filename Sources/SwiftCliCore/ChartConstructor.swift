@@ -107,10 +107,13 @@ public class ChartConstructor {
         default:
             var middleStitches = ""
             for stitch in row {
-                let getStitch = try! stitchLookup(stitch: stitch)
+
+                let getStitch = try! getStitchInfo(stitch: stitch)
                 middleStitches += "\(getStitch.symbol)│"
+
             }
             return "│\(middleStitches)\n"
         }
+
     }
 }

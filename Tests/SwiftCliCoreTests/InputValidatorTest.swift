@@ -6,29 +6,30 @@ import Nimble
 class ValidatorTests: XCTestCase {
 
     func testValidatorForP1Input() throws {
-        let result = try InputValidator().validate(pattern: "p1")
+        let result = try InputValidator().validate(row: "p1")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForK1P1Input() throws {
-        let result =  try InputValidator().validate(pattern: "k1 p1")
+        let result =  try InputValidator().validate(row: "k1 p1")
         let expectedResult = true
         expect(result).to(equal(expectedResult))
     }
 
     func testValidatorForG1P1Input() throws {
-        expect { try InputValidator().validate(pattern: "g1 p1") }.to(throwError())
+        expect { try InputValidator().validate(row: "g1 p1") }.to(throwError())
     }
 
     func testValidatorFor0Input() throws {
-        expect { try InputValidator().validate(pattern: "") }.to(throwError())
+        expect { try InputValidator().validate(row: "") }.to(throwError())
 
     }
 
     func testValidatorForMiscBadInput() throws {
-        expect { try InputValidator().validate(pattern: "3") }.to(throwError())
+        expect { try InputValidator().validate(row: "3") }.to(throwError())
     }
+
 }
 
 class ArrayMakerTests: XCTestCase {

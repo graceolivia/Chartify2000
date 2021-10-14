@@ -13,18 +13,17 @@ let allowedStitchesInfo = [StitchInfo(name: "k1", incDecValue: 0, symbol: " "),
                            StitchInfo(name: "yo", incDecValue: 1, symbol: "o"),
                            StitchInfo(name: "m1", incDecValue: 1, symbol: "m")]
 
-let allowedUserInput = allowedStitchesInfo.map { $0.name }
-
-func stitchLookup(stitch: String) throws -> StitchInfo {
+func getStitchInfo(stitch: String) throws -> StitchInfo {
     if let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
         return lookupStitch
     }
-    throw StitchParsingError.invalidInput(invalidStitch: stitch)
+    throw InputError.invalidStitch(invalidStitch: stitch)
 }
 
-func stitchVerifier(stitch: String) throws -> Bool {
-    if allowedStitchesInfo.first(where: { $0.name == stitch }) != nil {
+func isStitchValid(stitch: String) -> Bool {
+    let stitchLookup = allowedStitchesInfo.first(where: { $0.name == stitch })
+    if stitchLookup != nil {
         return true
     }
-    throw StitchParsingError.invalidInput(invalidStitch: stitch)
+    return false
 }

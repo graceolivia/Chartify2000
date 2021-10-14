@@ -3,27 +3,29 @@ import Foundation
 public class InputValidator {
     public init() {}
 
-    public func validate(pattern: String) throws -> Bool {
-        let patternStitches = pattern.split(separator: " ")
-        if (patternStitches.count == 0) {
-            throw RowParsingError.emptyRowError
+    public func validate(row: String) throws -> Bool {
+        let rowStitches = row.split(separator: " ")
+        guard rowStitches.count > 0 else {
+            throw InputError.emptyRow
+        }
+
+        for stitch in rowStitches {
+            guard isStitchValid(stitch: String(stitch)) == true else {
+                throw InputError.invalidStitch(invalidStitch: String(stitch))
+            }
 
         }
-        do {
-            let isItValid = try patternStitches.allSatisfy({ try stitchVerifier(stitch: String($0))  })
-            return isItValid
-        } catch {
-            throw error
-        }
+        return true
     }
 
     public func arrayMaker(cleanedRow: String) throws -> [String] {
         let substringRowStitches = cleanedRow.split(separator: " ")
         let rowStitches = substringRowStitches.map {(String($0))}
-        if rowStitches.count > 0 {
-            return(rowStitches)
-        } else {
-            throw RowParsingError.emptyRowError
+        guard rowStitches.count > 0  else {
+            throw InputError.emptyRow
         }
+        return(rowStitches)
+
     }
+
 }

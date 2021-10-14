@@ -1,9 +1,16 @@
 import Foundation
 
-enum RowParsingError: Error {
-    case emptyRowError
+enum InputError: Error {
+    case emptyRow
+    case invalidStitch(invalidStitch: String)
 }
 
-enum StitchParsingError: Error {
-    case invalidInput(invalidStitch: String)
+func allowedStitches() -> String {
+    var allowedStitchesMessage = "Allowed stitches include: "
+
+    for stitch in allowedStitchesInfo {
+        allowedStitchesMessage +=  "\n" + stitch.name
+    }
+    return allowedStitchesMessage
+
 }
