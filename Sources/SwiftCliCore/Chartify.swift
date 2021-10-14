@@ -1,26 +1,32 @@
 import Foundation
 import ArgumentParser
 
-// Replace this variable with user input
-let userInput = "p1 p1 k1 k1 p1 p1 \n p1 yo p1 k1 k1 p1 yo p1 \n"
-
 public final class Chartify {
-    public init() {}
-    public func run() {
 
-        let isValid = InputValidator().validate(pattern: userInput)
-        if isValid {
-            let patternArray = InputValidator().arrayMaker(cleanedPattern: userInput)
-            print(ChartConstructor().makeChart(stitchArray: patternArray))
-        } else {
-            print("""
-                  Your input was not formatted correctly.\
-                  Please include only allowed stitches seperated by \\n for line breaks. \
- Current allowed input includes:
-""")
-            for stitch in allowedUserInput {
-                print(stitch)
-            }
+    var inputValidator: InputValidator
+    var chartConstructor: ChartConstructor
+
+    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor) {
+        self.inputValidator = inputValidator
+        self.chartConstructor = chartConstructor
+    }
+
+    public func run(userInput: [String]) {
+
+        do {
+            _ = try userInput.allSatisfy({ try inputValidator.validate(row: $0) })
+        } catch {
+            print("Unexpected Invalid Input: \(error)")
+            print(allowedStitches())
+            exit(0)
+        }
+
+        do {
+            let patternArray = try userInput.map { try inputValidator.arrayMaker(cleanedRow: $0) }
+            print(chartConstructor.makeChart(stitchArray: patternArray))
+        } catch {
+            print(allowedStitches())
+
         }
     }
 }

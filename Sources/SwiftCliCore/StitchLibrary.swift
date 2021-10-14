@@ -1,9 +1,5 @@
 import Foundation
 
-enum StitchParsingError: Error {
-    case invalidInput(String)
-}
-
 struct StitchInfo: Equatable {
     var name: String
     var incDecValue: Int = 0
@@ -17,13 +13,14 @@ let allowedStitchesInfo = [StitchInfo(name: "k1", incDecValue: 0, symbol: " "),
                            StitchInfo(name: "yo", incDecValue: 1, symbol: "o"),
                            StitchInfo(name: "m1", incDecValue: 1, symbol: "m")]
 
-let nonStitchAllowedInput = ["\n"]
-
-let allowedUserInput = allowedStitchesInfo.map { $0.name } + nonStitchAllowedInput
-
-func stitchLookup(stitch: String) throws -> StitchInfo {
+func getStitchInfo(stitch: String) throws -> StitchInfo {
     if let lookupStitch = allowedStitchesInfo.first(where: { $0.name == stitch }) {
         return lookupStitch
     }
-    throw StitchParsingError.invalidInput(stitch)
-    }
+    throw InputError.invalidStitch(invalidStitch: stitch)
+}
+
+func isStitchValid(stitch: String) -> Bool {
+    let stitchLookup = allowedStitchesInfo.first(where: { $0.name == stitch })
+    return(stitchLookup != nil)
+}
