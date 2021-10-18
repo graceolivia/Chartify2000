@@ -29,23 +29,30 @@ public class InputValidator {
 
     public func verifyValidRowStitchCount(prevRow: RowInfo, currentRow: RowInfo) -> Bool {
         var isCurrentRowValid = false
-        var prevRowWidth = prevRow.width
-        var expectedCurrentRowWidth = prevRowWidth + currentRow.leftIncDec + currentRow.rightIncDec
-        if (expectedCurrentRowWidth == currentRow.width) {
+        let prevRowWidth = prevRow.width
+        let expectedCurrentRowWidth = prevRowWidth + currentRow.leftIncDec + currentRow.rightIncDec
+        if expectedCurrentRowWidth == currentRow.width {
             isCurrentRowValid = true
         }
         return isCurrentRowValid
     }
 
     public func validateEachRowWidth(allRowsMetaData: [RowInfo]) throws -> Bool {
-        var numberOfRows = (allRowsMetaData.count) - 1
-        var allCheckedRowsValid = true
-        for r in 1...numberOfRows {
-            let prevRow = allRowsMetaData[r-1]
-            let currentRow = allRowsMetaData[r]
-            if (!verifyValidRowStitchCount(prevRow: prevRow, currentRow: currentRow)){
-                var expectedNextRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
-                throw InputError.invalidRowWidth(invalidRowNumber: currentRow.rowNumber, expectedStitchCount: expectedNextRowWidth, actualCount: currentRow.width)
+        let numberOfRowsToCheck = (allRowsMetaData.count) - 1
+        let allCheckedRowsValid = true
+        guard numberOfRowsToCheck >= 1 else {
+            return allCheckedRowsValid
+        }
+        for rowNum in 1...numberOfRowsToCheck {
+            let prevRow = allRowsMetaData[rowNum-1]
+            let currentRow = allRowsMetaData[rowNum]
+            if !verifyValidRowStitchCount(prevRow: prevRow, currentRow: currentRow) {
+                let expectedNextRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
+                throw InputError.invalidRowWidth(
+                    invalidRowNumber: currentRow.rowNumber,
+                    expectedStitchCount: expectedNextRowWidth,
+                    actualCount: currentRow.width
+                )
             }
         }
         return allCheckedRowsValid

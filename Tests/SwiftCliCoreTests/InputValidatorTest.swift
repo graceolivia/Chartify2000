@@ -53,7 +53,6 @@ class ArrayMakerTests: XCTestCase {
     }
 }
 
-
 class VerifyValidStitchCountChange: XCTestCase {
 
     func testValidStitchCountNoChange() throws {
@@ -78,12 +77,10 @@ class VerifyValidStitchCountChange: XCTestCase {
             leftOffset: 0
         )
 
-
         let result = InputValidator().verifyValidRowStitchCount(prevRow: rowOne, currentRow: rowTwo)
         let expectedResult = true
         expect(result).to(equal(expectedResult))
     }
-
 
     func testValidStitchCountIncreaseChange() throws {
         let rowOne = RowInfo(
@@ -106,7 +103,6 @@ class VerifyValidStitchCountChange: XCTestCase {
             rightIncDec: 0,
             leftOffset: 0
         )
-
 
         let result = InputValidator().verifyValidRowStitchCount(prevRow: rowOne, currentRow: rowTwo)
         let expectedResult = true
@@ -135,7 +131,6 @@ class VerifyValidStitchCountChange: XCTestCase {
             leftOffset: 0
         )
 
-
         let result = InputValidator().verifyValidRowStitchCount(prevRow: rowOne, currentRow: rowTwo)
         let expectedResult = true
         expect(result).to(equal(expectedResult))
@@ -163,7 +158,6 @@ class VerifyValidStitchCountChange: XCTestCase {
             leftOffset: 0
         )
 
-
         let result = InputValidator().verifyValidRowStitchCount(prevRow: rowOne, currentRow: rowTwo)
         let expectedResult = false
         expect(result).to(equal(expectedResult))
@@ -190,7 +184,6 @@ class VerifyValidStitchCountChange: XCTestCase {
             rightIncDec: 0,
             leftOffset: 0
         )
-
 
         let result = InputValidator().verifyValidRowStitchCount(prevRow: rowOne, currentRow: rowTwo)
         let expectedResult = false
@@ -250,7 +243,11 @@ class FindInvalidRowCountChange: XCTestCase {
                 leftOffset: 0
             )
         ]
-        expect { try InputValidator().validateEachRowWidth(allRowsMetaData: sampleAllRowsMetaData) }.to(throwError(InputError.invalidRowWidth(invalidRowNumber: 1, expectedStitchCount: 2, actualCount: 3)))
-
+        expect { try InputValidator().validateEachRowWidth(allRowsMetaData: sampleAllRowsMetaData) }
+        .to(throwError(InputError.invalidRowWidth(
+            invalidRowNumber: 1,
+            expectedStitchCount: 2,
+            actualCount: 3
+        )))
     }
 }

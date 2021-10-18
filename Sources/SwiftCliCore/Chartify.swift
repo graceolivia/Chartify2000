@@ -15,9 +15,9 @@ public final class Chartify {
 
         do {
             _ = try userInput.allSatisfy({ try inputValidator.validateEachStitch(row: $0) })
+
         } catch {
-            print("Unexpected Invalid Input: \(error)")
-            print(allowedStitches())
+            print(error.localizedDescription)
             exit(0)
         }
 
@@ -27,8 +27,7 @@ public final class Chartify {
             let patternMetaData = MetaDataBuilder().gatherAllMetaData(stitchArray: patternArray)
             _ = try inputValidator.validateEachRowWidth(allRowsMetaData: patternMetaData)
         } catch {
-            print("Unexpected Invalid Input: \(error)")
-            print(allowedStitches())
+            print(error.localizedDescription)
             exit(0)
         }
 
