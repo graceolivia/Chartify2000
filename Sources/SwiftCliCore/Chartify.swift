@@ -14,7 +14,7 @@ public final class Chartify {
     public func run(userInput: [String]) {
 
         do {
-            _ = try userInput.allSatisfy({ try inputValidator.validate(row: $0) })
+            _ = try userInput.allSatisfy({ try inputValidator.validateEachStitch(row: $0) })
         } catch {
             print("Unexpected Invalid Input: \(error)")
             print(allowedStitches())

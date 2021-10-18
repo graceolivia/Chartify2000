@@ -34,7 +34,7 @@ class MockInputValidator: InputValidator {
     var wasValidateCalled = false
     var wasArrayMakerCalled = false
 
-    override func validate(row: String) -> Bool {
+    override func validateEachStitch(row: String) -> Bool {
         wasValidateCalled = true
         return wasValidateCalled
     }

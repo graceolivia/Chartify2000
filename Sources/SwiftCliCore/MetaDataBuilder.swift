@@ -85,14 +85,5 @@ public class MetaDataBuilder {
         return totalChange
     }
 
-    public func verifyValidStitchCount(prevRow: RowInfo, nextRow: RowInfo) -> Bool {
-        var isNextRowValid = false
-        var prevRowWidth = prevRow.width
-        var expectedNextRowWidth = prevRowWidth + nextRow.leftIncDec + nextRow.rightIncDec
-        if (expectedNextRowWidth == nextRow.width) {
-            isNextRowValid = true
-        }
-        return isNextRowValid
-    }
-    
+
 }
