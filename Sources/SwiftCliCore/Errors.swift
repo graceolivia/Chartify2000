@@ -3,6 +3,7 @@ import Foundation
 enum InputError: Error {
     case emptyRow
     case invalidStitch(invalidStitch: String)
+    case impossiblePattern(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)
 }
 
 func allowedStitches() -> String {
