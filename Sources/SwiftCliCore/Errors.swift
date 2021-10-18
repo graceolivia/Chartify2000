@@ -18,7 +18,7 @@ You have submitted an empty string for at least one row.
             return (
                 "Invalid Stitch Error: \n" +
                 invalidUserStitch +
-                " is not a valid stitch"
+                " is not a valid stitch."
             )
         case .invalidRowWidth(let invalidRowNumber, let expectedStitchCount, let actualCount):
             let errorLocationMessage = "Invalid Row Width Error: \nOn Row " +
