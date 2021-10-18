@@ -28,7 +28,10 @@ public final class Chartify {
             _ = try inputValidator.validateEachRowWidth(allRowsMetaData: patternMetaData)
         } catch {
             print(error.localizedDescription)
+            print("Visual representation of incorrect chart:")
+            print(chartConstructor.makeChart(stitchArray: patternArray))
             exit(0)
+
         }
 
         print(chartConstructor.makeChart(stitchArray: patternArray))
