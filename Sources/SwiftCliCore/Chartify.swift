@@ -21,12 +21,18 @@ public final class Chartify {
             exit(0)
         }
 
+        var patternArray: [[String]] = []
         do {
-            let patternArray = try userInput.map { try inputValidator.arrayMaker(cleanedRow: $0) }
-            print(chartConstructor.makeChart(stitchArray: patternArray))
+            patternArray = try userInput.map { try inputValidator.arrayMaker(cleanedRow: $0) }
+            let patternMetaData = MetaDataBuilder().gatherAllMetaData(stitchArray: patternArray)
+            _ = try inputValidator.validateEachRowWidth(allRowsMetaData: patternMetaData)
         } catch {
+            print("Unexpected Invalid Input: \(error)")
             print(allowedStitches())
-
+            exit(0)
         }
+
+        print(chartConstructor.makeChart(stitchArray: patternArray))
+
     }
 }
