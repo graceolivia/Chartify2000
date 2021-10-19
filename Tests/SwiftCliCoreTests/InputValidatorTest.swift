@@ -55,7 +55,9 @@ class ArrayMakerTests: XCTestCase {
 
 class VerifyValidStitchCountChange: XCTestCase {
 
-    func testValidStitchCountNoChange() throws {
+    // TODO: FIX MY NAME
+//    func testValidStitchCountNoChange() throws {
+    func testVeryifyValidRowStitchCountVerifiesCorrectRows() throws {
         let rowOne = RowInfo(
             row: ["k1", "p1"],
             rowNumber: 0,
@@ -78,8 +80,8 @@ class VerifyValidStitchCountChange: XCTestCase {
         )
 
         let result = InputValidator().verifyValidRowStitchCount(prevRow: rowOne, currentRow: rowTwo)
-        let expectedResult = true
-        expect(result).to(equal(expectedResult))
+
+        expect(result).to(equal(true))
     }
 
     func testValidStitchCountIncreaseChange() throws {
