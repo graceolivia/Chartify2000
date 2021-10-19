@@ -5,6 +5,10 @@ enum InputError: Error {
     case invalidStitch(invalidStitch: String)
 }
 
+enum FileError: Error {
+    case unreadableFileType
+}
+
 func allowedStitches() -> String {
     var allowedStitchesMessage = "Allowed stitches include: "
 

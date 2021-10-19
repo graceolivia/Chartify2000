@@ -9,30 +9,36 @@ struct StartProgram: ParsableCommand {
     @Option(help: "File path")
     var file: String?
 
-
     func run() {
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
         let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor)
 
-        if (file != nil) {
-            let filename = file
+        if file != nil {
+            guard let filename = file else {
+                print("No file was entered.")
+                return
+            }
 
-            let contents = try! String(contentsOfFile: filename!)
+            guard filename.suffix(4) == ".txt" else {
+                print("Only files with .txt extension are allowed")
+                return
+            }
+            do {
+                let contents = try String(contentsOfFile: filename)
+                let subLines = contents.split(separator: "\n")
+                let lines = subLines.map { String($0) }
 
-            let subLines = contents.split(separator:"\n")
-            let lines = subLines.map { String($0) }
-            print(lines)
+                chartify.run(userInput: lines)
 
-            chartify.run(userInput: lines)
+            } catch {
+                print("Error: Unreadable or nonexistant file.")
+            }
 
-        }
-        else {
-            print(pattern)
+        } else {
+
             chartify.run(userInput: pattern)
         }
-
-
 
     }
 }
