@@ -88,4 +88,16 @@ public class InputValidator {
         }
         return false
     }
+
+    public func knitFlatArray(array: [[String]]) -> [[String]] {
+        let rowNum = array.count
+        var flatArray = array
+        for r in 0..<rowNum {
+            if (r % 2 == 1) {
+                flatArray[r].reverse()
+            }
+        }
+        return flatArray
+    }
+
 }
