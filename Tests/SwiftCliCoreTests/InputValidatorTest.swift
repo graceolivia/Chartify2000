@@ -44,3 +44,39 @@ class ValidatorTests: XCTestCase {
         expect(result).to(equal(expectedResult))
     }
 }
+
+class KnitFlatTests: XCTestCase {
+
+    func testValidatorForMultiRowInput() throws {
+        let result = InputValidator().knitFlatArray(array: [
+            ["k1", "p1", "k1", "p1"],
+            ["p1", "k1", "p1", "k1"],
+            ["k1", "p1", "k1", "p1"],
+            ["p1", "k1", "p1", "k1"],
+            ["k1", "p1", "k1", "p1"],
+            ["p1", "k1", "p1", "k1"]
+        ])
+        let expectedResult = [
+            ["k1", "p1", "k1", "p1"],
+            ["k1", "p1", "k1", "p1"],
+            ["k1", "p1", "k1", "p1"],
+            ["k1", "p1", "k1", "p1"],
+            ["k1", "p1", "k1", "p1"],
+            ["k1", "p1", "k1", "p1"]
+        ]
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testValidatorForOneRowInput() throws {
+        let result = InputValidator().knitFlatArray(array: [["k1", "p1", "k1", "p1"]])
+        let expectedResult = [["k1", "p1", "k1", "p1"]]
+        expect(result).to(equal(expectedResult))
+    }
+
+
+
+
+
+
+
+}
