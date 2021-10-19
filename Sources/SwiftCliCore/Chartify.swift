@@ -33,6 +33,5 @@ public final class Chartify {
         }
 
         print(chartConstructor.makeChart(stitchArray: patternArray))
-
     }
 }
