@@ -27,15 +27,6 @@ public class InputValidator {
         return(rowStitches)
     }
 
-    public func verifyValidRowStitchCount(prevRow: RowInfo, currentRow: RowInfo) -> Bool {
-        var isCurrentRowValid = false
-        let prevRowWidth = prevRow.width
-        let expectedCurrentRowWidth = prevRowWidth + currentRow.leftIncDec + currentRow.rightIncDec
-        if expectedCurrentRowWidth == currentRow.width {
-            isCurrentRowValid = true
-        }
-        return isCurrentRowValid
-    }
 
     public func validateEachRowWidth(allRowsMetaData: [RowInfo]) throws -> Bool {
         let numberOfRowsToCheck = (allRowsMetaData.count) - 1
@@ -46,7 +37,7 @@ public class InputValidator {
         for rowNum in 1...numberOfRowsToCheck {
             let prevRow = allRowsMetaData[rowNum-1]
             let currentRow = allRowsMetaData[rowNum]
-            if !verifyValidRowStitchCount(prevRow: prevRow, currentRow: currentRow) {
+            if !isCurrentRowStitchCountValid(prevRow: prevRow, currentRow: currentRow) {
                 let expectedNextRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
                 throw InputError.invalidRowWidth(
                     invalidRowNumber: currentRow.rowNumber,
@@ -58,4 +49,11 @@ public class InputValidator {
         return allCheckedRowsValid
     }
 
+    private func isCurrentRowStitchCountValid(prevRow: RowInfo, currentRow: RowInfo) -> Bool {
+        let expectedCurrentRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
+        if expectedCurrentRowWidth == currentRow.width {
+            return true
+        }
+        return false
+    }
 }
