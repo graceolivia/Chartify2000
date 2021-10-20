@@ -15,7 +15,6 @@ public final class Chartify {
 
         do {
             _ = try userInput.allSatisfy({ try inputValidator.validateEachStitch(row: $0) })
-
         } catch {
             print(error.localizedDescription)
             exit(0)
@@ -31,7 +30,6 @@ public final class Chartify {
             print("Visual representation of incorrect chart:")
             print(chartConstructor.makeChart(stitchArray: patternArray))
             exit(0)
-
         }
 
         print(chartConstructor.makeChart(stitchArray: patternArray))

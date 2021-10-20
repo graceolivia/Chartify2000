@@ -251,7 +251,6 @@ class FindInvalidRowCountChange: XCTestCase {
         )))
     }
 
-
     func testInvalidDecreasePattern() throws {
         let sampleAllRowsMetaData = [
             RowInfo(

@@ -110,7 +110,6 @@ public class ChartConstructor {
 
                 let getStitch = try! getStitchInfo(stitch: stitch)
                 middleStitches += "\(getStitch.symbol)│"
-
             }
             return "│\(middleStitches)\n"
         }
