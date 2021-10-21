@@ -9,7 +9,6 @@ class ChartifyFinishedTest: XCTestCase {
         Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"], knitFlat: false)
         expect(mock.wasValidatorCalled).to(equal(true))
     }
-
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
         Chartify(inputValidator: InputValidator(), chartConstructor: mock).run(userInput: ["k1"], knitFlat: false)
