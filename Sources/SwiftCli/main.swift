@@ -9,7 +9,6 @@ struct StartProgram: ParsableCommand {
     @Flag(help: "Set if you want your pattern to be knit flat. Default value is knit in the round.")
     var knitFlat = false
 
-
     func run() {
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
