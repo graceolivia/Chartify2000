@@ -6,7 +6,7 @@ import Nimble
 class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidator() throws {
         let mock = MockInputValidator()
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"])
+        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"], knitFlat: false)
         expect(mock.wasValidatorCalled).to(equal(true))
     }
 
