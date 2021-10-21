@@ -31,7 +31,6 @@ class MockInputValidator: InputValidator {
             rightIncDec: 0,
             leftOffset: 0
         )]}
-
     }
 
 
