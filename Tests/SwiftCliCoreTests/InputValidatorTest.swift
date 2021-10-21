@@ -4,51 +4,43 @@ import Nimble
 @testable import SwiftCliCore
 
 class ValidatorTests: XCTestCase {
-
-    func testValidatorForP1Input() throws {
-        let result = try InputValidator().validate(row: "p1")
-        let expectedResult = true
-        expect(result).to(equal(expectedResult))
+    func testInvalidStitchShouldThrowError() throws {
+        expect { try InputValidator().inputValidation(pattern: ["g1 p1"]) }.to(throwError())
     }
 
-    func testValidatorForK1P1Input() throws {
-        let result =  try InputValidator().validate(row: "k1 p1")
-        let expectedResult = true
-        expect(result).to(equal(expectedResult))
+    func testEmptyRowShouldThrowError() throws {
+        expect { try InputValidator().inputValidation(pattern: ["p1 p1", ""]) }.to(throwError())
     }
 
-    func testValidatorForG1P1Input() throws {
-        expect { try InputValidator().validate(row: "g1 p1") }.to(throwError())
+    func testInvalidStitchCountShouldThrowError() throws {
+        expect { try InputValidator().inputValidation(pattern: ["p1 p1", "p1 p1 p1"]) }.to(throwError())
     }
 
-    func testValidatorFor0Input() throws {
-        expect { try InputValidator().validate(row: "") }.to(throwError())
-
-    }
-
-    func testValidatorForMiscBadInput() throws {
-        expect { try InputValidator().validate(row: "3") }.to(throwError())
-    }
-
-}
-
-class ArrayMakerTests: XCTestCase {
-
-    func testValidatorForTwoRowInput() throws {
-        let result = try InputValidator().arrayMaker(cleanedRow: "k1 p1 k1 p1")
-        let expectedResult = ["k1", "p1", "k1", "p1"]
-        expect(result).to(equal(expectedResult))
-    }
-
-    func testValidatorForThreeExtraLineBreak() throws {
-        let result = try InputValidator().arrayMaker(cleanedRow: "k1 p1")
-        let expectedResult = ["k1", "p1"]
-        expect(result).to(equal(expectedResult))
-    }
-
-    func testValidatorForOneStitch() throws {
-        let result = try InputValidator().arrayMaker(cleanedRow: "k1")
-        let expectedResult = ["k1"]
+    func testValidPatternShouldReturnMetaData() throws {
+        let result = try InputValidator().inputValidation(pattern: ["p1 p1", "p1 p1"])
+        print(result)
+        let expectedResult = [
+            RowInfo(
+                row: ["p1", "p1"],
+                rowNumber: 0,
+                bottomLine: "└─┴─┘",
+                stitchSymbols: "│-│-│\n",
+                width: 2,
+                leftIncDec: 0,
+                rightIncDec: 0,
+                leftOffset: 0
+            ),
+            RowInfo(
+                row: ["p1", "p1"],
+                rowNumber: 1,
+                bottomLine: "├─┼─┤\n",
+                stitchSymbols: "│-│-│\n",
+                width: 2,
+                leftIncDec: 0,
+                rightIncDec: 0,
+                leftOffset: 0
+            )
+        ]
         expect(result).to(equal(expectedResult))
     }
 }

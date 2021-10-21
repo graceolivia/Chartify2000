@@ -12,21 +12,12 @@ public final class Chartify {
     }
 
     public func run(userInput: [String]) {
-
         do {
-            _ = try userInput.allSatisfy({ try inputValidator.validate(row: $0) })
+            let metaData = try inputValidator.inputValidation(pattern: userInput)
+            print(chartConstructor.makeChart(patternMetaData: metaData))
         } catch {
-            print("Unexpected Invalid Input: \(error)")
-            print(allowedStitches())
+            print(error.localizedDescription)
             exit(0)
-        }
-
-        do {
-            let patternArray = try userInput.map { try inputValidator.arrayMaker(cleanedRow: $0) }
-            print(chartConstructor.makeChart(stitchArray: patternArray))
-        } catch {
-            print(allowedStitches())
-
         }
     }
 }

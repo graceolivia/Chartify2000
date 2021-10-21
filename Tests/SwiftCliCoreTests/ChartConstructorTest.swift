@@ -147,7 +147,8 @@ class FullChartPrinterTests: XCTestCase {
 
     func testFullPatternOneRow() throws {
         let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │ │ │-│-│ │ │
@@ -159,7 +160,8 @@ class FullChartPrinterTests: XCTestCase {
     func testFullPatternTwoRow() throws {
         let testArray = [["k1", "k1", "p1", "p1", "k1", "k1"],
                          ["p1", "p1", "k1", "k1", "p1", "p1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │-│-│ │ │-│-│
@@ -174,7 +176,8 @@ class FullChartPrinterTests: XCTestCase {
         let testArray = [["k1", "k1", "p1", "p1", "k1", "k1", "p1", "k1"],
                          ["k1", "k1", "p1", "p1", "k1", "k1", "ssk"],
                          ["k1", "k1", "p1", "p1", "k1", "ssk"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │ │ │-│-│ │\\│
@@ -188,8 +191,10 @@ class FullChartPrinterTests: XCTestCase {
     }
 
     func testFullPatternTripleRightSSKDecrease() throws {
-        let result = ChartConstructor().makeChart(stitchArray: [["k1", "k1", "k1", "k1", "k1", "k1", "k1", "k1"],
-                                                                ["k1", "k1", "ssk", "ssk", "ssk"]])
+        let testArray = [["k1", "k1", "k1", "k1", "k1", "k1", "k1", "k1"],
+                         ["k1", "k1", "ssk", "ssk", "ssk"]]
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │ │ │\\│\\│\\│
@@ -204,7 +209,8 @@ class FullChartPrinterTests: XCTestCase {
         let testArray = [["p1", "k1", "k1", "k1"],
                          ["p1", "k1", "k1", "yo", "k1"],
                          ["p1", "k1", "k1", "k1", "yo", "k1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┐
 │-│ │ │ │o│ │
@@ -221,7 +227,8 @@ class FullChartPrinterTests: XCTestCase {
         let testArray = [["k1", "k1", "k1", "k1"],
                          ["k1", "k1", "k1", "yo", "m1", "k1"],
                          ["k1", "k1", "k1", "k1", "k1", "yo", "m1", "k1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┬─┬─┬─┐
 │ │ │ │ │ │o│m│ │
@@ -238,7 +245,8 @@ class FullChartPrinterTests: XCTestCase {
         let testArray = [["k1", "k1", "p1"],
                          ["k1", "yo", "k1", "p1"],
                          ["k1", "yo", "k1", "k1", "p1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
 
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
@@ -255,7 +263,8 @@ class FullChartPrinterTests: XCTestCase {
     func testFullPatternLeftRightSingleInc() throws {
         let testArray = [["k1", "k1", "k1"],
                          ["k1", "m1", "k1", "m1", "k1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │ │m│ │m│ │
@@ -270,7 +279,8 @@ class FullChartPrinterTests: XCTestCase {
         let testArray = [["k1", "k1", "p1"],
                          ["k1", "yo", "k1", "p1"],
                          ["k1", "yo", "k1", "k1", "p1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │ │o│ │ │-│
@@ -286,7 +296,8 @@ class FullChartPrinterTests: XCTestCase {
     func testFullPatternLeftDoubleInc() throws {
         let testArray = [["k1", "k1", "p1"],
                          [ "m1", "yo", "k1", "k1", "p1"]]
-        let result = ChartConstructor().makeChart(stitchArray: testArray)
+        let testData =  MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = ChartConstructor().makeChart(patternMetaData: testData)
         let expectedOutput = """
 ┌─┬─┬─┬─┬─┐
 │m│o│ │ │-│
