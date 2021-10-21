@@ -7,15 +7,13 @@ class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidator() throws {
         let mock = MockInputValidator()
         Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"])
-        let result = mock.wasValidatorCalled
-        expect(result).to(equal(true))
+        expect(mock.wasValidatorCalled).to(equal(true))
     }
 
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
         Chartify(inputValidator: InputValidator(), chartConstructor: mock).run(userInput: ["k1"])
-        let result = mock.wasMakeChartCalled
-        expect(result).to(equal(true))
+        expect(mock.wasMakeChartCalled).to(equal(true))
     }
 }
 
