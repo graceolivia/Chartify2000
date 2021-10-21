@@ -3,7 +3,7 @@ import Foundation
 public class InputValidator {
     public init() {}
 
-    public func inputValidation(pattern: [String]) throws -> [RowInfo] {
+    public func inputValidation(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
 
         for row in pattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
@@ -15,7 +15,10 @@ public class InputValidator {
             }
         }
 
-        let patternNestedArray =  pattern.map { arrayMaker(row: $0) }
+        var patternNestedArray =  pattern.map { arrayMaker(row: $0) }
+        if (knitFlat == true) {
+            patternNestedArray = knitFlatArray(array: patternNestedArray)
+        }
 
         for arrayRow in patternNestedArray {
             let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow)
