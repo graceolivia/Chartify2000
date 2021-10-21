@@ -23,6 +23,22 @@ extension InputError: LocalizedError {
     }
 }
 
+enum FileUploadError: Error {
+    case invalidFileType
+    case noFileError
+}
+
+extension FileUploadError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidFileType:
+            return "Only .txt files are current allowed"
+        case .noFileError:
+            return "Did you forget to add a file?"
+        }
+    }
+}
+
 func allowedStitches() -> String {
     var allowedStitchesMessage = "Allowed stitches include: "
 

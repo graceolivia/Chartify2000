@@ -102,7 +102,7 @@ class BuildAllMetaDataTests: XCTestCase {
                 leftOffset: 0
             )
         ]
-        
+
         expect(result).to(equal(expectedResult))
     }
 
