@@ -11,15 +11,6 @@ class ChartifyFinishedTest: XCTestCase {
         expect(result).to(equal(true))
 
     }
-
-    func testRunCallsKnitFlatArrayIfKnitFlatIsTrue() throws {
-        let mock = MockInputValidator()
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"], knitFlat: true)
-        let result = mock.wasKnitFlatArrayCalled
-        let expectedResult = true
-        expect(result).to(equal(expectedResult))
-    }
-
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
         Chartify(inputValidator: InputValidator(), chartConstructor: mock).run(userInput: ["k1"], knitFlat: false)
@@ -30,8 +21,8 @@ class ChartifyFinishedTest: XCTestCase {
 
 class MockInputValidator: InputValidator {
     var wasValidatorCalled = false
-    var wasKnitFlatArrayCalled = false
-    override func inputValidation(pattern: [String]) throws -> [RowInfo] {
+
+    override func inputValidation(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
         wasValidatorCalled = true
         return [RowInfo(
             row: ["p1", "p1"],
@@ -44,10 +35,6 @@ class MockInputValidator: InputValidator {
             leftOffset: 0
         )]}
 
-        override func knitFlatArray(array: [[String]]) -> [[String]] {
-            wasKnitFlatArrayCalled = true
-            return array
-        }
     }
 
 
