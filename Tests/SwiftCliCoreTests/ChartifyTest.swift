@@ -33,7 +33,6 @@ class MockInputValidator: InputValidator {
         )]}
     }
 
-
 class MockChartConstructor: ChartConstructor {
     var wasMakeChartCalled = false
     override func makeChart(patternMetaData: [RowInfo]) -> String {

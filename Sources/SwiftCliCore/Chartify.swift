@@ -10,9 +10,7 @@ public final class Chartify {
     public init(inputValidator: InputValidator, chartConstructor: ChartConstructor) {
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
-
     }
-
 
     public func run(userInput: [String], knitFlat: Bool) {
 
@@ -23,7 +21,6 @@ public final class Chartify {
             print(error.localizedDescription)
             exit(0)
         }
-
 
     }
 }
