@@ -22,7 +22,7 @@ public struct RowInfo: Equatable {
 public class MetaDataBuilder {
     public init() {}
 
-    public func gatherAllMetaData(stitchArray: [[String]]) -> [RowInfo] {
+    public func buildAllMetaData(stitchArray: [[String]]) -> [RowInfo] {
         var allRowsMetaData = [] as [RowInfo]
         let rowsNum = stitchArray.count
         var upcomingleftOffset = 0
@@ -43,7 +43,7 @@ public class MetaDataBuilder {
         return(allRowsMetaData)
     }
 
-    public func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
+    private func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
 
         var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)
         rowData.leftIncDec = findLeftChanges(stitchRow: stitchRow)
@@ -62,25 +62,24 @@ public class MetaDataBuilder {
         return(rowData)
     }
 
-    public func findLeftChanges(stitchRow: [String]) -> Int {
+    private func findLeftChanges(stitchRow: [String]) -> Int {
         let center = stitchRow.count/2
         let leftHalf = stitchRow[..<center]
         return(findChange(halfStitchRow: leftHalf))
     }
 
-    public func findRightChanges(stitchRow: [String]) -> Int {
+    private func findRightChanges(stitchRow: [String]) -> Int {
         let center = stitchRow.count/2
         let leftHalf = stitchRow[center...]
         return(findChange(halfStitchRow: leftHalf))
     }
 
-    func findChange(halfStitchRow: ArraySlice<String>) -> Int {
+    private func findChange(halfStitchRow: ArraySlice<String>) -> Int {
         var totalChange = 0
         for stitch in halfStitchRow {
 
             let lookupStitch: StitchInfo = try! getStitchInfo(stitch: stitch)
             totalChange += lookupStitch.incDecValue
-
         }
         return totalChange
     }

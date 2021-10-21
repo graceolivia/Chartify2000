@@ -4,50 +4,42 @@ import Nimble
 @testable import SwiftCliCore
 
 class ChartifyFinishedTest: XCTestCase {
-    func testRunCallsValidate() throws {
+    func testRunCallsValidator() throws {
         let mock = MockInputValidator()
         Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"])
-        let result = mock.wasValidateCalled
-        let expectedResult = true
-        expect(result).to(equal(expectedResult))
-    }
-
-    func testRunCallsArrayMakerIfInputIsValid() throws {
-        let mock = MockInputValidator()
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"])
-        let result = mock.wasArrayMakerCalled
-        let expectedResult = true
-        expect(result).to(equal(expectedResult))
+        let result = mock.wasValidatorCalled
+        expect(result).to(equal(true))
     }
 
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
         Chartify(inputValidator: InputValidator(), chartConstructor: mock).run(userInput: ["k1"])
         let result = mock.wasMakeChartCalled
-        let expectedResult = true
-        expect(result).to(equal(expectedResult))
+        expect(result).to(equal(true))
     }
-
 }
 
 class MockInputValidator: InputValidator {
-    var wasValidateCalled = false
-    var wasArrayMakerCalled = false
+    var wasValidatorCalled = false
 
-    override func validateEachStitch(row: String) -> Bool {
-        wasValidateCalled = true
-        return wasValidateCalled
-    }
-
-    override func arrayMaker(cleanedRow: String) -> [String] {
-        wasArrayMakerCalled = true
-        return [cleanedRow]
+    override func inputValidation(pattern: [String]) throws -> [RowInfo] {
+        wasValidatorCalled = true
+        return [RowInfo(
+            row: ["p1", "p1"],
+            rowNumber: 0,
+            bottomLine: "└─┴─┘",
+            stitchSymbols: "│-│-│\n",
+            width: 2,
+            leftIncDec: 0,
+            rightIncDec: 0,
+            leftOffset: 0
+        )]
     }
 }
 
 class MockChartConstructor: ChartConstructor {
     var wasMakeChartCalled = false
-    override func makeChart(stitchArray: [[String]]) -> String {
+    override func makeChart(patternMetaData: [RowInfo]) -> String {
         wasMakeChartCalled = true
         return("Done")
     }

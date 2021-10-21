@@ -2,16 +2,18 @@ import Foundation
 
 public class ChartConstructor {
     public init() {}
-    public func makeChart(stitchArray: [[String]]) -> String {
-        let lastRow = stitchArray.count - 1
-        var patternMetaData = MetaDataBuilder().gatherAllMetaData(stitchArray: stitchArray)
+    public func makeChart(patternMetaData: [RowInfo]) -> String {
+        var metaData = patternMetaData
+        let lastRow = patternMetaData.count - 1
+
         var finishedChart = ""
         for row in 0...lastRow {
-            finishedChart = patternMetaData[row].totalRow + finishedChart
+            finishedChart = metaData[row].totalRow + finishedChart
         }
-        let topRowOffset = patternMetaData[lastRow].transRowLeftOffsetString
-        let topRow = topRowOffset + makeTopRow(width: patternMetaData[lastRow].width)
+        let topRowOffset = metaData[lastRow].transRowLeftOffsetString
+        let topRow = topRowOffset + makeTopRow(width: metaData[lastRow].width)
         finishedChart = topRow  + finishedChart
+
         return(finishedChart)
     }
 
@@ -25,7 +27,6 @@ public class ChartConstructor {
             let middleBoxes = String(repeating: "─┬", count: width - 1)
             return "┌\(middleBoxes)─┐\n"
         }
-
     }
 
     public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
@@ -84,7 +85,6 @@ public class ChartConstructor {
         default:
             return("─┤\n")
         }
-
     }
 
     public func makeBottomRow(width: Int) -> String {
@@ -113,6 +113,5 @@ public class ChartConstructor {
             }
             return "│\(middleStitches)\n"
         }
-
     }
 }
