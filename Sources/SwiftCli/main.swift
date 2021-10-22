@@ -12,20 +12,10 @@ struct StartProgram: ParsableCommand {
     func run() {
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
-        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor)
+        let fileValidator = FileValidator()
+        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator)
+        chartify.run(userInput: pattern, file: file)
 
-        if (file) != nil {
-            do {
-                let readInPattern = try FileValidator().inputValidation(fileLocation: file!)
-                chartify.run(userInput: readInPattern)
-            } catch {
-                print(error.localizedDescription)
-
-            }
-
-        } else {
-            chartify.run(userInput: pattern)
-        }
     }
 }
 

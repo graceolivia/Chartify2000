@@ -11,6 +11,7 @@ public class FileValidator {
     public init() {}
 
     public func inputValidation(fileLocation: String?) throws -> [String] {
+
             guard fileLocation != nil else {
                 throw FileUploadError.noFileError
             }
