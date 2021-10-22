@@ -15,8 +15,8 @@ public final class Chartify {
     public func run(userInput: [String], knitFlat: Bool) {
 
         do {
-            let metaData = try inputValidator.inputValidation(pattern: userInput, knitFlat: knitFlat)
-            print(chartConstructor.makeChart(patternMetaData: metaData))
+            let patternMetaData = try inputValidator.inputValidation(pattern: userInput, knitFlat: knitFlat)
+            print(chartConstructor.makeChart(patternMetaData: patternMetaData))
         } catch {
             print(error.localizedDescription)
             exit(0)

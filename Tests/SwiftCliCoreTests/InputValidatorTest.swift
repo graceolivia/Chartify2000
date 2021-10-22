@@ -5,20 +5,22 @@ import Nimble
 
 class ValidatorTests: XCTestCase {
     func testInvalidStitchShouldThrowError() throws {
-        expect { try InputValidator().inputValidation(pattern: ["g1 p1"], knitFlat: false) }.to(throwError())
+        let testPattern = ["g1 p1"]
+        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
     }
 
     func testEmptyRowShouldThrowError() throws {
-        expect { try InputValidator().inputValidation(pattern: ["p1 p1", ""], knitFlat: false) }.to(throwError())
+        let testPattern = ["p1 p1", ""]
+        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
     }
 
     func testInvalidStitchCountShouldThrowError() throws {
-        expect { try InputValidator().inputValidation(pattern: ["p1 p1", "p1 p1 p1"], knitFlat: false) }.to(throwError())
+        let testPattern = ["p1 p1", "p1 p1 p1"]
+        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
     }
 
     func testValidPatternShouldReturnMetaData() throws {
         let result = try InputValidator().inputValidation(pattern: ["p1 p1", "p1 p1"], knitFlat: false)
-        print(result)
         let expectedResult = [
             RowInfo(
                 row: ["p1", "p1"],
