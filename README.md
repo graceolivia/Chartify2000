@@ -81,6 +81,10 @@ Multiple rows can be entered as seperate strings:
 
 `swift run SwiftCli "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1"`
 
+To indicate your pattern is supposed to be knit flat, with every other row intended to be knit as WS, add the `--knit-flat` command. Default value is knit in the round.
+
+`swift run SwiftCli "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" --knit-flat`
+
 To test the project, either use XCODE tools to run tests as you wish, or in the project directory on the terminal run:
 
 `swift test`

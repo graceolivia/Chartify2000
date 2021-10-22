@@ -3,7 +3,7 @@ import Foundation
 public class InputValidator {
     public init() {}
 
-    public func inputValidation(pattern: [String]) throws -> [RowInfo] {
+    public func inputValidation(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
 
         for row in pattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
@@ -15,7 +15,10 @@ public class InputValidator {
             }
         }
 
-        let patternNestedArray =  pattern.map { arrayMaker(row: $0) }
+        var patternNestedArray =  pattern.map { arrayMaker(row: $0) }
+        if (knitFlat == true) {
+            patternNestedArray = knitFlatArray(array: patternNestedArray)
+        }
 
         for arrayRow in patternNestedArray {
             let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow)
@@ -29,8 +32,8 @@ public class InputValidator {
 
         let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: patternNestedArray )
 
-        let isPatternMathmaticallySound = validateEachRowWidth(allRowsMetaData: patternMetaData)
-        switch isPatternMathmaticallySound {
+        let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: patternMetaData)
+        switch isPatternMathematicallySound {
         case .success:
             return patternMetaData
         case .failure(let error):
@@ -63,7 +66,7 @@ public class InputValidator {
 
     private func validateEachRowWidth(allRowsMetaData: [RowInfo]) -> Result<[RowInfo], InputError> {
         let numberOfRowsToCheck = (allRowsMetaData.count) - 1
-        guard numberOfRowsToCheck >= 1 else {
+        if numberOfRowsToCheck == 1 {
             return .success(allRowsMetaData)
         }
         for rowNum in 1...numberOfRowsToCheck {
@@ -83,9 +86,18 @@ public class InputValidator {
 
     private func isCurrentRowStitchCountValid(prevRow: RowInfo, currentRow: RowInfo) -> Bool {
         let expectedCurrentRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
-        if expectedCurrentRowWidth == currentRow.width {
-            return true
-        }
-        return false
+        return expectedCurrentRowWidth == currentRow.width
     }
+
+    public func knitFlatArray(array: [[String]]) -> [[String]] {
+        let numberofRows = array.count
+        var flatArray = array
+        for rowNum in 0..<numberofRows {
+            if (rowNum % 2 == 1) {
+                flatArray[rowNum].reverse()
+            }
+        }
+        return flatArray
+    }
+
 }

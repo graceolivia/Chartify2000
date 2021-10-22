@@ -41,21 +41,20 @@ func emptyRowError() -> String {
 }
 
 func invalidStitchError(invalidUserStitch: String) -> String {
-    return(
-        "Invalid Stitch Error: \n" +
-        invalidUserStitch +
-        " is not a valid stitch."
-    )
+    return """
+    Invalid Stitch Error:
+    \(invalidUserStitch) is not a valid stitch.
+    """
 }
 
 func invalidRowWidthError(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int) -> String {
-    return( "Invalid Row Width Error: \nOn Row " +
-            String(invalidRowNumber) +
-            ", processor expects " +
-            String(expectedStitchCount) +
-            " stitches, but row has " +
-            String(actualCount) +
-            " instead. \nRewrite row " +
-            String(invalidRowNumber) +
-            " with valid stitch count.")
+    let row = String(invalidRowNumber)
+    let expectedCount = String(expectedStitchCount)
+    let actualCount = String(actualCount)
+    return( """
+    Invalid Row Width Error:
+    On Row \(row), processor expects \(expectedCount) stitches, but row has \(actualCount) instead.
+    Rewrite row \(row) with valid stitch count.
+    """
+    )
 }
