@@ -49,7 +49,6 @@ class ValidatorTests: XCTestCase {
 
     func testValidPatternKnitFlatShouldReturnMetaData() throws {
         let result = try InputValidator().inputValidation(pattern: ["k1 p1", "p1 k1"], knitFlat: true)
-        print(result)
         let expectedResult = [
             RowInfo(
                 row: ["k1", "p1"],
