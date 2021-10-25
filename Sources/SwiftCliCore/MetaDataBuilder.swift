@@ -2,8 +2,8 @@ import Foundation
 
 public struct RowInfo: Equatable {
     var row: [String]
-    var rowNumber: Int
-    lazy var userRowNumber: Int = rowNumber + 1
+    var rowIndex: Int
+    lazy var userRowNumber: Int = rowIndex + 1
     var bottomLine: String = ""
     var stitchSymbols: String = ""
     var width: Int = 0
@@ -46,7 +46,7 @@ public class MetaDataBuilder {
 
     private func makeRowMetadata(stitchRow: [String], rowNumber: Int) -> RowInfo {
 
-        var rowData = RowInfo(row: stitchRow, rowNumber: rowNumber)
+        var rowData = RowInfo(row: stitchRow, rowIndex: rowNumber)
         rowData.leftIncDec = findLeftChanges(stitchRow: stitchRow)
         rowData.rightIncDec = findRightChanges(stitchRow: stitchRow)
         rowData.width = stitchRow.count
