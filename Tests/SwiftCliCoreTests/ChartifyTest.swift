@@ -23,7 +23,7 @@ class MockInputValidator: InputValidator {
         wasValidatorCalled = true
         return [RowInfo(
             row: ["p1", "p1"],
-            rowNumber: 0,
+            rowIndex: 0,
             bottomLine: "└─┴─┘",
             stitchSymbols: "│-│-│\n",
             width: 2,

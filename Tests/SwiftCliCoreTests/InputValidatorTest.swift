@@ -25,7 +25,7 @@ class ValidatorTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["p1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┘",
                 stitchSymbols: "│-│-│\n",
                 width: 2,
@@ -35,7 +35,7 @@ class ValidatorTests: XCTestCase {
             ),
             RowInfo(
                 row: ["p1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┤\n",
                 stitchSymbols: "│-│-│\n",
                 width: 2,
@@ -53,7 +53,7 @@ class ValidatorTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┘",
                 stitchSymbols: "│ │-│\n",
                 width: 2,
@@ -63,7 +63,7 @@ class ValidatorTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┤\n",
                 stitchSymbols: "│ │-│\n",
                 width: 2,
