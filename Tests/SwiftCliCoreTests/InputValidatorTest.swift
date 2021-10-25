@@ -18,7 +18,6 @@ class ValidatorTests: XCTestCase {
 
     func testValidPatternShouldReturnMetaData() throws {
         let result = try InputValidator().inputValidation(pattern: ["p1 p1", "p1 p1"])
-        print(result)
         let expectedResult = [
             RowInfo(
                 row: ["p1", "p1"],

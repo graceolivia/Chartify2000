@@ -52,7 +52,6 @@ class MockChartConstructor: ChartConstructor {
 class MockFileValidator: FileValidator {
     var wasFileValidatorCalled = false
     override func inputValidation(fileLocation: String?) throws -> [String] {
-        print("HAi")
         wasFileValidatorCalled = true
         return ["Done"]
     }
