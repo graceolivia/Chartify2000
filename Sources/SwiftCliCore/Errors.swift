@@ -3,6 +3,7 @@ import Foundation
 enum InputError: Error, Equatable {
     case emptyRow
     case invalidStitch(invalidStitch: String)
+    case invalidStitchWithLocation(invalidStitch: String, rowLocation: Int)
     case invalidRowWidth(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)
 }
 
@@ -13,6 +14,11 @@ extension InputError: LocalizedError {
             return emptyRowError()
         case .invalidStitch(let invalidUserStitch):
             return invalidStitchError(invalidUserStitch: invalidUserStitch)
+        case .invalidStitchWithLocation(let invalidStitch, let rowLocation):
+            return invalidStitchWithLocationError(
+                invalidStitch: invalidStitch,
+                rowLocation: rowLocation
+            )
         case .invalidRowWidth(let invalidRowNumber, let expectedStitchCount, let actualCount):
             return invalidRowWidthError(
                 invalidRowNumber: invalidRowNumber,
@@ -57,4 +63,11 @@ func invalidRowWidthError(invalidRowNumber: Int, expectedStitchCount: Int, actua
     Rewrite row \(row) with valid stitch count.
     """
     )
+}
+
+func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int) -> String {
+    return """
+    Invalid Stitch Error:
+    \(invalidStitch) on Row \(rowLocation) is not a valid stitch.
+    """
 }

@@ -20,8 +20,8 @@ public class InputValidator {
             patternNestedArray = knitFlatArray(array: patternNestedArray)
         }
 
-        for arrayRow in patternNestedArray {
-            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow)
+        for (index, arrayRow) in patternNestedArray.enumerated() {
+            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, index: index)
             switch isEveryStitchValid {
             case .success:
                 continue
@@ -47,10 +47,10 @@ public class InputValidator {
         return(rowStitches)
     }
 
-    private func validateEachStitch(stitchRow: [String]) -> Result<[String], InputError> {
+    private func validateEachStitch(stitchRow: [String], index: Int) -> Result<[String], InputError> {
         for stitch in stitchRow {
             guard isStitchValid(stitch: String(stitch)) == true else {
-                return .failure(InputError.invalidStitch(invalidStitch: String(stitch)))
+                return .failure(InputError.invalidStitchWithLocation(invalidStitch: String(stitch), rowLocation: index + 1))
             }
         }
         return .success(stitchRow)
