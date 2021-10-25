@@ -23,7 +23,7 @@ class MockInputValidator: InputValidator {
         wasValidatorCalled = true
         return [RowInfo(
             row: ["p1", "p1"],
-            rowNumber: 0,
+            rowIndex: 0,
             bottomLine: "└─┴─┘",
             stitchSymbols: "│-│-│\n",
             width: 2,
@@ -31,7 +31,7 @@ class MockInputValidator: InputValidator {
             rightIncDec: 0,
             leftOffset: 0
         )]}
-    }
+}
 
 class MockChartConstructor: ChartConstructor {
     var wasMakeChartCalled = false

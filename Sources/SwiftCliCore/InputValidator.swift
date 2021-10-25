@@ -3,7 +3,7 @@ import Foundation
 public class InputValidator {
     public init() {}
 
-    public func inputValidation(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
+    public func inputValidation(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
 
         for row in pattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
@@ -71,11 +71,11 @@ public class InputValidator {
         }
         for rowNum in 1...numberOfRowsToCheck {
             let prevRow = allRowsMetaData[rowNum-1]
-            let currentRow = allRowsMetaData[rowNum]
+            var currentRow = allRowsMetaData[rowNum]
             if !isCurrentRowStitchCountValid(prevRow: prevRow, currentRow: currentRow) {
                 let expectedNextRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
                 return .failure(InputError.invalidRowWidth(
-                    invalidRowNumber: currentRow.rowNumber,
+                    invalidRowNumber: currentRow.userRowNumber,
                     expectedStitchCount: expectedNextRowWidth,
                     actualCount: currentRow.width
                 ))

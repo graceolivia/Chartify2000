@@ -5,18 +5,19 @@ import Nimble
 
 class ValidatorTests: XCTestCase {
     func testInvalidStitchShouldThrowError() throws {
-        let testPattern = ["g1 p1"]
-        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
+        let invalidStitchError = InputError.invalidStitch(invalidStitch: "g1")
+        expect { try InputValidator().inputValidation(pattern: ["g1 p1"]) }.to(throwError(invalidStitchError))
     }
 
     func testEmptyRowShouldThrowError() throws {
         let testPattern = ["p1 p1", ""]
-        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
+        expect { try InputValidator().inputValidation(pattern: testPattern) }.to(throwError(InputError.emptyRow))
     }
 
     func testInvalidStitchCountShouldThrowError() throws {
-        let testPattern = ["p1 p1", "p1 p1 p1"]
-        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
+        let badCountPattern = ["p1 p1", "p1 p1", "p1 p1", "p1 p1 p1"]
+        let badCountError = InputError.invalidRowWidth(invalidRowNumber: 4, expectedStitchCount: 2, actualCount: 3)
+        expect { try InputValidator().inputValidation(pattern: badCountPattern) }.to(throwError(badCountError))
     }
 
     func testValidPatternShouldReturnMetaData() throws {
@@ -24,7 +25,7 @@ class ValidatorTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["p1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┘",
                 stitchSymbols: "│-│-│\n",
                 width: 2,
@@ -34,7 +35,7 @@ class ValidatorTests: XCTestCase {
             ),
             RowInfo(
                 row: ["p1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┤\n",
                 stitchSymbols: "│-│-│\n",
                 width: 2,
@@ -48,11 +49,10 @@ class ValidatorTests: XCTestCase {
 
     func testValidPatternKnitFlatShouldReturnMetaData() throws {
         let result = try InputValidator().inputValidation(pattern: ["k1 p1", "p1 k1"], knitFlat: true)
-        print(result)
         let expectedResult = [
             RowInfo(
                 row: ["k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┘",
                 stitchSymbols: "│ │-│\n",
                 width: 2,
@@ -62,7 +62,7 @@ class ValidatorTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┤\n",
                 stitchSymbols: "│ │-│\n",
                 width: 2,
