@@ -66,7 +66,7 @@ public class InputValidator {
 
     private func validateEachRowWidth(allRowsMetaData: [RowInfo]) -> Result<[RowInfo], InputError> {
         let numberOfRowsToCheck = (allRowsMetaData.count) - 1
-        if numberOfRowsToCheck == 1 {
+        if numberOfRowsToCheck == 0 {
             return .success(allRowsMetaData)
         }
         for rowNum in 1...numberOfRowsToCheck {
