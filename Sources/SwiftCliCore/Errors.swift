@@ -2,8 +2,7 @@ import Foundation
 
 enum InputError: Error, Equatable {
     case emptyRow
-    case invalidStitch(invalidStitch: String)
-    case invalidStitchWithLocation(invalidStitch: String, rowLocation: Int)
+    case invalidStitch(invalidStitch: String, rowLocation: Int? = nil)
     case invalidRowWidth(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)
 }
 
@@ -12,9 +11,7 @@ extension InputError: LocalizedError {
         switch self {
         case .emptyRow:
             return emptyRowError()
-        case .invalidStitch(let invalidUserStitch):
-            return invalidStitchError(invalidUserStitch: invalidUserStitch)
-        case .invalidStitchWithLocation(let invalidStitch, let rowLocation):
+        case .invalidStitch(let invalidStitch, let rowLocation):
             return invalidStitchWithLocationError(
                 invalidStitch: invalidStitch,
                 rowLocation: rowLocation
@@ -46,12 +43,7 @@ func emptyRowError() -> String {
     """
 }
 
-func invalidStitchError(invalidUserStitch: String) -> String {
-    return """
-    Invalid Stitch Error:
-    \(invalidUserStitch) is not a valid stitch.
-    """
-}
+
 
 func invalidRowWidthError(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int) -> String {
     let row = String(invalidRowNumber)
@@ -65,9 +57,17 @@ func invalidRowWidthError(invalidRowNumber: Int, expectedStitchCount: Int, actua
     )
 }
 
-func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int) -> String {
-    return """
+func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?) -> String {
+    if let location = rowLocation {
+        return """
     Invalid Stitch Error:
-    \(invalidStitch) on Row \(rowLocation) is not a valid stitch.
+    \(invalidStitch) on Row \(location) is not a valid stitch.
     """
+    } else {
+        return """
+    Invalid Stitch Error:
+    \(invalidStitch) is not a valid stitch.
+    """
+    }
+
 }
