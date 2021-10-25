@@ -5,18 +5,19 @@ import Nimble
 
 class ValidatorTests: XCTestCase {
     func testInvalidStitchShouldThrowError() throws {
-        let testPattern = ["g1 p1"]
-        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
+        let invalidStitchError = InputError.invalidStitch(invalidStitch: "g1")
+        expect { try InputValidator().inputValidation(pattern: ["g1 p1"]) }.to(throwError(invalidStitchError))
     }
 
     func testEmptyRowShouldThrowError() throws {
         let testPattern = ["p1 p1", ""]
-        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
+        expect { try InputValidator().inputValidation(pattern: testPattern) }.to(throwError(InputError.emptyRow))
     }
 
     func testInvalidStitchCountShouldThrowError() throws {
-        let testPattern = ["p1 p1", "p1 p1 p1"]
-        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError())
+        let badCountPattern = ["p1 p1", "p1 p1", "p1 p1", "p1 p1 p1"]
+        let badCountError = InputError.invalidRowWidth(invalidRowNumber: 4, expectedStitchCount: 2, actualCount: 3)
+        expect { try InputValidator().inputValidation(pattern: badCountPattern) }.to(throwError(badCountError))
     }
 
     func testValidPatternShouldReturnMetaData() throws {

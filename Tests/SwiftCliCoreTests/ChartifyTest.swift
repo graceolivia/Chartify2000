@@ -31,7 +31,7 @@ class MockInputValidator: InputValidator {
             rightIncDec: 0,
             leftOffset: 0
         )]}
-    }
+}
 
 class MockChartConstructor: ChartConstructor {
     var wasMakeChartCalled = false

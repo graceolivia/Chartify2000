@@ -3,6 +3,7 @@ import Foundation
 public struct RowInfo: Equatable {
     var row: [String]
     var rowNumber: Int
+    lazy var userRowNumber: Int = rowNumber + 1
     var bottomLine: String = ""
     var stitchSymbols: String = ""
     var width: Int = 0

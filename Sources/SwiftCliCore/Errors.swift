@@ -1,6 +1,6 @@
 import Foundation
 
-enum InputError: Error {
+enum InputError: Error, Equatable {
     case emptyRow
     case invalidStitch(invalidStitch: String)
     case invalidRowWidth(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)

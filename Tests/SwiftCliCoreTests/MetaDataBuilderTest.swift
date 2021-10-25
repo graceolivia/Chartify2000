@@ -102,7 +102,7 @@ class BuildAllMetaDataTests: XCTestCase {
                 leftOffset: 0
             )
         ]
-        
+
         expect(result).to(equal(expectedResult))
     }
 
@@ -284,6 +284,17 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     │ │ │ │ │-│
     └─┴─┴─┴─┴─┘
 """
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testBuildAllMetaDataUserRowNumber() throws {
+        let testArray = [["k1", "k1", "k1", "k1", "p1"],
+                         ["k1", "k1", "k1", "k1", "p1"]]
+        var testUserRowNumber = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+
+        let result = testUserRowNumber[0].userRowNumber
+        let expectedResult = 1
+
         expect(result).to(equal(expectedResult))
     }
 }
