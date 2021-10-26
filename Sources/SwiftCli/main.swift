@@ -12,7 +12,12 @@ struct StartProgram: ParsableCommand {
     func run() {
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
-        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor)
+        let userInterface = ConsoleUserInterface()
+        let chartify = Chartify(
+            inputValidator: inputValidator,
+            chartConstructor: chartConstructor,
+            userInterface: userInterface
+        )
         chartify.run(userInput: pattern, knitFlat: knitFlat)
     }
 }
