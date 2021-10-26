@@ -14,23 +14,29 @@ public final class Chartify {
     }
 
     public func run(userInput: [String], file: String? = nil) {
-        if file != nil {
+        var patternToProcess: [String]
+        if let fileString = file {
             do {
-                let readInFile = try fileValidator.inputValidation(fileLocation: file!)
-                let metaData = try inputValidator.inputValidation(pattern: readInFile)
-                print(chartConstructor.makeChart(patternMetaData: metaData))
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        else {
-            do {
-                let metaData = try inputValidator.inputValidation(pattern: userInput)
-                print(chartConstructor.makeChart(patternMetaData: metaData))
+                patternToProcess = try fileValidator.inputValidation(fileLocation:fileString)
             } catch {
                 print(error.localizedDescription)
                 exit(0)
             }
         }
+        else { patternToProcess = userInput }
+
+        do {
+            let chart = try validateAndChartify(pattern: patternToProcess)
+            print(chart)
+        } catch {
+            print(error.localizedDescription)
+            exit(0)
+        }
+
+    }
+
+    private func validateAndChartify(pattern: [String]) throws -> String {
+        let metaData = try inputValidator.inputValidation(pattern: pattern)
+        return (chartConstructor.makeChart(patternMetaData: metaData))
     }
 }

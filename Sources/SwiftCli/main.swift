@@ -1,12 +1,12 @@
 import SwiftCliCore
 import ArgumentParser
 
-struct StartProgram: ParsableCommand {
+struct StartProgram: ParsableCommand{
 
     @Argument(help: "Input the pattern.")
     var pattern: [String] = []
 
-    @Option(help: "File path")
+    @Option(help: "File path to a text file")
     var file: String?
 
     func run() {

@@ -23,12 +23,12 @@ extension InputError: LocalizedError {
     }
 }
 
-enum FileUploadError: Error {
+enum ReadFilePath: Error {
     case invalidFileType
     case noFileError
 }
 
-extension FileUploadError: LocalizedError {
+extension ReadFilePath: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidFileType:

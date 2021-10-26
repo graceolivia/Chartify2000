@@ -3,18 +3,14 @@ import Foundation
 public class FileValidator {
     public init() {}
 
-    public func inputValidation(fileLocation: String?) throws -> [String] {
-
-        guard fileLocation != nil else {
-            throw FileUploadError.noFileError
+    public func inputValidation(fileLocation: String) throws -> [String] {
+        let urlVersion = URL(fileURLWithPath: fileLocation)
+        guard urlVersion.pathExtension == "txt" else {
+            throw ReadFilePath.invalidFileType
         }
 
-        guard fileLocation!.suffix(4) == ".txt" else {
-            print("Only files with .txt extension are allowed")
-            throw FileUploadError.invalidFileType
-        }
         do {
-            let contents = try String(contentsOfFile: fileLocation!)
+            let contents = try String(contentsOf: urlVersion)
             let subLines = contents.split(separator: "\n")
             let lines = subLines.map { String($0) }
             return lines

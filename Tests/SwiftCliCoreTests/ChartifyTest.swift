@@ -53,6 +53,6 @@ class MockFileValidator: FileValidator {
     var wasFileValidatorCalled = false
     override func inputValidation(fileLocation: String?) throws -> [String] {
         wasFileValidatorCalled = true
-        return ["Done"]
+        return ["k1"]
     }
 }
