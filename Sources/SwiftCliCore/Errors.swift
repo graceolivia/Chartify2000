@@ -25,7 +25,6 @@ extension InputError: LocalizedError {
 
 enum ReadFilePath: Error {
     case invalidFileType
-    case noFileError
 }
 
 extension ReadFilePath: LocalizedError {
@@ -33,8 +32,6 @@ extension ReadFilePath: LocalizedError {
         switch self {
         case .invalidFileType:
             return "Only .txt files are current allowed"
-        case .noFileError:
-            return "Did you forget to add a file?"
         }
     }
 }
