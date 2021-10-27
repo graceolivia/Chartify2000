@@ -17,7 +17,7 @@ public final class Chartify {
         var patternToProcess: [String]
         if let fileString = file {
             do {
-                patternToProcess = try fileValidator.inputValidation(fileLocation:fileString)
+                patternToProcess = try fileValidator.inputValidation(fileLocation: fileString)
             } catch {
                 print(error.localizedDescription)
                 exit(0)
