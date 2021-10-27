@@ -13,7 +13,7 @@ class BuildAllMetaDataTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┘",
                 stitchSymbols: "│ │-│\n",
                 width: 2,
@@ -23,7 +23,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┤\n",
                 stitchSymbols: "│ │-│\n",
                 width: 2,
@@ -43,7 +43,7 @@ class BuildAllMetaDataTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┴─┘",
                 stitchSymbols: "│ │ │-│\n",
                 width: 3,
@@ -53,7 +53,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "yo", "k1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "└─┼─┼─┼─┤\n",
                 stitchSymbols: "│ │o│ │-│\n",
                 width: 4,
@@ -73,7 +73,7 @@ class BuildAllMetaDataTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┴─┘",
                 stitchSymbols: "│ │ │-│\n",
                 width: 3,
@@ -83,7 +83,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "yo", "k1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "└─┼─┼─┼─┤\n",
                 stitchSymbols: "│ │o│ │-│\n",
                 width: 4,
@@ -93,7 +93,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "yo", "k1", "k1", "p1"],
-                rowNumber: 2,
+                rowIndex: 2,
                 bottomLine: "└─┼─┼─┼─┼─┤\n",
                 stitchSymbols: "│ │o│ │ │-│\n",
                 width: 5,
@@ -113,7 +113,7 @@ class BuildAllMetaDataTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┴─┘",
                 stitchSymbols: "│ │ │-│\n",
                 width: 3,
@@ -123,7 +123,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "k1", "yo", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┼─┼─┘\n",
                 stitchSymbols: "│ │ │o│-│\n",
                 width: 4,
@@ -143,7 +143,7 @@ class BuildAllMetaDataTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┴─┘",
                 stitchSymbols: "│ │ │-│\n",
                 width: 3,
@@ -153,7 +153,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "k1", "yo", "m1", "p1"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┼─┼─┴─┘\n",
                 stitchSymbols: "│ │ │o│m│-│\n",
                 width: 5,
@@ -173,7 +173,7 @@ class BuildAllMetaDataTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┴─┘",
                 stitchSymbols: "│ │ │-│\n",
                 width: 3,
@@ -183,7 +183,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "ssk"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┼─┐\n",
                 stitchSymbols: "│ │\\│\n",
                 width: 2,
@@ -204,7 +204,7 @@ class BuildAllMetaDataTests: XCTestCase {
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1", "k1", "k1"],
-                rowNumber: 0,
+                rowIndex: 0,
                 bottomLine: "└─┴─┴─┴─┴─┘",
                 stitchSymbols: "│ │ │-│ │ │\n",
                 width: 5,
@@ -214,7 +214,7 @@ class BuildAllMetaDataTests: XCTestCase {
             ),
             RowInfo(
                 row: ["k1", "ssk", "ssk"],
-                rowNumber: 1,
+                rowIndex: 1,
                 bottomLine: "├─┼─┼─┼─┬─┐\n",
                 stitchSymbols: "│ │\\│\\│\n",
                 width: 3,
@@ -284,6 +284,17 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     │ │ │ │ │-│
     └─┴─┴─┴─┴─┘
 """
+        expect(result).to(equal(expectedResult))
+    }
+
+    func testBuildAllMetaDataUserRowNumber() throws {
+        let testArray = [["k1", "k1", "k1", "k1", "p1"],
+                         ["k1", "k1", "k1", "k1", "p1"]]
+        var testUserRowNumber = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+
+        let result = testUserRowNumber[0].userRowNumber
+        let expectedResult = 1
+
         expect(result).to(equal(expectedResult))
     }
 }

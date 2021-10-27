@@ -7,13 +7,16 @@ public final class Chartify {
     var chartConstructor: ChartConstructor
     var fileValidator: FileValidator
 
+
     public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator) {
+
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
     }
 
-    public func run(userInput: [String], file: String? = nil) {
+
+    public func run(userInput: [String], file: String? = nil, knitFlat: false) {
         var patternToProcess: [String]
         if let fileString = file {
             do {
@@ -28,6 +31,7 @@ public final class Chartify {
         do {
             let chart = try validateAndChartify(pattern: patternToProcess)
             print(chart)
+
         } catch {
             print(error.localizedDescription)
             exit(0)
@@ -38,5 +42,6 @@ public final class Chartify {
     private func validateAndChartify(pattern: [String]) throws -> String {
         let metaData = try inputValidator.inputValidation(pattern: pattern)
         return (chartConstructor.makeChart(patternMetaData: metaData))
+
     }
 }
