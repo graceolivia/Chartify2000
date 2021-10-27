@@ -5,8 +5,9 @@ import Nimble
 
 class ValidatorTests: XCTestCase {
     func testInvalidStitchShouldThrowError() throws {
-        let invalidStitchError = InputError.invalidStitch(invalidStitch: "g1")
-        expect { try InputValidator().inputValidation(pattern: ["g1 p1"]) }.to(throwError(invalidStitchError))
+        let testPattern = ["g1 p1"]
+        let err = InputError.invalidStitch(invalidStitch: "g1", rowLocation: 1)
+        expect { try InputValidator().inputValidation(pattern: testPattern, knitFlat: false) }.to(throwError(err))
     }
 
     func testEmptyRowShouldThrowError() throws {
