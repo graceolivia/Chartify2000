@@ -21,11 +21,13 @@ public class InputValidator {
         }
 
         for (index, arrayRow) in patternNestedArray.enumerated() {
-            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, index: index)
+            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, rowIndex: index)
             switch isEveryStitchValid {
             case .success:
+                print("1")
                 continue
             case .failure(let error):
+                print("2")
                 throw error
             }
         }
@@ -42,11 +44,10 @@ public class InputValidator {
     }
 
 
-    private func validateEachStitch(stitchRow: [String], index: Int) -> Result<[String], InputError> {
-        for stitch in stitchRow {
-            guard isStitchValid(stitch: String(stitch)) == true else {
-                return .failure(InputError.invalidStitch(invalidStitch: String(stitch), rowLocation: index + 1))
-            }
+    private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
+        let isRowInvalid = stitchRow.firstIndex(where: { !isStitchValid(stitch: String($0)) })
+        if let invalidStitchIndex = isRowInvalid {
+            return .failure(InputError.invalidStitch(invalidStitch: stitchRow[invalidStitchIndex], rowLocation: rowIndex))
         }
         return .success(stitchRow)
     }
