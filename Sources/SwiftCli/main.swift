@@ -19,7 +19,7 @@ struct StartProgram: ParsableCommand{
         let fileValidator = FileValidator()
       
         let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator)
-        chartify.run(userInput: pattern, knitFlat: knitFlat, file: file)
+        chartify.run(userInput: pattern, file: file, knitFlat: knitFlat)
 
     }
 }

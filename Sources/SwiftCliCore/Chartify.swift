@@ -16,7 +16,7 @@ public final class Chartify {
     }
 
 
-    public func run(userInput: [String], file: String? = nil, knitFlat: false) {
+    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) {
         var patternToProcess: [String]
         if let fileString = file {
             do {
@@ -29,7 +29,7 @@ public final class Chartify {
         else { patternToProcess = userInput }
 
         do {
-            let chart = try validateAndChartify(pattern: patternToProcess)
+            let chart = try validateAndChartify(pattern: patternToProcess, knitFlat: knitFlat)
             print(chart)
 
         } catch {
@@ -39,8 +39,8 @@ public final class Chartify {
 
     }
 
-    private func validateAndChartify(pattern: [String]) throws -> String {
-        let metaData = try inputValidator.inputValidation(pattern: pattern)
+    private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
+        let metaData = try inputValidator.inputValidation(pattern: pattern, knitFlat: knitFlat)
         return (chartConstructor.makeChart(patternMetaData: metaData))
 
     }
