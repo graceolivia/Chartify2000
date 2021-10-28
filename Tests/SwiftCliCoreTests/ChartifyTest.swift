@@ -6,14 +6,24 @@ import Nimble
 class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidator() throws {
         let mock = MockInputValidator()
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor()).run(userInput: ["k1"], knitFlat: false)
+
+        Chartify(inputValidator: mock, chartConstructor: ChartConstructor(), fileValidator: FileValidator()).run(userInput: ["k1"], knitFlat: false)
+
         expect(mock.wasValidatorCalled).to(equal(true))
     }
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
-        Chartify(inputValidator: InputValidator(), chartConstructor: mock).run(userInput: ["k1"], knitFlat: false)
+
+        Chartify(inputValidator: InputValidator(), chartConstructor: mock, fileValidator: FileValidator()).run(userInput: ["k1"])
+
         expect(mock.wasMakeChartCalled).to(equal(true))
     }
+    func testRunCallsFileValidatorIfFileIsIncluded() throws {
+        let mock = MockFileValidator()
+        Chartify(inputValidator: InputValidator(), chartConstructor: ChartConstructor(), fileValidator: mock).run(userInput: ["k1"], file: Optional("example.txt"))
+        expect(mock.wasFileValidatorCalled).to(equal(true))
+    }
+
 }
 
 class MockInputValidator: InputValidator {
@@ -38,5 +48,13 @@ class MockChartConstructor: ChartConstructor {
     override func makeChart(patternMetaData: [RowInfo]) -> String {
         wasMakeChartCalled = true
         return("Done")
+    }
+}
+
+class MockFileValidator: FileValidator {
+    var wasFileValidatorCalled = false
+    override func inputValidation(fileLocation: String?) throws -> [String] {
+        wasFileValidatorCalled = true
+        return ["k1"]
     }
 }

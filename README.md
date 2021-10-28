@@ -81,6 +81,10 @@ Multiple rows can be entered as seperate strings:
 
 `swift run SwiftCli "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1"`
 
+In order to read in a file of rows seperated by line breaks, use this:
+
+`swift run SwiftCli --file example.txt`
+
 To indicate your pattern is supposed to be knit flat, with every other row intended to be knit as WS, add the `--knit-flat` command. Default value is knit in the round.
 
 `swift run SwiftCli "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" --knit-flat`

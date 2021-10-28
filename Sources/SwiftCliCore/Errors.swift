@@ -26,6 +26,19 @@ extension InputError: LocalizedError {
     }
 }
 
+enum ReadFilePathError: Error {
+    case invalidFileType
+}
+
+extension ReadFilePathError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidFileType:
+            return "Only .txt files are current allowed"
+        }
+    }
+}
+
 func allowedStitches() -> String {
     var allowedStitchesMessage = "Allowed stitches include: "
 

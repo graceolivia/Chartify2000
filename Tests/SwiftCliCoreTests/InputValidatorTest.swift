@@ -22,7 +22,9 @@ class ValidatorTests: XCTestCase {
     }
 
     func testValidPatternShouldReturnMetaData() throws {
+
         let result = try InputValidator().inputValidation(pattern: ["p1 p1", "p1 p1"], knitFlat: false)
+
         let expectedResult = [
             RowInfo(
                 row: ["p1", "p1"],
