@@ -5,7 +5,9 @@ public class InputValidator {
 
     public func inputValidation(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
 
-        for row in pattern {
+        let lowercaseNormalizedPattern =  pattern.map { PatternNormalizer().makeAllLowercase(stitchesToLowercase: $0) }
+
+        for row in lowercaseNormalizedPattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
             switch isEmptyRow {
             case .success:
@@ -15,8 +17,8 @@ public class InputValidator {
             }
         }
 
-        var patternNestedArray =  pattern.map { NestedArrayBuilder().arrayMaker(row: $0) }
-        if (knitFlat == true) {
+        var patternNestedArray =  lowercaseNormalizedPattern.map { NestedArrayBuilder().arrayMaker(row: $0) }
+        if knitFlat == true {
             patternNestedArray = knitFlatArray(array: patternNestedArray)
         }
 
@@ -40,7 +42,6 @@ public class InputValidator {
             throw error
         }
     }
-
 
     private func validateEachStitch(stitchRow: [String], index: Int) -> Result<[String], InputError> {
         for stitch in stitchRow {
@@ -88,7 +89,7 @@ public class InputValidator {
         let numberofRows = array.count
         var flatArray = array
         for rowNum in 0..<numberofRows {
-            if (rowNum % 2 == 1) {
+            if rowNum % 2 == 1 {
                 flatArray[rowNum].reverse()
             }
         }

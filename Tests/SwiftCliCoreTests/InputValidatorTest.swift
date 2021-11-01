@@ -76,4 +76,31 @@ class ValidatorTests: XCTestCase {
         ]
         expect(result).to(equal(expectedResult))
     }
+
+    func testValidPatternWithUpperCaseShouldReturnMetaData() throws {
+        let result = try InputValidator().inputValidation(pattern: ["K1 P1", "P1 K1"])
+        let expectedResult = [
+            RowInfo(
+                row: ["k1", "p1"],
+                rowIndex: 0,
+                bottomLine: "└─┴─┘",
+                stitchSymbols: "│ │-│\n",
+                width: 2,
+                leftIncDec: 0,
+                rightIncDec: 0,
+                leftOffset: 0
+            ),
+            RowInfo(
+                row: ["p1", "k1"],
+                rowIndex: 1,
+                bottomLine: "├─┼─┤\n",
+                stitchSymbols: "│-│ │\n",
+                width: 2,
+                leftIncDec: 0,
+                rightIncDec: 0,
+                leftOffset: 0
+            )
+        ]
+        expect(result).to(equal(expectedResult))
+    }
 }
