@@ -3,9 +3,9 @@ import Foundation
 public class InputValidator {
     public init() {}
 
-    public func inputValidation(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
+    public func inputValidation(pattern: [String], knitFlat: Bool = false, nestedArrayBuilder: NestedArrayBuilder, patternNormalizer: PatternNormalizer ) throws -> [RowInfo] {
 
-        let lowercaseNormalizedPattern =  pattern.map { PatternNormalizer().makeAllLowercase(stitchesToLowercase: $0) }
+        let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
 
         for row in lowercaseNormalizedPattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
@@ -17,7 +17,7 @@ public class InputValidator {
             }
         }
 
-        var patternNestedArray =  lowercaseNormalizedPattern.map { NestedArrayBuilder().arrayMaker(row: $0) }
+        var patternNestedArray =  lowercaseNormalizedPattern.map { nestedArrayBuilder.arrayMaker(row: $0) }
         if knitFlat == true {
             patternNestedArray = knitFlatArray(array: patternNestedArray)
         }

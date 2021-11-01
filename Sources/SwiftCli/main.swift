@@ -16,8 +16,10 @@ struct StartProgram: ParsableCommand {
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
+        let patternNormalizer = PatternNormalizer()
+        let nestedArrayBuilder = NestedArrayBuilder()
 
-        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator)
+        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator, patternNormalizer: patternNormalizer, nestedArrayBuilder: nestedArrayBuilder)
         chartify.run(userInput: pattern, file: file, knitFlat: knitFlat)
 
     }
