@@ -7,7 +7,7 @@ struct StitchType: Equatable {
     var symbol: String
 }
 
-struct StitchInfo: Equatable {
+struct MultipleStitchInfo: Equatable {
     var stitchType: StitchType
     var repeatNumber: Int?
 }
@@ -39,15 +39,14 @@ func isStitchValid(stitch: String) -> Bool {
     if isNonrepeatingStitch {
         return true
     } else {
-        // check if it is a repeating stitch
         let stitchNameMatch = repeatingStitches.first(where: { stitch.starts(with: $0.name )})
         if let stitchFound = stitchNameMatch  {
-            var stitchName = stitchFound.name
+            let stitchName = stitchFound.name
             var clipStitch = stitch
             clipStitch.removeAll(where: { stitchName.contains($0) })
             let stitchNameSuffix = clipStitch
             let tryToConvertStitchSuffixToInt: Int? = Int(stitchNameSuffix)
-            if let stitchCountNumber = tryToConvertStitchSuffixToInt {
+            if tryToConvertStitchSuffixToInt != nil {
                 return true
             }
         } else {
@@ -56,3 +55,5 @@ func isStitchValid(stitch: String) -> Bool {
     }
     return false
 }
+
+

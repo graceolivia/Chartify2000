@@ -24,15 +24,15 @@ public class InputValidator {
             let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, rowIndex: index)
             switch isEveryStitchValid {
             case .success:
-                print("1")
                 continue
             case .failure(let error):
-                print("2")
                 throw error
             }
         }
 
-        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: patternNestedArray )
+        let expandedNestedArray = patternNestedArray.map { NestedArrayBuilder().expandRow(row: $0) }
+
+        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
 
         let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: patternMetaData)
         switch isPatternMathematicallySound {
@@ -47,7 +47,7 @@ public class InputValidator {
     private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
         let isRowInvalid = stitchRow.firstIndex(where: { !isStitchValid(stitch: String($0)) })
         if let invalidStitchIndex = isRowInvalid {
-            return .failure(InputError.invalidStitch(invalidStitch: stitchRow[invalidStitchIndex], rowLocation: rowIndex))
+            return .failure(InputError.invalidStitch(invalidStitch: stitchRow[invalidStitchIndex], rowLocation: rowIndex + 1))
         }
         return .success(stitchRow)
     }

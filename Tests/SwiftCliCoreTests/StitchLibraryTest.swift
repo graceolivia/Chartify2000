@@ -29,6 +29,4 @@ class StitchLookupTest: XCTestCase {
         expect(isStitchValid(stitch: "g5")).to(equal(false))
     }
 
-
-
 }

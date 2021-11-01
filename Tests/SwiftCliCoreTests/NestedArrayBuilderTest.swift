@@ -16,3 +16,13 @@ class NestedArrayMakerTest: XCTestCase {
     }
 
 }
+
+class MultipleStitchExpanderTest: XCTestCase {
+
+
+    func testNestedArrayBuilder() throws {
+        let result = NestedArrayBuilder().expandRow(row: ["k4", "p1"])
+        expect(result).to(equal(["k1", "k1", "k1", "k1", "p1"]))
+    }
+
+}
