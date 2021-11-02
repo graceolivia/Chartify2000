@@ -7,11 +7,6 @@ struct StitchType: Equatable {
     var symbol: String
 }
 
-struct MultipleStitchInfo: Equatable {
-    var stitchType: StitchType
-    var repeatNumber: Int?
-}
-
 let allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0, symbol: " "),
                            StitchType(name: "p", canRepeat: true, incDecValue: 0, symbol: "-"),
                            StitchType(name: "ssk", canRepeat: false, incDecValue: -1, symbol: "\\"),
