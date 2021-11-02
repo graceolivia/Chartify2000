@@ -24,4 +24,3 @@ func isStitchValid(stitch: String) -> Bool {
     let stitchLookup = allowedStitchesInfo.first(where: { $0.name == stitch })
     return(stitchLookup != nil)
 }
-

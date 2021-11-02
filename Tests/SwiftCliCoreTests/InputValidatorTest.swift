@@ -44,8 +44,12 @@ class ValidatorTests: XCTestCase {
 
     func testValidPatternShouldReturnMetaData() throws {
 
-        let result = try InputValidator().inputValidation(pattern: ["p1 p1", "p1 p1"], knitFlat: false,       nestedArrayBuilder: NestedArrayBuilder(), patternNormalizer: PatternNormalizer())
-
+        let result = try InputValidator().inputValidation(
+            pattern: ["p1 p1", "p1 p1"],
+            knitFlat: false,
+            nestedArrayBuilder: NestedArrayBuilder(),
+            patternNormalizer: PatternNormalizer()
+        )
         let expectedResult = [
             RowInfo(
                 row: ["p1", "p1"],
@@ -72,7 +76,12 @@ class ValidatorTests: XCTestCase {
     }
 
     func testValidPatternKnitFlatShouldReturnMetaData() throws {
-        let result = try InputValidator().inputValidation(pattern: ["k1 p1", "p1 k1"], knitFlat: true, nestedArrayBuilder: NestedArrayBuilder(), patternNormalizer: PatternNormalizer())
+        let result = try InputValidator().inputValidation(
+            pattern: ["k1 p1", "p1 k1"],
+            knitFlat: true,
+            nestedArrayBuilder: NestedArrayBuilder(),
+            patternNormalizer: PatternNormalizer()
+        )
         let expectedResult = [
             RowInfo(
                 row: ["k1", "p1"],
@@ -99,7 +108,11 @@ class ValidatorTests: XCTestCase {
     }
 
     func testValidPatternWithUpperCaseShouldReturnMetaData() throws {
-        let result = try InputValidator().inputValidation(pattern: ["K1 P1", "P1 K1"], nestedArrayBuilder: NestedArrayBuilder(), patternNormalizer: PatternNormalizer())
+        let result = try InputValidator().inputValidation(
+            pattern: ["K1 P1", "P1 K1"],
+            nestedArrayBuilder: NestedArrayBuilder(),
+            patternNormalizer: PatternNormalizer()
+        )
         let expectedResult = [
             RowInfo(
                 row: ["k1", "p1"],
