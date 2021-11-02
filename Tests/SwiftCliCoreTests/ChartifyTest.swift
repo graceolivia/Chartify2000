@@ -7,21 +7,33 @@ class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidator() throws {
         let mock = MockInputValidator()
 
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor(), fileValidator: FileValidator()).run(userInput: ["k1"], knitFlat: false)
+        Chartify(inputValidator: mock, chartConstructor: ChartConstructor(), fileValidator: FileValidator(), writeToFile: WriteToFile()).run(userInput: ["k1"], knitFlat: false)
 
         expect(mock.wasValidatorCalled).to(equal(true))
     }
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
 
-        Chartify(inputValidator: InputValidator(), chartConstructor: mock, fileValidator: FileValidator()).run(userInput: ["k1"])
+        Chartify(inputValidator: InputValidator(), chartConstructor: mock, fileValidator: FileValidator(), writeToFile: WriteToFile()).run(userInput: ["k1"])
 
         expect(mock.wasMakeChartCalled).to(equal(true))
     }
     func testRunCallsFileValidatorIfFileIsIncluded() throws {
         let mock = MockFileValidator()
-        Chartify(inputValidator: InputValidator(), chartConstructor: ChartConstructor(), fileValidator: mock).run(userInput: ["k1"], file: Optional("example.txt"))
+        Chartify(inputValidator: InputValidator(), chartConstructor: ChartConstructor(), fileValidator: mock, writeToFile: WriteToFile()).run(userInput: ["k1"], file: Optional("example.txt"))
         expect(mock.wasFileValidatorCalled).to(equal(true))
+    }
+
+    func testRunCallsMockWriteToFileIfUserIncludesWriteToFile() throws {
+        let mock = MockWriteToFile()
+        Chartify(inputValidator: InputValidator(), chartConstructor: ChartConstructor(), fileValidator: FileValidator(), writeToFile: mock).run(userInput: ["k1"], fileNameToWrite: Optional("test"))
+        expect(mock.wasWriteToFileCalled).to(equal(true))
+    }
+
+    func testRunDoesntCallMockWriteToFileIfUserDoesntIncludeWriteToFile() throws {
+        let mock = MockWriteToFile()
+        Chartify(inputValidator: InputValidator(), chartConstructor: ChartConstructor(), fileValidator: FileValidator(), writeToFile: mock).run(userInput: ["k1"])
+        expect(mock.wasWriteToFileCalled).to(equal(false))
     }
 
 }
@@ -56,5 +68,17 @@ class MockFileValidator: FileValidator {
     override func inputValidation(fileLocation: String?) throws -> [String] {
         wasFileValidatorCalled = true
         return ["k1"]
+    }
+}
+
+class MockWriteToFile: WriteToFile {
+    var wasWriteToFileCalled = false
+
+    override func writeFile(chart: String,
+                            filePath: String,
+                            fileName: String) {
+
+        wasWriteToFileCalled = true
+
     }
 }

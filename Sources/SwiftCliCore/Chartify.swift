@@ -6,17 +6,19 @@ public final class Chartify {
     var inputValidator: InputValidator
     var chartConstructor: ChartConstructor
     var fileValidator: FileValidator
+    var writeToFile: WriteToFile
 
 
-    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator) {
+    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, writeToFile: WriteToFile) {
 
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
+        self.writeToFile = writeToFile
     }
 
 
-    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) {
+    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false, fileNameToWrite: String? = nil) {
         var patternToProcess: [String]
         if let fileString = file {
             do {
@@ -30,7 +32,17 @@ public final class Chartify {
 
         do {
             let chart = try validateAndChartify(pattern: patternToProcess, knitFlat: knitFlat)
-            print(chart)
+
+            if let fileNameToWrite = fileNameToWrite {
+                do {
+                    try writeToFile.writeFile(chart: chart, filePath: "Charts", fileName: fileNameToWrite)
+                } catch {
+                    print(error.localizedDescription)
+                    exit(0)
+                }
+            } else {
+                print(chart) }
+
 
         } catch {
             print(error.localizedDescription)
