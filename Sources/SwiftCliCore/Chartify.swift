@@ -6,19 +6,20 @@ public final class Chartify {
     var inputValidator: InputValidator
     var chartConstructor: ChartConstructor
     var fileValidator: FileValidator
-    var patternNormalizer: PatternNormalizer
-    var nestedArrayBuilder: NestedArrayBuilder
 
-    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
+    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator) {
 
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
-        self.patternNormalizer = patternNormalizer
-        self.nestedArrayBuilder = nestedArrayBuilder
     }
 
+    let patternNormalizer = PatternNormalizer()
+    let nestedArrayBuilder = NestedArrayBuilder()
+
     public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) {
+
+
         var patternToProcess: [String]
         if let fileString = file {
             do {
