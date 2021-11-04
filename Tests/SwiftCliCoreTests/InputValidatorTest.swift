@@ -4,25 +4,33 @@ import Nimble
 @testable import SwiftCliCore
 
 class ValidatorTests: XCTestCase {
+
+    private var inputValidator: InputValidator!
+
+    override func setUp() {
+        super.setUp()
+        inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
+    }
+
+    override func tearDown() {
+        inputValidator = nil
+        super.tearDown()
+    }
+
     func testInvalidStitchShouldThrowError() throws {
         let testPattern = ["g1 p1"]
         let err = InputError.invalidStitch(invalidStitch: "g1", rowLocation: 1)
-        expect { try InputValidator().inputValidation(
+        expect { try self.inputValidator.inputValidation(
             pattern: testPattern,
-            knitFlat: false,
-            nestedArrayBuilder: NestedArrayBuilder(),
-            patternNormalizer: PatternNormalizer())
-
+            knitFlat: false)
         }
         .to(throwError(err))
     }
 
     func testEmptyRowShouldThrowError() throws {
         let testPattern = ["p1 p1", ""]
-        expect { try InputValidator().inputValidation(
-            pattern: testPattern,
-            nestedArrayBuilder: NestedArrayBuilder(),
-            patternNormalizer: PatternNormalizer())
+        expect { try self.inputValidator.inputValidation(
+            pattern: testPattern)
 
         }
         .to(throwError(InputError.emptyRow))
@@ -34,21 +42,17 @@ class ValidatorTests: XCTestCase {
             invalidRowNumber: 4,
             expectedStitchCount: 2,
             actualCount: 3)
-        expect { try InputValidator().inputValidation(
-            pattern: badCountPattern,
-            nestedArrayBuilder: NestedArrayBuilder(),
-            patternNormalizer: PatternNormalizer())
-         }
+        expect { try self.inputValidator.inputValidation(
+            pattern: badCountPattern)
+        }
         .to(throwError(badCountError))
     }
 
     func testValidPatternShouldReturnMetaData() throws {
 
-        let result = try InputValidator().inputValidation(
+        let result = try self.inputValidator.inputValidation(
             pattern: ["p1 p1", "p1 p1"],
-            knitFlat: false,
-            nestedArrayBuilder: NestedArrayBuilder(),
-            patternNormalizer: PatternNormalizer()
+            knitFlat: false
         )
         let expectedResult = [
             RowInfo(
@@ -76,11 +80,9 @@ class ValidatorTests: XCTestCase {
     }
 
     func testValidPatternKnitFlatShouldReturnMetaData() throws {
-        let result = try InputValidator().inputValidation(
+        let result = try self.inputValidator.inputValidation(
             pattern: ["k1 p1", "p1 k1"],
-            knitFlat: true,
-            nestedArrayBuilder: NestedArrayBuilder(),
-            patternNormalizer: PatternNormalizer()
+            knitFlat: true
         )
         let expectedResult = [
             RowInfo(
@@ -108,10 +110,8 @@ class ValidatorTests: XCTestCase {
     }
 
     func testValidPatternWithUpperCaseShouldReturnMetaData() throws {
-        let result = try InputValidator().inputValidation(
-            pattern: ["K1 P1", "P1 K1"],
-            nestedArrayBuilder: NestedArrayBuilder(),
-            patternNormalizer: PatternNormalizer()
+        let result = try self.inputValidator.inputValidation(
+            pattern: ["K1 P1", "P1 K1"]
         )
         let expectedResult = [
             RowInfo(

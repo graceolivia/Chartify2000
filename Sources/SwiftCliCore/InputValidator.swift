@@ -1,12 +1,20 @@
 import Foundation
 
 public class InputValidator {
-    public init() {}
+    var patternNormalizer = PatternNormalizer()
+    var nestedArrayBuilder = NestedArrayBuilder()
+
+    public init(patternNormalizer:PatternNormalizer, nestedArrayBuilder:NestedArrayBuilder) {
+
+        self.patternNormalizer = patternNormalizer
+        self.nestedArrayBuilder = nestedArrayBuilder
+    }
+
+
+
 
     public func inputValidation(pattern: [String],
-                                knitFlat: Bool = false,
-                                nestedArrayBuilder: NestedArrayBuilder,
-                                patternNormalizer: PatternNormalizer ) throws -> [RowInfo] {
+                                knitFlat: Bool = false) throws -> [RowInfo] {
 
         let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
 

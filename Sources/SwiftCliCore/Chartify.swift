@@ -14,9 +14,6 @@ public final class Chartify {
         self.fileValidator = fileValidator
     }
 
-    let patternNormalizer = PatternNormalizer()
-    let nestedArrayBuilder = NestedArrayBuilder()
-
     public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) {
 
 
@@ -42,7 +39,7 @@ public final class Chartify {
     }
 
     private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
-        let metaData = try inputValidator.inputValidation(pattern: pattern, knitFlat: knitFlat, nestedArrayBuilder: nestedArrayBuilder, patternNormalizer: patternNormalizer)
+        let metaData = try inputValidator.inputValidation(pattern: pattern, knitFlat: knitFlat)
         return (chartConstructor.makeChart(patternMetaData: metaData))
 
     }

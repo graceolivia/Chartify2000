@@ -13,7 +13,9 @@ struct StartProgram: ParsableCommand {
     var knitFlat = false
 
     func run() {
-        let inputValidator = InputValidator()
+        let patternNormalizer = PatternNormalizer()
+        let nestedArrayBuilder = NestedArrayBuilder()
+        let inputValidator = InputValidator(patternNormalizer: patternNormalizer, nestedArrayBuilder: nestedArrayBuilder)
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
        

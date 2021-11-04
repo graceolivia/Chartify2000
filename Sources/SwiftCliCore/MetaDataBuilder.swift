@@ -84,5 +84,4 @@ public class MetaDataBuilder {
         }
         return totalChange
     }
-
 }
