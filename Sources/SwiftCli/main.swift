@@ -20,9 +20,9 @@ struct StartProgram: ParsableCommand{
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
-        let writeToFile = WriteToFile()
+        let fileWriter = FileWriter()
       
-        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator, writeToFile: writeToFile)
+        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator, fileWriter: fileWriter)
         chartify.run(userInput: pattern, file: file, knitFlat: knitFlat, fileNameToWrite: outputFile)
 
     }

@@ -6,15 +6,15 @@ public final class Chartify {
     var inputValidator: InputValidator
     var chartConstructor: ChartConstructor
     var fileValidator: FileValidator
-    var writeToFile: WriteToFile
+    var fileWriter: FileWriter
 
 
-    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, writeToFile: WriteToFile) {
+    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, fileWriter: FileWriter) {
 
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
-        self.writeToFile = writeToFile
+        self.fileWriter = fileWriter
     }
 
 
@@ -35,7 +35,7 @@ public final class Chartify {
 
             if let fileNameToWrite = fileNameToWrite {
                 do {
-                    try writeToFile.writeFile(chart: chart, filePath: "Charts", fileName: fileNameToWrite)
+                    try fileWriter.writeFile(chart: chart, filePath: "Charts", fileName: fileNameToWrite)
                 } catch {
                     print(error.localizedDescription)
                     exit(0)
@@ -56,4 +56,5 @@ public final class Chartify {
         return (chartConstructor.makeChart(patternMetaData: metaData))
 
     }
+
 }
