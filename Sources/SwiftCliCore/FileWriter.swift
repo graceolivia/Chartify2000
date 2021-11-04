@@ -1,6 +1,6 @@
 import Foundation
 
-public class WriteToFile {
+public class FileWriter {
     public init() {}
 
     public func writeFile(chart: String,
