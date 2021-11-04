@@ -4,6 +4,7 @@ enum InputError: Error, Equatable {
     case emptyRow
     case invalidStitch(invalidStitch: String, rowLocation: Int? = nil)
     case invalidRowWidth(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)
+    case invalidStitchNumber(rowNumber: Int? = nil, invalidStitch: String, validStitchType: String, invalidStitchNumber: String)
 }
 
 extension InputError: LocalizedError {
@@ -21,6 +22,13 @@ extension InputError: LocalizedError {
                 invalidRowNumber: invalidRowNumber,
                 expectedStitchCount: expectedStitchCount,
                 actualCount: actualCount
+            )
+        case .invalidStitchNumber(let rowNumber, let invalidStitch, let validStitchType, let invalidStitchNumber):
+            return invalidStitchNumberError(
+                rowNumber: rowNumber,
+                invalidStitch: invalidStitch,
+                validStitchType: validStitchType,
+                invalidStitchCount: invalidStitchNumber
             )
         }
     }
@@ -82,5 +90,22 @@ func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?) ->
     \(invalidStitch) is not a valid stitch.
     """
     }
+
+}
+
+func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitchType: String, invalidStitchCount: String) -> String {
+    if let rowNumber = rowNumber {
+        return """
+    Invalid Stitch Count Error:
+    \(invalidStitch) on Row \(rowNumber) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
+    """
+    }
+    else {
+        return """
+    Invalid Stitch Count Error:
+    \(invalidStitch) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
+    """
+    }
+
 
 }

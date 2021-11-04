@@ -3,8 +3,26 @@ import Foundation
 public class InputValidator {
     public init() {}
 
-    public func inputValidation(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
+    public func validateInput(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
 
+        try checkNoEmptyRowsInArrayOfStrings(pattern: pattern)
+
+        var patternNestedArray =  pattern.map { NestedArrayBuilder().arrayMaker(row: $0) }
+        if (knitFlat == true) {
+            patternNestedArray = knitFlatArray(array: patternNestedArray)
+        }
+
+        try checkNoInvalidStitchesInNestedArray(pattern: patternNestedArray)
+
+        let expandedNestedArray = try patternNestedArray.map { try NestedArrayBuilder().expandRow(row: $0) }
+
+        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
+
+        return try checkNoMathmaticalIssuesInArrayOfRowInfo(pattern: patternMetaData)
+
+    }
+
+    private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) throws -> [String] {
         for row in pattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
             switch isEmptyRow {
@@ -14,13 +32,11 @@ public class InputValidator {
                 throw error
             }
         }
+        return pattern
+    }
 
-        var patternNestedArray =  pattern.map { NestedArrayBuilder().arrayMaker(row: $0) }
-        if (knitFlat == true) {
-            patternNestedArray = knitFlatArray(array: patternNestedArray)
-        }
-
-        for (index, arrayRow) in patternNestedArray.enumerated() {
+    private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
+        for (index, arrayRow) in pattern.enumerated() {
             let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, rowIndex: index)
             switch isEveryStitchValid {
             case .success:
@@ -29,18 +45,32 @@ public class InputValidator {
                 throw error
             }
         }
+        return pattern
+    }
 
-        let expandedNestedArray = patternNestedArray.map { NestedArrayBuilder().expandRow(row: $0) }
-
-        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
-
-        let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: patternMetaData)
+    private func checkNoMathmaticalIssuesInArrayOfRowInfo(pattern: [RowInfo]) throws -> [RowInfo] {
+        let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: pattern)
         switch isPatternMathematicallySound {
         case .success:
-            return patternMetaData
+            return pattern
         case .failure(let error):
             throw error
         }
+    }
+
+
+
+    private func check(pattern: [[String]]) throws -> [[String]] {
+        for (index, arrayRow) in pattern.enumerated() {
+            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, rowIndex: index)
+            switch isEveryStitchValid {
+            case .success:
+                continue
+            case .failure(let error):
+                throw error
+            }
+        }
+        return pattern
     }
 
 

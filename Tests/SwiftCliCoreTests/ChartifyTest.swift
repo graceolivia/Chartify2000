@@ -29,7 +29,7 @@ class ChartifyFinishedTest: XCTestCase {
 class MockInputValidator: InputValidator {
     var wasValidatorCalled = false
 
-    override func inputValidation(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
+    override func validateInput(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
         wasValidatorCalled = true
         return [RowInfo(
             row: ["p1", "p1"],
