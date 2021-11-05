@@ -56,8 +56,6 @@ func emptyRowError() -> String {
     """
 }
 
-
-
 func invalidRowWidthError(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int) -> String {
     let row = String(invalidRowNumber)
     let expectedCount = String(expectedStitchCount)

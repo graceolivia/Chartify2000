@@ -1,11 +1,21 @@
 import Foundation
 
 public class InputValidator {
-    public init() {}
+    var patternNormalizer = PatternNormalizer()
+    var nestedArrayBuilder = NestedArrayBuilder()
 
-    public func inputValidation(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
+    public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
 
-        for row in pattern {
+        self.patternNormalizer = patternNormalizer
+        self.nestedArrayBuilder = nestedArrayBuilder
+    }
+
+    public func inputValidation(pattern: [String],
+                                knitFlat: Bool = false) throws -> [RowInfo] {
+
+        let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
+
+        for row in lowercaseNormalizedPattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
             switch isEmptyRow {
             case .success:
@@ -15,8 +25,8 @@ public class InputValidator {
             }
         }
 
-        var patternNestedArray =  pattern.map { NestedArrayBuilder().arrayMaker(row: $0) }
-        if (knitFlat == true) {
+        var patternNestedArray =  lowercaseNormalizedPattern.map { nestedArrayBuilder.arrayMaker(row: $0) }
+        if knitFlat == true {
             patternNestedArray = knitFlatArray(array: patternNestedArray)
         }
 
@@ -40,7 +50,6 @@ public class InputValidator {
             throw error
         }
     }
-
 
     private func validateEachStitch(stitchRow: [String], index: Int) -> Result<[String], InputError> {
         for stitch in stitchRow {
@@ -88,7 +97,7 @@ public class InputValidator {
         let numberofRows = array.count
         var flatArray = array
         for rowNum in 0..<numberofRows {
-            if (rowNum % 2 == 1) {
+            if rowNum % 2 == 1 {
                 flatArray[rowNum].reverse()
             }
         }

@@ -1,7 +1,7 @@
 import SwiftCliCore
 import ArgumentParser
 
-struct StartProgram: ParsableCommand{
+struct StartProgram: ParsableCommand {
 
     @Argument(help: "Input the pattern.")
     var pattern: [String] = []
@@ -16,14 +16,27 @@ struct StartProgram: ParsableCommand{
     var outputFile: String?
 
 
+
     func run() {
-        let inputValidator = InputValidator()
+        let patternNormalizer = PatternNormalizer()
+        let nestedArrayBuilder = NestedArrayBuilder()
+        let inputValidator = InputValidator(patternNormalizer: patternNormalizer, nestedArrayBuilder: nestedArrayBuilder)
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
         let fileWriter = FileWriter()
       
-        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator, fileWriter: fileWriter)
-        chartify.run(userInput: pattern, file: file, knitFlat: knitFlat, fileNameToWrite: outputFile)
+        let chartify = Chartify(
+          inputValidator: inputValidator, 
+          chartConstructor: chartConstructor, 
+          fileValidator: fileValidator, 
+          fileWriter: fileWriter
+        )
+        chartify.run(
+          userInput: pattern, 
+          file: file, 
+          knitFlat: knitFlat, 
+          fileNameToWrite: outputFile)
+
 
     }
 }

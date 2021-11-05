@@ -5,7 +5,7 @@ import Nimble
 
 class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidator() throws {
-        let mock = MockInputValidator()
+        let mock = MockInputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
 
         Chartify(inputValidator: mock, chartConstructor: ChartConstructor(), fileValidator: FileValidator(), fileWriter: FileWriter()).run(userInput: ["k1"], knitFlat: false)
 
@@ -14,13 +14,15 @@ class ChartifyFinishedTest: XCTestCase {
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
 
-        Chartify(inputValidator: InputValidator(), chartConstructor: mock, fileValidator: FileValidator(), fileWriter: FileWriter()).run(userInput: ["k1"])
+        Chartify(inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder(), chartConstructor: mock, fileValidator: FileValidator(), fileWriter: FileWriter())).run(userInput: ["k1"])
 
         expect(mock.wasMakeChartCalled).to(equal(true))
     }
     func testRunCallsFileValidatorIfFileIsIncluded() throws {
         let mock = MockFileValidator()
-        Chartify(inputValidator: InputValidator(), chartConstructor: ChartConstructor(), fileValidator: mock, fileWriter: FileWriter()).run(userInput: ["k1"], file: Optional("example.txt"))
+
+        Chartify(inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()), chartConstructor: ChartConstructor(), fileValidator: mock, fileWriter: FileWriter()).run(userInput: ["k1"], file: Optional("example.txt"))
+
         expect(mock.wasFileValidatorCalled).to(equal(true))
     }
 
@@ -41,7 +43,9 @@ class ChartifyFinishedTest: XCTestCase {
 class MockInputValidator: InputValidator {
     var wasValidatorCalled = false
 
-    override func inputValidation(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
+    override func inputValidation(pattern: [String],
+                                  knitFlat: Bool
+    ) throws -> [RowInfo] {
         wasValidatorCalled = true
         return [RowInfo(
             row: ["p1", "p1"],
