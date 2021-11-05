@@ -18,7 +18,7 @@ public class InputValidator {
 
         let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
 
-        return try checkNoMathmaticalIssuesInArrayOfRowInfo(pattern: patternMetaData)
+        return try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)
 
     }
 
@@ -48,7 +48,7 @@ public class InputValidator {
         return pattern
     }
 
-    private func checkNoMathmaticalIssuesInArrayOfRowInfo(pattern: [RowInfo]) throws -> [RowInfo] {
+    private func checkNoMathematicalIssuesInArrayOfRowInfo(pattern: [RowInfo]) throws -> [RowInfo] {
         let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: pattern)
         switch isPatternMathematicallySound {
         case .success:
@@ -58,20 +58,6 @@ public class InputValidator {
         }
     }
 
-
-
-    private func check(pattern: [[String]]) throws -> [[String]] {
-        for (index, arrayRow) in pattern.enumerated() {
-            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, rowIndex: index)
-            switch isEveryStitchValid {
-            case .success:
-                continue
-            case .failure(let error):
-                throw error
-            }
-        }
-        return pattern
-    }
 
 
     private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
