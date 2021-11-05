@@ -33,7 +33,7 @@ public final class Chartify {
         do {
             let chart = try validateAndChartify(pattern: patternToProcess, knitFlat: knitFlat)
 
-            try returnChartInPrefferedFormat(chart: chart, fileNameToWrite: fileNameToWrite)
+            try returnChartInPreferredFormat(chart: chart, fileNameToWrite: fileNameToWrite)
 
         } catch {
             print(error.localizedDescription)
@@ -48,7 +48,7 @@ public final class Chartify {
 
     }
 
-    private func returnChartInPrefferedFormat(chart: String, fileNameToWrite: String?) throws {
+    private func returnChartInPreferredFormat(chart: String, fileNameToWrite: String?) throws {
         if let fileNameToWrite = fileNameToWrite {
             do {
                 try fileWriter.writeFile(chart: chart, filePath: "Charts", fileName: fileNameToWrite)
