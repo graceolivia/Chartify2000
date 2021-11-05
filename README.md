@@ -89,6 +89,12 @@ To indicate your pattern is supposed to be knit flat, with every other row inten
 
 `swift run SwiftCli "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" "k1 k1 p1 p1 k1 k1" --knit-flat`
 
+To save the chart to a text file, use `  --output-file <filename>`:
+
+`swift run SwiftCli "k1 k1 p1 p1 k1 k1" --output-file example`
+
+This will save the file in the Charts folder.
+
 To test the project, either use XCODE tools to run tests as you wish, or in the project directory on the terminal run:
 
 `swift test`

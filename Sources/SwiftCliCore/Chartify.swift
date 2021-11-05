@@ -9,7 +9,6 @@ public final class Chartify {
     var fileWriter: FileWriter
 
     public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, fileWriter: FileWriter) {
-
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
