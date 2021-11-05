@@ -12,14 +12,18 @@ struct StartProgram: ParsableCommand{
     @Flag(help: "Set if you want your pattern to be knit flat. Default value is knit in the round.")
     var knitFlat = false
 
+    @Option(help: "File name to save pattern under.")
+    var outputFile: String?
+
 
     func run() {
         let inputValidator = InputValidator()
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
+        let fileWriter = FileWriter()
       
-        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator)
-        chartify.run(userInput: pattern, file: file, knitFlat: knitFlat)
+        let chartify = Chartify(inputValidator: inputValidator, chartConstructor: chartConstructor, fileValidator: fileValidator, fileWriter: fileWriter)
+        chartify.run(userInput: pattern, file: file, knitFlat: knitFlat, fileNameToWrite: outputFile)
 
     }
 }
