@@ -4,14 +4,11 @@ public class InputValidator {
     var patternNormalizer = PatternNormalizer()
     var nestedArrayBuilder = NestedArrayBuilder()
 
-    public init(patternNormalizer:PatternNormalizer, nestedArrayBuilder:NestedArrayBuilder) {
+    public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
 
         self.patternNormalizer = patternNormalizer
         self.nestedArrayBuilder = nestedArrayBuilder
     }
-
-
-
 
     public func inputValidation(pattern: [String],
                                 knitFlat: Bool = false) throws -> [RowInfo] {

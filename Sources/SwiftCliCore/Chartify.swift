@@ -16,7 +16,6 @@ public final class Chartify {
 
     public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) {
 
-
         var patternToProcess: [String]
         if let fileString = file {
             do {

@@ -12,25 +12,22 @@ class ValidatorTests: XCTestCase {
         inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
     }
 
-    override func tearDown() {
-        inputValidator = nil
-        super.tearDown()
-    }
-
     func testInvalidStitchShouldThrowError() throws {
         let testPattern = ["g1 p1"]
         let err = InputError.invalidStitch(invalidStitch: "g1", rowLocation: 1)
-        expect { try self.inputValidator.inputValidation(
-            pattern: testPattern,
-            knitFlat: false)
+        expect {
+            try self.inputValidator.inputValidation(
+                pattern: testPattern,
+                knitFlat: false)
         }
         .to(throwError(err))
     }
 
     func testEmptyRowShouldThrowError() throws {
         let testPattern = ["p1 p1", ""]
-        expect { try self.inputValidator.inputValidation(
-            pattern: testPattern)
+        expect {
+            try self.inputValidator.inputValidation(
+                pattern: testPattern)
 
         }
         .to(throwError(InputError.emptyRow))
@@ -42,8 +39,9 @@ class ValidatorTests: XCTestCase {
             invalidRowNumber: 4,
             expectedStitchCount: 2,
             actualCount: 3)
-        expect { try self.inputValidator.inputValidation(
-            pattern: badCountPattern)
+        expect {
+            try self.inputValidator.inputValidation(
+                pattern: badCountPattern)
         }
         .to(throwError(badCountError))
     }
