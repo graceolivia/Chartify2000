@@ -7,5 +7,4 @@ class FileValidatorTest: XCTestCase {
     func testBadSuffixThrowsError() throws {
         expect { try FileValidator().inputValidation(fileLocation: "example.png") }.to(throwError(ReadFilePathError.invalidFileType))
     }
-
 }
