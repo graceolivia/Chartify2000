@@ -4,18 +4,36 @@ public class InputValidator {
     var patternNormalizer = PatternNormalizer()
     var nestedArrayBuilder = NestedArrayBuilder()
 
+
     public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
 
         self.patternNormalizer = patternNormalizer
         self.nestedArrayBuilder = nestedArrayBuilder
     }
 
-    public func inputValidation(pattern: [String],
-                                knitFlat: Bool = false) throws -> [RowInfo] {
+    public func validateInput(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
 
         let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
 
-        for row in lowercaseNormalizedPattern {
+        try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
+
+        var patternNestedArray =  lowercaseNormalizedPattern.map { nestedArrayBuilder.arrayMaker(row: $0) }
+        if (knitFlat == true) {
+            patternNestedArray = knitFlatArray(array: patternNestedArray)
+        }
+
+        try checkNoInvalidStitchesInNestedArray(pattern: patternNestedArray)
+
+        let expandedNestedArray = try patternNestedArray.map { try nestedArrayBuilder.expandRow(row: $0) }
+
+        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
+
+        return try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)
+
+    }
+
+    private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) throws -> [String] {
+        for row in pattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
             switch isEmptyRow {
             case .success:
@@ -24,14 +42,14 @@ public class InputValidator {
                 throw error
             }
         }
+        return pattern
+    }
 
-        var patternNestedArray =  lowercaseNormalizedPattern.map { nestedArrayBuilder.arrayMaker(row: $0) }
-        if knitFlat == true {
-            patternNestedArray = knitFlatArray(array: patternNestedArray)
-        }
 
-        for (index, arrayRow) in patternNestedArray.enumerated() {
-            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, index: index)
+    private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
+        for (index, arrayRow) in pattern.enumerated() {
+            let isEveryStitchValid = validateEachStitch(stitchRow: arrayRow, rowIndex: index)
+
             switch isEveryStitchValid {
             case .success:
                 continue
@@ -39,23 +57,24 @@ public class InputValidator {
                 throw error
             }
         }
+        return pattern
+    }
 
-        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: patternNestedArray )
-
-        let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: patternMetaData)
+    private func checkNoMathematicalIssuesInArrayOfRowInfo(pattern: [RowInfo]) throws -> [RowInfo] {
+        let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: pattern)
         switch isPatternMathematicallySound {
         case .success:
-            return patternMetaData
+            return pattern
         case .failure(let error):
             throw error
         }
     }
 
-    private func validateEachStitch(stitchRow: [String], index: Int) -> Result<[String], InputError> {
-        for stitch in stitchRow {
-            guard isStitchValid(stitch: String(stitch)) == true else {
-                return .failure(InputError.invalidStitch(invalidStitch: String(stitch), rowLocation: index + 1))
-            }
+    private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
+        let isRowInvalid = stitchRow.firstIndex(where: { !isStitchValid(stitch: String($0)) })
+        if let invalidStitchIndex = isRowInvalid {
+            return .failure(InputError.invalidStitch(invalidStitch: stitchRow[invalidStitchIndex], rowLocation: rowIndex + 1))
+
         }
         return .success(stitchRow)
     }
