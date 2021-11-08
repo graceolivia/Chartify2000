@@ -50,3 +50,34 @@ func isStitchValid(stitch: String) -> Bool {
     }
     return false
 }
+
+func isStitchAndStitchCountValid(stitch: String, rowNumber: Int, stitchIndex: Int) -> Result<String, InputError> {
+    if !isStitchValid(stitch: stitch){
+        return .failure(InputError.invalidStitch(invalidStitch: stitch, rowLocation: rowNumber, stitchIndexInRow: stitchIndex))
+    }
+    if nonrepeatingStitches.contains(where: { $0.name == stitch }) {
+        return .success(stitch)
+    }
+    let isRepeatingStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )})
+    if let isRepeatingStitch = isRepeatingStitch {
+        let stitchName = isRepeatingStitch.name
+        var clipStitch = stitch
+        clipStitch.removeAll(where: { stitchName.contains($0) })
+        let stitchNameSuffix = clipStitch
+        guard let repeatNumber = Int(stitchNameSuffix) else {
+            return .failure(InputError.invalidStitchNumber(invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix))
+        }
+
+        guard (repeatNumber >= 1) else {
+            return .failure(InputError.invalidStitchNumber(invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix))
+        }
+
+        var stitchArray: [String] = []
+        stitchArray.append(contentsOf: repeatElement((stitchName + "1"), count: repeatNumber))
+        return .success(stitch)
+
+    }
+    else {
+        return .success(stitch)
+    }
+}

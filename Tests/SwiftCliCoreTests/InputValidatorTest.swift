@@ -14,7 +14,13 @@ class ValidatorTests: XCTestCase {
 
     func testInvalidStitchShouldThrowError() throws {
         let testPattern = ["g1 p1"]
-        let err = InputError.invalidStitch(invalidStitch: "g1", rowLocation: 1)
+        let err = InputError.multipleErrors(errors:
+                                    [
+                                        SwiftCliCore.InputError.invalidStitch(
+                                            invalidStitch: "g1",
+                                            rowLocation: Optional(1),
+                                            stitchIndexInRow: Optional(1))
+                                    ])
         expect {
             try self.inputValidator.validateInput(
                 pattern: testPattern,
@@ -48,6 +54,32 @@ class ValidatorTests: XCTestCase {
         .to(throwError(badCountError))
 
     }
+
+    func testMultipleIncorrectStitchesShouldThrowMultipleErrors() throws {
+        let multipleIncorrectStitchesPattern = ["p1 p1", "g1 p1", "p1 g1", "g1 p1"]
+       let error = InputError.multipleErrors(errors: [
+        InputError.invalidStitch(
+            invalidStitch: "g1",
+            rowLocation: Optional(2),
+            stitchIndexInRow: 1
+        ),
+        InputError.invalidStitch(
+            invalidStitch: "g1",
+            rowLocation: Optional(3),
+            stitchIndexInRow: Optional(2)
+        ),
+        InputError.invalidStitch(
+            invalidStitch: "g1",
+            rowLocation: Optional(4),
+            stitchIndexInRow: Optional(1)
+        )])
+        expect {
+            try self.inputValidator.validateInput(
+                pattern: multipleIncorrectStitchesPattern)
+        }
+        .to(throwError(error))
+    }
+
 
     func testValidPatternShouldReturnMetaData() throws {
 
