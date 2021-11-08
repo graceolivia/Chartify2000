@@ -8,11 +8,15 @@ public final class Chartify {
     var fileValidator: FileValidator
     var fileWriter: FileWriter
 
-    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, fileWriter: FileWriter) {
-        self.inputValidator = inputValidator
-        self.chartConstructor = chartConstructor
-        self.fileValidator = fileValidator
-        self.fileWriter = fileWriter
+    public init(
+        inputValidator: InputValidator,
+        chartConstructor: ChartConstructor,
+        fileValidator: FileValidator,
+        fileWriter: FileWriter) {
+            self.inputValidator = inputValidator
+            self.chartConstructor = chartConstructor
+            self.fileValidator = fileValidator
+            self.fileWriter = fileWriter
     }
 
     public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false, fileNameToWrite: String? = nil) {
@@ -57,5 +61,3 @@ public final class Chartify {
     }
 
 }
-
-

@@ -24,7 +24,6 @@ class MultipleStitchExpanderTest: XCTestCase {
         expect(result).to(equal(["k1", "k1", "k1", "k1", "p1"]))
     }
 
-
     func testExpandInvalidMultipleStitch() throws {
         let result = try NestedArrayBuilder().expandRow(row: ["k0", "p1"])
         expect(result).to(equal(["k0", "p1"]))

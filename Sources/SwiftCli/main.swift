@@ -15,8 +15,6 @@ struct StartProgram: ParsableCommand {
     @Option(help: "File name to save pattern under.")
     var outputFile: String?
 
-
-
     func run() {
         let patternNormalizer = PatternNormalizer()
         let nestedArrayBuilder = NestedArrayBuilder()
@@ -24,19 +22,18 @@ struct StartProgram: ParsableCommand {
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
         let fileWriter = FileWriter()
-      
+
         let chartify = Chartify(
-          inputValidator: inputValidator, 
-          chartConstructor: chartConstructor, 
-          fileValidator: fileValidator, 
+          inputValidator: inputValidator,
+          chartConstructor: chartConstructor,
+          fileValidator: fileValidator,
           fileWriter: fileWriter
         )
         chartify.run(
-          userInput: pattern, 
-          file: file, 
-          knitFlat: knitFlat, 
+          userInput: pattern,
+          file: file,
+          knitFlat: knitFlat,
           fileNameToWrite: outputFile)
-
 
     }
 }

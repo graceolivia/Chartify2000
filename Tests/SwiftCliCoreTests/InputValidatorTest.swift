@@ -98,9 +98,7 @@ class ValidatorTests: XCTestCase {
         .to(throwError(error))
     }
 
-
     func testValidPatternShouldReturnMetaData() throws {
-
 
         let result = try self.inputValidator.validateInput(
             pattern: ["p1 p1", "p1 p1"],

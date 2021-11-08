@@ -4,7 +4,6 @@ public class InputValidator {
     var patternNormalizer = PatternNormalizer()
     var nestedArrayBuilder = NestedArrayBuilder()
 
-
     public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
 
         self.patternNormalizer = patternNormalizer
@@ -18,7 +17,7 @@ public class InputValidator {
         try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
 
         var patternNestedArray =  lowercaseNormalizedPattern.map { nestedArrayBuilder.arrayMaker(row: $0) }
-        if (knitFlat == true) {
+        if knitFlat == true {
             patternNestedArray = knitFlatArray(array: patternNestedArray)
         }
 
@@ -45,7 +44,6 @@ public class InputValidator {
         return pattern
     }
 
-
     private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
         let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
         switch isEveryStitchValid {
@@ -68,14 +66,14 @@ public class InputValidator {
     }
 
     private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
-        var errorArray:[InputError] = []
+        var errorArray: [InputError] = []
         for (index, stitch) in stitchRow.enumerated() {
-            if (!isStitchValid(stitch: stitch)){
+            if !isStitchValid(stitch: stitch) {
                 errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: index + 1))
             }
         }
 
-        if (errorArray.count > 0) {
+        if errorArray.count > 0 {
             return .failure(InputError.multipleErrors(errors: errorArray))
         }
 
@@ -83,7 +81,7 @@ public class InputValidator {
     }
 
     private func validateEachStitchInWholePattern(pattern: [[String]]) -> Result<[[String]], InputError> {
-        var errorArray:[InputError] = []
+        var errorArray: [InputError] = []
         for (rowIndex, row) in pattern.enumerated() {
             for (stitchIndex, stitch) in row.enumerated() {
                 let result = isStitchAndStitchCountValid(stitch: stitch, rowNumber: rowIndex + 1, stitchIndex: stitchIndex + 1)
@@ -97,14 +95,12 @@ public class InputValidator {
             }
         }
 
-        if (errorArray.count > 0) {
+        if errorArray.count > 0 {
             return .failure(InputError.multipleErrors(errors: errorArray))
         }
 
         return .success(pattern)
     }
-
-
 
     private func validateNoEmptyRows(row: String) -> Result<String, InputError> {
 

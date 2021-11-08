@@ -96,7 +96,6 @@ func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?, st
     '\(invalidStitch)'\(atIndex)\(onRow) is not a valid stitch type.
     """
 
-
 }
 
 func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitchType: String, invalidStitchCount: String, stitchIndexInRow: Int?) -> String {
@@ -118,7 +117,7 @@ func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitc
 
 func multipleErrorsMessage(errors: [InputError]) -> String {
     var allErrorMessages = ""
-    for error in errors{
+    for error in errors {
         allErrorMessages.append(error.localizedDescription)
         allErrorMessages.append("\n")
     }

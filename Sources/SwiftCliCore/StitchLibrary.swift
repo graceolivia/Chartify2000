@@ -21,11 +21,9 @@ let repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
 func getStitchInfo(stitch: String) throws -> StitchType {
     if let lookupStitch = nonrepeatingStitches.first(where: { $0.name == stitch }) {
         return lookupStitch
-    }
-    else if let lookupStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )}) {
+    } else if let lookupStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )}) {
         return lookupStitch
-    }
-    else {throw InputError.invalidStitch(invalidStitch: stitch)}
+    } else {throw InputError.invalidStitch(invalidStitch: stitch)}
 
 }
 
@@ -35,7 +33,7 @@ func isStitchValid(stitch: String) -> Bool {
         return true
     } else {
         let stitchNameMatch = repeatingStitches.first(where: { stitch.starts(with: $0.name )})
-        if let stitchFound = stitchNameMatch  {
+        if let stitchFound = stitchNameMatch {
             let stitchName = stitchFound.name
             var clipStitch = stitch
             clipStitch.removeAll(where: { stitchName.contains($0) })
@@ -52,7 +50,7 @@ func isStitchValid(stitch: String) -> Bool {
 }
 
 func isStitchAndStitchCountValid(stitch: String, rowNumber: Int, stitchIndex: Int) -> Result<String, InputError> {
-    if !isStitchValid(stitch: stitch){
+    if !isStitchValid(stitch: stitch) {
         return .failure(InputError.invalidStitch(invalidStitch: stitch, rowLocation: rowNumber, stitchIndexInRow: stitchIndex))
     }
     if nonrepeatingStitches.contains(where: { $0.name == stitch }) {
@@ -68,7 +66,7 @@ func isStitchAndStitchCountValid(stitch: String, rowNumber: Int, stitchIndex: In
             return .failure(InputError.invalidStitchNumber(rowNumber: rowNumber, invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix, stitchIndexInRow: stitchIndex))
         }
 
-        guard (repeatNumber >= 1) else {
+        guard repeatNumber >= 1 else {
             return .failure(InputError.invalidStitchNumber(rowNumber: rowNumber, invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix, stitchIndexInRow: stitchIndex))
         }
 
@@ -76,8 +74,7 @@ func isStitchAndStitchCountValid(stitch: String, rowNumber: Int, stitchIndex: In
         stitchArray.append(contentsOf: repeatElement((stitchName + "1"), count: repeatNumber))
         return .success(stitch)
 
-    }
-    else {
+    } else {
         return .success(stitch)
     }
 }
