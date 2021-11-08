@@ -85,15 +85,15 @@ func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?, st
     var onRow = ""
     var atIndex = ""
     if let rowLocation = rowLocation {
-        onRow = "on row \(rowLocation)"
+        onRow = " on row \(rowLocation)"
     }
     if let stitchIndexInRow = stitchIndexInRow {
-        atIndex = "at index \(stitchIndexInRow)"
+        atIndex = " at index \(stitchIndexInRow)"
     }
 
     return """
     Invalid Stitch Error:
-    '\(invalidStitch)' \(onRow) \(atIndex) is not a valid stitch.
+    '\(invalidStitch)'\(atIndex)\(onRow) is not a valid stitch type.
     """
 
 
@@ -103,15 +103,15 @@ func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitc
     var onRow = ""
     var atIndex = ""
     if let rowNumber = rowNumber {
-        onRow = "on row \(rowNumber)"
+        onRow = " on row \(rowNumber)"
     }
     if let stitchIndexInRow = stitchIndexInRow {
-        atIndex = "at index \(stitchIndexInRow)"
+        atIndex = " at index \(stitchIndexInRow)"
     }
 
     return """
     Invalid Stitch Count Error:
-    '\(invalidStitch)' \(onRow) \(atIndex) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
+    '\(invalidStitch)'\(atIndex)\(onRow) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
     """
 
 }

@@ -65,11 +65,11 @@ func isStitchAndStitchCountValid(stitch: String, rowNumber: Int, stitchIndex: In
         clipStitch.removeAll(where: { stitchName.contains($0) })
         let stitchNameSuffix = clipStitch
         guard let repeatNumber = Int(stitchNameSuffix) else {
-            return .failure(InputError.invalidStitchNumber(invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix))
+            return .failure(InputError.invalidStitchNumber(rowNumber: rowNumber, invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix, stitchIndexInRow: stitchIndex))
         }
 
         guard (repeatNumber >= 1) else {
-            return .failure(InputError.invalidStitchNumber(invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix))
+            return .failure(InputError.invalidStitchNumber(rowNumber: rowNumber, invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix, stitchIndexInRow: stitchIndex))
         }
 
         var stitchArray: [String] = []

@@ -55,7 +55,7 @@ class ValidatorTests: XCTestCase {
 
     }
 
-    func testMultipleIncorrectStitchesShouldThrowMultipleErrors() throws {
+    func testMultipleIncorrectStitchesTypesShouldThrowMultipleErrors() throws {
         let multipleIncorrectStitchesPattern = ["p1 p1", "g1 p1", "p1 g1", "g1 p1"]
        let error = InputError.multipleErrors(errors: [
         InputError.invalidStitch(
@@ -73,6 +73,24 @@ class ValidatorTests: XCTestCase {
             rowLocation: Optional(4),
             stitchIndexInRow: Optional(1)
         )])
+        expect {
+            try self.inputValidator.validateInput(
+                pattern: multipleIncorrectStitchesPattern)
+        }
+        .to(throwError(error))
+    }
+
+    func testZeroCountStitchShouldThrowMultipleErrors() throws {
+        let multipleIncorrectStitchesPattern = ["k0 p1"]
+        let error = InputError.multipleErrors(errors: [
+            InputError.invalidStitchNumber(
+                rowNumber: Optional(1),
+                invalidStitch: "k0",
+                validStitchType: "k",
+                invalidStitchNumber: "0",
+                stitchIndexInRow: Optional(1)
+            )
+        ])
         expect {
             try self.inputValidator.validateInput(
                 pattern: multipleIncorrectStitchesPattern)
