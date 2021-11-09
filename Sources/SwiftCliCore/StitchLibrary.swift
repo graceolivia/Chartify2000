@@ -14,6 +14,7 @@ let allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0
                            StitchType(name: "yo", canRepeat: false, incDecValue: 1, symbol: "o"),
                            StitchType(name: "m1", canRepeat: false, incDecValue: 1, symbol: "m")]
 
+
 let nonrepeatingStitches = allowedStitchesInfo.filter({ !$0.canRepeat })
 
 let repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })

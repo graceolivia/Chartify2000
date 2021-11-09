@@ -7,15 +7,23 @@ public final class Chartify {
     var chartConstructor: ChartConstructor
     var fileValidator: FileValidator
     var fileWriter: FileWriter
+    var instructionsGiver: InstructionsGiver
 
-    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, fileWriter: FileWriter) {
+    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, fileWriter: FileWriter, instructionsGiver: InstructionsGiver) {
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
         self.fileWriter = fileWriter
+        self.instructionsGiver = instructionsGiver
     }
 
-    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false, fileNameToWrite: String? = nil) {
+    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false, fileNameToWrite: String? = nil, stitches: Bool? = false) {
+
+        if stitches == true {
+            let message = instructionsGiver.giveInstructions()
+            print(message)
+            exit(0)
+        }
 
         var patternToProcess: [String]
         if let fileString = file {
@@ -36,6 +44,7 @@ public final class Chartify {
             print(error.localizedDescription)
             exit(0)
         }
+
 
     }
 
