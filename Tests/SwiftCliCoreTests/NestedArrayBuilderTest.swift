@@ -15,6 +15,16 @@ class NestedArrayMakerTest: XCTestCase {
         expect(result).to(equal(["k1", "k1", "k1"]))
     }
 
+    func testNestedArrayBuilderWithRepeats() throws {
+        let result = NestedArrayBuilder().arrayMaker(row: "k1 p1 (2x)")
+        expect(result).to(equal(["k1", "p1", "k1", "p1"]))
+    }
+
+    func testNestedArrayBuilderWithRepeatsMidRow() throws {
+        let result = NestedArrayBuilder().arrayMaker(row: "k1 p1 (2x) yo k1")
+        expect(result).to(equal(["k1", "p1", "k1", "p1", "yo", "k1"]))
+    }
+
 }
 
 class MultipleStitchExpanderTest: XCTestCase {
@@ -49,4 +59,13 @@ class MultipleStitchExpanderTest: XCTestCase {
                     invalidStitchNumber: "x")
         ))
     }
+
+    class MultipleStitchExpanderTest: XCTestCase {
+        func testExpandValidMultipleStitch() throws {
+            let result = try NestedArrayBuilder().expandRow(row: ["k4", "p1"])
+            expect(result).to(equal(["k1", "k1", "k1", "k1", "p1"]))
+        }
+
+    }
+
 }

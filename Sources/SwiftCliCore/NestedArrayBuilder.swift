@@ -6,11 +6,27 @@ public class NestedArrayBuilder {
     public func arrayMaker(row: String) -> [String] {
         let substringRowStitches = row.split(separator: " ")
         let rowStitches = substringRowStitches.map {(String($0))}
-        return(rowStitches)
+        let expandedRowStitches = handleRepeats(row: rowStitches)
+        return(expandedRowStitches)
     }
 
     public func expandRow(row: [String]) throws ->  [String] {
         return try row.flatMap { try getMultipleStitchInfo(stitch: $0) }
+    }
+
+    private func handleRepeats(row: [String]) -> [String] {
+
+        var repeatedRow:[String] = []
+        for (index, stitch) in row.enumerated(){
+            if (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression) != nil){
+                let numbers = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
+                for i in 1..<numbers! { repeatedRow += (Array(repeatedRow[0..<index])) }
+            } else {
+                repeatedRow.append(stitch)
+            }
+        }
+
+        return repeatedRow
     }
 
     private func getMultipleStitchInfo(stitch: String) throws -> [String] {
