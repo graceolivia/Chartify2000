@@ -14,13 +14,16 @@ class ValidatorTests: XCTestCase {
 
     func testInvalidStitchShouldThrowError() throws {
         let testPattern = ["g1 p1"]
-        let err = InputError.multipleErrors(errors:
-                                    [
-                                        SwiftCliCore.InputError.invalidStitch(
-                                            invalidStitch: "g1",
-                                            rowLocation: Optional(1),
-                                            stitchIndexInRow: Optional(1))
-                                    ])
+        let err = InputError.multipleErrors
+        (errors:
+            [
+                SwiftCliCore.InputError.invalidStitch(
+                    invalidStitch: "g1",
+                    rowLocation: Optional(1),
+                    stitchIndexInRow: Optional(1)
+                )
+            ]
+        )
         expect {
             try self.inputValidator.validateInput(
                 pattern: testPattern,
