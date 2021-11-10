@@ -21,7 +21,10 @@ struct StartProgram: ParsableCommand {
     func run() {
         let patternNormalizer = PatternNormalizer()
         let nestedArrayBuilder = NestedArrayBuilder()
-        let inputValidator = InputValidator(patternNormalizer: patternNormalizer, nestedArrayBuilder: nestedArrayBuilder)
+        let inputValidator = InputValidator(
+            patternNormalizer: patternNormalizer,
+            nestedArrayBuilder: nestedArrayBuilder
+        )
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
         let outputWriter: OutputWriter
@@ -38,9 +41,7 @@ struct StartProgram: ParsableCommand {
             } catch {
                 print(error.localizedDescription)
             }
-        }
-
-        else {
+        } else {
 
             let chartify = Chartify(
                 inputValidator: inputValidator,
@@ -54,7 +55,6 @@ struct StartProgram: ParsableCommand {
                 knitFlat: knitFlat
             )
         }
-      
 
     }
 }

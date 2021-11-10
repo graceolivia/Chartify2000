@@ -8,14 +8,19 @@ public final class Chartify {
     var fileValidator: FileValidator
     var outputWriter: OutputWriter
 
-    public init(inputValidator: InputValidator, chartConstructor: ChartConstructor, fileValidator: FileValidator, outputWriter: OutputWriter) {
+    public init(
+        inputValidator: InputValidator,
+        chartConstructor: ChartConstructor,
+        fileValidator: FileValidator,
+        outputWriter: OutputWriter
+    ) {
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
         self.outputWriter = outputWriter
     }
 
-    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) -> Void {
+    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) {
 
         var patternToProcess: [String]
         if let fileString = file {
@@ -35,7 +40,6 @@ public final class Chartify {
             return
         }
 
-
     }
 
     private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
@@ -45,5 +49,3 @@ public final class Chartify {
     }
 
 }
-
-

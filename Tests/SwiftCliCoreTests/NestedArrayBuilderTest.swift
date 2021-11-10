@@ -25,7 +25,7 @@ class MultipleStitchExpanderTest: XCTestCase {
     }
 
     func testInvalidZeroCountStitch() throws {
-        expect{
+        expect {
             try NestedArrayBuilder().expandRow(row: ["k0", "p1"])
         }
         .to(throwError(
@@ -38,7 +38,7 @@ class MultipleStitchExpanderTest: XCTestCase {
     }
 
     func testInvalidWordCountStitch() throws {
-        expect{
+        expect {
             try NestedArrayBuilder().expandRow(row: ["kx", "py"])
         }
         .to(throwError(

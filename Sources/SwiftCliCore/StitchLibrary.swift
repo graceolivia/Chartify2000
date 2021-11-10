@@ -14,7 +14,6 @@ let allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0
                            StitchType(name: "yo", canRepeat: false, incDecValue: 1, symbol: "o"),
                            StitchType(name: "m1", canRepeat: false, incDecValue: 1, symbol: "m")]
 
-
 let nonrepeatingStitches = allowedStitchesInfo.filter({ !$0.canRepeat })
 
 let repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
@@ -22,11 +21,9 @@ let repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
 func getStitchInfo(stitch: String) throws -> StitchType {
     if let lookupStitch = nonrepeatingStitches.first(where: { $0.name == stitch }) {
         return lookupStitch
-    }
-    else if let lookupStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )}) {
+    } else if let lookupStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )}) {
         return lookupStitch
-    }
-    else {throw InputError.invalidStitch(invalidStitch: stitch)}
+    } else {throw InputError.invalidStitch(invalidStitch: stitch)}
 
 }
 
@@ -36,7 +33,7 @@ func isStitchValid(stitch: String) -> Bool {
         return true
     } else {
         let stitchNameMatch = repeatingStitches.first(where: { stitch.starts(with: $0.name )})
-        if let stitchFound = stitchNameMatch  {
+        if let stitchFound = stitchNameMatch {
             let stitchName = stitchFound.name
             var clipStitch = stitch
             clipStitch.removeAll(where: { stitchName.contains($0) })

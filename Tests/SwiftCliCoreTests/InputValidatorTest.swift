@@ -51,7 +51,6 @@ class ValidatorTests: XCTestCase {
 
     func testValidPatternShouldReturnMetaData() throws {
 
-
         let result = try self.inputValidator.validateInput(
             pattern: ["p1 p1", "p1 p1"],
             knitFlat: false
