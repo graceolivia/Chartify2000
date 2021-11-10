@@ -24,23 +24,37 @@ struct StartProgram: ParsableCommand {
         let inputValidator = InputValidator(patternNormalizer: patternNormalizer, nestedArrayBuilder: nestedArrayBuilder)
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
-        let fileWriter = FileWriter()
-        let instructionsGiver = InstructionsGiver()
-      
-        let chartify = Chartify(
-          inputValidator: inputValidator, 
-          chartConstructor: chartConstructor, 
-          fileValidator: fileValidator, 
-          fileWriter: fileWriter,
-          instructionsGiver: instructionsGiver
-        )
-        chartify.run(
-          userInput: pattern, 
-          file: file, 
-          knitFlat: knitFlat, 
-          fileNameToWrite: outputFile,
-          stitches: stitches)
+        let outputWriter: OutputWriter
+        if let outputFile = outputFile {
+            outputWriter = FileWriter(filePath: "Charts/", fileName: outputFile)
+        } else {
+            outputWriter = ConsoleWriter()
+        }
+        let instructionsGiver = InstructionsGiver(consoleWriter: ConsoleWriter())
 
+        if stitches {
+            do {
+                try instructionsGiver.giveInstructions()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+
+        else {
+
+            let chartify = Chartify(
+                inputValidator: inputValidator,
+                chartConstructor: chartConstructor,
+                fileValidator: fileValidator,
+                outputWriter: outputWriter
+            )
+            chartify.run(
+                userInput: pattern,
+                file: file,
+                knitFlat: knitFlat
+            )
+        }
+      
 
     }
 }

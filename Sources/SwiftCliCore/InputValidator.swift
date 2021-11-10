@@ -1,9 +1,9 @@
 import Foundation
 
 public class InputValidator {
+
     var patternNormalizer = PatternNormalizer()
     var nestedArrayBuilder = NestedArrayBuilder()
-
 
     public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
 

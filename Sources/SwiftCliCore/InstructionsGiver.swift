@@ -1,8 +1,12 @@
 import Foundation
 
 public class InstructionsGiver {
-    public init() {}
-    func giveInstructions() -> String {
+    var consoleWriter: ConsoleWriter
+
+    public init(consoleWriter: ConsoleWriter) {
+        self.consoleWriter = consoleWriter
+    }
+    public func giveInstructions() throws -> Void {
         let allowedFileTypes = ".txt"
         var message = "Chartify takes in written patterns, either on the command line or in \(allowedFileTypes) files, and returns charts. Current allowed stitches are listed below.\n"
         message.append("Repeating stitches (can be written with any number 1 or greater afterwards: \n")
@@ -14,7 +18,7 @@ public class InstructionsGiver {
             message.append(stitch.name + "\n")
         }
 
-        return message
+        try consoleWriter.writeOutput(output: message)
     }
 
 }

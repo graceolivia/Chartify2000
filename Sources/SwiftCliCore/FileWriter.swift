@@ -1,15 +1,19 @@
 import Foundation
 
-public class FileWriter {
-    public init() {}
+public class FileWriter: OutputWriter {
 
-    public func writeFile(chart: String,
-                          filePath: String,
-                          fileName: String) throws {
+    var filePath: String
+    var fileName: String
 
+    public init(filePath: String, fileName: String) {
+        self.filePath = filePath
+        self.fileName = fileName
+    }
+
+    public func writeOutput(output: String) throws {
 
         do {
-            try chart.write(toFile: filePath + "//" + fileName + ".txt",
+            try output.write(toFile: filePath + "//" + fileName + ".txt",
                             atomically: true,
                             encoding: .utf8)
         } catch {
