@@ -20,8 +20,7 @@ public final class Chartify {
     public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false, fileNameToWrite: String? = nil, stitches: Bool? = false) {
 
         if stitches == true {
-            let message = instructionsGiver.giveInstructions()
-            print(message)
+            print(instructionsGiver.giveInstructions())
             exit(0)
         }
 

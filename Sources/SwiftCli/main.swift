@@ -38,7 +38,8 @@ struct StartProgram: ParsableCommand {
           userInput: pattern, 
           file: file, 
           knitFlat: knitFlat, 
-          fileNameToWrite: outputFile)
+          fileNameToWrite: outputFile,
+          stitches: stitches)
 
 
     }
