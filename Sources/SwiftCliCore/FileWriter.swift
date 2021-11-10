@@ -11,7 +11,6 @@ public class FileWriter: OutputWriter {
     }
 
     public func writeOutput(output: String) throws {
-
         do {
             try output.write(toFile: filePath + "//" + fileName + ".txt",
                             atomically: true,

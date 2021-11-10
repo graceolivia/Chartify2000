@@ -29,7 +29,7 @@ struct StartProgram: ParsableCommand {
         let fileValidator = FileValidator()
         let outputWriter: OutputWriter
         if let outputFile = outputFile {
-            outputWriter = FileWriter(filePath: "Charts/", fileName: outputFile)
+            outputWriter = FileWriter(filePath: "Charts", fileName: outputFile)
         } else {
             outputWriter = ConsoleWriter()
         }
