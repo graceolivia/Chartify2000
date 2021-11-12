@@ -1,9 +1,9 @@
 import Foundation
 
 public class InputValidator {
+
     var patternNormalizer = PatternNormalizer()
     var nestedArrayBuilder = NestedArrayBuilder()
-
 
     public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
 
@@ -18,7 +18,7 @@ public class InputValidator {
         try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
 
         var patternNestedArray =  lowercaseNormalizedPattern.map { nestedArrayBuilder.arrayMaker(row: $0) }
-        if (knitFlat == true) {
+        if knitFlat == true {
             patternNestedArray = knitFlatArray(array: patternNestedArray)
         }
 
@@ -44,7 +44,6 @@ public class InputValidator {
         }
         return pattern
     }
-
 
     private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
         for (index, arrayRow) in pattern.enumerated() {
@@ -73,7 +72,12 @@ public class InputValidator {
     private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
         let isRowInvalid = stitchRow.firstIndex(where: { !isStitchValid(stitch: String($0)) })
         if let invalidStitchIndex = isRowInvalid {
-            return .failure(InputError.invalidStitch(invalidStitch: stitchRow[invalidStitchIndex], rowLocation: rowIndex + 1))
+            return .failure(
+                InputError.invalidStitch(
+                    invalidStitch: stitchRow[invalidStitchIndex],
+                    rowLocation: rowIndex + 1
+                )
+            )
 
         }
         return .success(stitchRow)
@@ -115,10 +119,8 @@ public class InputValidator {
     public func knitFlatArray(array: [[String]]) -> [[String]] {
         let numberofRows = array.count
         var flatArray = array
-        for rowNum in 0..<numberofRows {
-            if rowNum % 2 == 1 {
-                flatArray[rowNum].reverse()
-            }
+        for rowNum in 0..<numberofRows where rowNum % 2 == 1 {
+            flatArray[rowNum].reverse()
         }
         return flatArray
     }

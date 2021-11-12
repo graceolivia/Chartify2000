@@ -3,6 +3,8 @@ import Foundation
 public class FileValidator {
     public init() {}
 
+    let allowedFileTypes = ["txt"]
+
     public func inputValidation(fileLocation: String) throws -> [String] {
         let fileLocationURL = URL(fileURLWithPath: fileLocation)
         guard fileLocationURL.pathExtension == "txt" else {

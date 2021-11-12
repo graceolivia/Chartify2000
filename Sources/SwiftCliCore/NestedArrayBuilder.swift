@@ -24,22 +24,28 @@ public class NestedArrayBuilder {
             clipStitch.removeAll(where: { stitchName.contains($0) })
             let stitchNameSuffix = clipStitch
             guard let repeatNumber = Int(stitchNameSuffix) else {
-                throw InputError.invalidStitchNumber(invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix)
+                throw InputError.invalidStitchNumber(
+                    invalidStitch: stitch,
+                    validStitchType: stitchName,
+                    invalidStitchNumber: stitchNameSuffix
+                )
             }
 
-            guard (repeatNumber >= 1) else {
-                throw InputError.invalidStitchNumber(invalidStitch: stitch, validStitchType: stitchName, invalidStitchNumber: stitchNameSuffix)
+            guard repeatNumber >= 1 else {
+                throw InputError.invalidStitchNumber(
+                    invalidStitch: stitch,
+                    validStitchType: stitchName,
+                    invalidStitchNumber: stitchNameSuffix
+                )
             }
 
             var stitchArray: [String] = []
             stitchArray.append(contentsOf: repeatElement((stitchName + "1"), count: repeatNumber))
             return stitchArray
 
-        }
-        else {
+        } else {
             return[stitch]
         }
     }
-
 
 }
