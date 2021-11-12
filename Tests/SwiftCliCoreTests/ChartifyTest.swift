@@ -45,14 +45,14 @@ class ChartifyFinishedTest: XCTestCase {
     }
 
     func testRunCallsWriteToFileIfUserIncludesWriteToFile() throws {
-        let mock = MockFileWriter(filePath: "Charts/", fileName: "test.txt")
+        let mock = MockOutputWriter()
         Chartify(
             inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()),
             chartConstructor: ChartConstructor(),
             fileValidator: FileValidator(),
             outputWriter: mock
         ).run(userInput: ["k1"])
-        expect(mock.wasWriteFileCalled).to(equal(true))
+        expect(mock.wasWriteOutputCalled).to(equal(true))
     }
 }
 
@@ -90,12 +90,12 @@ class MockFileValidator: FileValidator {
     }
 }
 
-class MockFileWriter: FileWriter {
-    var wasWriteFileCalled = false
+class MockOutputWriter: OutputWriter {
+    var wasWriteOutputCalled = false
 
-    override func writeOutput(output: String) {
+    override func writeOutput(output: String) throws {
 
-        wasWriteFileCalled = true
+        wasWriteOutputCalled = true
 
     }
 }

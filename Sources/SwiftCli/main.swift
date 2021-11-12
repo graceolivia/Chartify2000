@@ -33,7 +33,7 @@ struct StartProgram: ParsableCommand {
         } else {
             outputWriter = ConsoleWriter()
         }
-        let instructionsGiver = InstructionsGiver(consoleWriter: ConsoleWriter())
+        let instructionsGiver = InstructionsGiver(consoleWriter: ConsoleWriter(), fileValidator: fileValidator)
 
         if stitches {
             do {

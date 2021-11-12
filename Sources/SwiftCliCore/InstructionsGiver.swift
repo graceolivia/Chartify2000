@@ -2,12 +2,14 @@ import Foundation
 
 public class InstructionsGiver {
     var consoleWriter: ConsoleWriter
+    var fileValidator: FileValidator
 
-    public init(consoleWriter: ConsoleWriter) {
+    public init(consoleWriter: ConsoleWriter, fileValidator: FileValidator) {
         self.consoleWriter = consoleWriter
+        self.fileValidator = fileValidator
     }
     public func giveInstructions() throws {
-        let allowedFileTypes = ".txt"
+        let allowedFileTypes = fileValidator.allowedFileTypes
         var message = """
 Chartify takes in written patterns, either on the command line or in \(allowedFileTypes) files, and returns charts.
 Current allowed stitches are listed below.\n
