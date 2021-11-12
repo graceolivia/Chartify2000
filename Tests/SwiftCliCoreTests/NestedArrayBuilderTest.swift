@@ -6,30 +6,43 @@ import Nimble
 class NestedArrayMakerTest: XCTestCase {
 
     func testNestedArrayBuilderEmpty() throws {
-        let result = NestedArrayBuilder().arrayMaker(row: "")
+        let result = try NestedArrayBuilder().arrayMaker(row: "")
         expect(result).to(equal([]))
     }
 
     func testNestedArrayBuilder() throws {
-        let result = NestedArrayBuilder().arrayMaker(row: "k1 k1 k1")
+        let result = try NestedArrayBuilder().arrayMaker(row: "k1 k1 k1")
         expect(result).to(equal(["k1", "k1", "k1"]))
     }
 
     func testNestedArrayBuilderWithRepeats() throws {
-        let result = NestedArrayBuilder().arrayMaker(row: "k1 p1 (2x)")
+        let result = try NestedArrayBuilder().arrayMaker(row: "k1 p1 (2x)")
         expect(result).to(equal(["k1", "p1", "k1", "p1"]))
     }
 
     func testNestedArrayBuilderWithRepeatsMidRow() throws {
-        let result = NestedArrayBuilder().arrayMaker(row: "k1 p1 (2x) yo k1")
+        let result = try NestedArrayBuilder().arrayMaker(row: "k1 p1 (2x) yo k1")
         expect(result).to(equal(["k1", "p1", "k1", "p1", "yo", "k1"]))
     }
 
     func testNestedArrayBuilderWithMultipleRepeats() throws {
-        let result = NestedArrayBuilder().arrayMaker(row: "k1 p1 (3x) k1 yo k1 (2x) k1 p1 (3x)")
+        let result = try NestedArrayBuilder().arrayMaker(row: "k1 p1 (3x) k1 yo k1 (2x) k1 p1 (3x)")
         expect(result).to(equal(["k1", "p1", "k1", "p1", "k1", "p1", "k1", "yo", "k1", "k1", "yo", "k1", "k1", "p1", "k1", "p1", "k1", "p1"]))
     }
 
+    func testNestedArrayBuilderWithTimesOneRepeat() throws {
+        let result = try NestedArrayBuilder().arrayMaker(row: "k1 p1 (1x) k4")
+        expect(result).to(equal(["k1", "p1", "k4"]))
+    }
+
+    func testNestedArrayBuilderWithK1TimesFourRepeat() throws {
+        let result = try NestedArrayBuilder().arrayMaker(row: "k1 (4x)")
+        expect(result).to(equal(["k1", "k1", "k1", "k1"]))
+    }
+
+    func testNestedArrayBuilderWithTimesZeroThrowsError() throws {
+        expect{try NestedArrayBuilder().arrayMaker(row: "k1 (0x)")}.to(throwError(InputError.invalidRepeatCount))
+    }
 }
 
 class MultipleStitchExpanderTest: XCTestCase {

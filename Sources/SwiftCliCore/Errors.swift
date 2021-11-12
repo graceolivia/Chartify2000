@@ -5,6 +5,7 @@ enum InputError: Error, Equatable {
     case invalidStitch(invalidStitch: String, rowLocation: Int? = nil)
     case invalidRowWidth(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)
     case invalidStitchNumber(rowNumber: Int? = nil, invalidStitch: String, validStitchType: String, invalidStitchNumber: String)
+    case invalidRepeatCount
 }
 
 extension InputError: LocalizedError {
@@ -30,6 +31,8 @@ extension InputError: LocalizedError {
                 validStitchType: validStitchType,
                 invalidStitchCount: invalidStitchNumber
             )
+        case .invalidRepeatCount:
+            return("Stitch repeat number must be at least 1.")
         }
     }
 }
