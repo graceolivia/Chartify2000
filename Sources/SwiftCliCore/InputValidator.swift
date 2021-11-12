@@ -35,10 +35,10 @@ public class InputValidator {
         for row in pattern {
             let isEmptyRow = validateNoEmptyRows(row: row)
             switch isEmptyRow {
-            case .success:
-                continue
-            case .failure(let error):
-                throw error
+                case .success:
+                    continue
+                case .failure(let error):
+                    throw error
             }
         }
         return pattern
@@ -47,10 +47,10 @@ public class InputValidator {
     private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
         let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
         switch isEveryStitchValid {
-        case .success:
-            return pattern
-        case .failure(let error):
-            throw error
+            case .success:
+                return pattern
+            case .failure(let error):
+                throw error
         }
 
     }
@@ -58,10 +58,10 @@ public class InputValidator {
     private func checkNoMathematicalIssuesInArrayOfRowInfo(pattern: [RowInfo]) throws -> [RowInfo] {
         let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: pattern)
         switch isPatternMathematicallySound {
-        case .success:
-            return pattern
-        case .failure(let error):
-            throw error
+            case .success:
+                return pattern
+            case .failure(let error):
+                throw error
         }
     }
 
@@ -86,10 +86,10 @@ public class InputValidator {
             for (stitchIndex, stitch) in row.enumerated() {
                 let result = isStitchAndStitchCountValid(stitch: stitch, rowNumber: rowIndex + 1, stitchIndex: stitchIndex + 1)
                 switch result {
-                case .success:
-                    continue
-                case .failure(let error):
-                    errorArray.append(error)
+                    case .success:
+                        continue
+                    case .failure(let error):
+                        errorArray.append(error)
                 }
 
             }
