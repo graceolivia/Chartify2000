@@ -15,27 +15,48 @@ struct StartProgram: ParsableCommand {
     @Option(help: "File name to save pattern under.")
     var outputFile: String?
 
+    @Flag(help: "Call this for info about the stitches you are allowed to use.")
+    var stitches = false
 
 
     func run() {
         let patternNormalizer = PatternNormalizer()
         let nestedArrayBuilder = NestedArrayBuilder()
-        let inputValidator = InputValidator(patternNormalizer: patternNormalizer, nestedArrayBuilder: nestedArrayBuilder)
+        let inputValidator = InputValidator(
+            patternNormalizer: patternNormalizer,
+            nestedArrayBuilder: nestedArrayBuilder
+        )
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
-        let fileWriter = FileWriter()
-      
-        let chartify = Chartify(
-          inputValidator: inputValidator, 
-          chartConstructor: chartConstructor, 
-          fileValidator: fileValidator, 
-          fileWriter: fileWriter
-        )
-        chartify.run(
-          userInput: pattern, 
-          file: file, 
-          knitFlat: knitFlat, 
-          fileNameToWrite: outputFile)
+
+        let outputWriter: OutputWriter
+        if let outputFile = outputFile {
+            outputWriter = FileWriter(filePath: "Charts", fileName: outputFile)
+        } else {
+            outputWriter = ConsoleWriter()
+        }
+        let instructionsGiver = InstructionsGiver(consoleWriter: ConsoleWriter(), fileValidator: fileValidator)
+
+        if stitches {
+            do {
+                try instructionsGiver.giveInstructions()
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+
+            let chartify = Chartify(
+                inputValidator: inputValidator,
+                chartConstructor: chartConstructor,
+                fileValidator: fileValidator,
+                outputWriter: outputWriter
+            )
+            chartify.run(
+                userInput: pattern,
+                file: file,
+                knitFlat: knitFlat
+            )
+        }
 
 
     }
