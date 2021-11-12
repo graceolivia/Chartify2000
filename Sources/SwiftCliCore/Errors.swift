@@ -2,8 +2,7 @@ import Foundation
 
 enum InputError: Error, Equatable {
     case emptyRow
-
-    case invalidStitch(invalidStitch: String, rowLocation: Int? = nil, stitchIndexInRow: Int? = nil)
+    case invalidStitch(invalidStitch: String, rowLocation: Int? = nil)
     case invalidRowWidth(
         invalidRowNumber: Int,
         expectedStitchCount: Int,
@@ -13,11 +12,8 @@ enum InputError: Error, Equatable {
         rowNumber: Int? = nil,
         invalidStitch: String,
         validStitchType: String,
-        invalidStitchNumber: String,
-        stitchIndexInRow: Int? = nil
+        invalidStitchNumber: String
     )
-    case multipleErrors(errors: [InputError])
-
 }
 
 extension InputError: LocalizedError {
@@ -25,11 +21,10 @@ extension InputError: LocalizedError {
         switch self {
         case .emptyRow:
             return emptyRowError()
-        case .invalidStitch(let invalidStitch, let rowLocation, let stitchIndexInRow):
+        case .invalidStitch(let invalidStitch, let rowLocation):
             return invalidStitchWithLocationError(
                 invalidStitch: invalidStitch,
-                rowLocation: rowLocation,
-                stitchIndexInRow: stitchIndexInRow
+                rowLocation: rowLocation
             )
         case .invalidRowWidth(let invalidRowNumber, let expectedStitchCount, let actualCount):
             return invalidRowWidthError(
@@ -37,16 +32,13 @@ extension InputError: LocalizedError {
                 expectedStitchCount: expectedStitchCount,
                 actualCount: actualCount
             )
-        case .invalidStitchNumber(let rowNumber, let invalidStitch, let validStitchType, let invalidStitchNumber, let stitchIndexInRow):
+        case .invalidStitchNumber(let rowNumber, let invalidStitch, let validStitchType, let invalidStitchNumber):
             return invalidStitchNumberError(
                 rowNumber: rowNumber,
                 invalidStitch: invalidStitch,
                 validStitchType: validStitchType,
-                invalidStitchCount: invalidStitchNumber,
-                stitchIndexInRow: stitchIndexInRow
+                invalidStitchCount: invalidStitchNumber
             )
-        case .multipleErrors(let errors):
-            return multipleErrorsMessage(errors: errors)
         }
     }
 }
@@ -93,48 +85,37 @@ func invalidRowWidthError(invalidRowNumber: Int, expectedStitchCount: Int, actua
     )
 }
 
-func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?, stitchIndexInRow: Int?) -> String {
-    var onRow = ""
-    var atIndex = ""
-    if let rowLocation = rowLocation {
-        onRow = " on row \(rowLocation)"
-    }
-    if let stitchIndexInRow = stitchIndexInRow {
-        atIndex = " at index \(stitchIndexInRow)"
-    }
-
-    return """
+func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?) -> String {
+    if let location = rowLocation {
+        return """
     Invalid Stitch Error:
-    '\(invalidStitch)'\(atIndex)\(onRow) is not a valid stitch type.
+    \(invalidStitch) on Row \(location) is not a valid stitch.
     """
+    } else {
+        return """
+    Invalid Stitch Error:
+    \(invalidStitch) is not a valid stitch.
+    """
+    }
 
 }
 
-
-func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitchType: String, invalidStitchCount: String, stitchIndexInRow: Int?) -> String {
-    var onRow = ""
-    var atIndex = ""
+func invalidStitchNumberError(
+    rowNumber: Int?,
+    invalidStitch: String,
+    validStitchType: String,
+    invalidStitchCount: String
+) -> String {
     if let rowNumber = rowNumber {
-        onRow = " on row \(rowNumber)"
-    }
-    if let stitchIndexInRow = stitchIndexInRow {
-        atIndex = " at index \(stitchIndexInRow)"
-    }
-
-    return """
+        return """
     Invalid Stitch Count Error:
-    '\(invalidStitch)'\(atIndex)\(onRow) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
+    \(invalidStitch) on Row \(rowNumber) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
     """
-
-
-}
-
-func multipleErrorsMessage(errors: [InputError]) -> String {
-    var allErrorMessages = ""
-    for error in errors {
-        allErrorMessages.append(error.localizedDescription)
-        allErrorMessages.append("\n")
+    } else {
+        return """
+    Invalid Stitch Count Error:
+    \(invalidStitch) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
+    """
     }
-    return allErrorMessages
 
 }

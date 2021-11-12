@@ -18,7 +18,6 @@ struct StartProgram: ParsableCommand {
     @Flag(help: "Call this for info about the stitches you are allowed to use.")
     var stitches = false
 
-
     func run() {
         let patternNormalizer = PatternNormalizer()
         let nestedArrayBuilder = NestedArrayBuilder()
@@ -28,7 +27,6 @@ struct StartProgram: ParsableCommand {
         )
         let chartConstructor = ChartConstructor()
         let fileValidator = FileValidator()
-
         let outputWriter: OutputWriter
         if let outputFile = outputFile {
             outputWriter = FileWriter(filePath: "Charts", fileName: outputFile)
@@ -57,7 +55,6 @@ struct StartProgram: ParsableCommand {
                 knitFlat: knitFlat
             )
         }
-
 
     }
 }
