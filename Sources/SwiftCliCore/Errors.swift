@@ -2,10 +2,22 @@ import Foundation
 
 enum InputError: Error, Equatable {
     case emptyRow
+
     case invalidStitch(invalidStitch: String, rowLocation: Int? = nil, stitchIndexInRow: Int? = nil)
-    case invalidRowWidth(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)
-    case invalidStitchNumber(rowNumber: Int, invalidStitch: String, validStitchType: String, invalidStitchNumber: String, stitchIndexInRow: Int)
+    case invalidRowWidth(
+        invalidRowNumber: Int,
+        expectedStitchCount: Int,
+        actualCount: Int
+    )
+    case invalidStitchNumber(
+        rowNumber: Int? = nil,
+        invalidStitch: String,
+        validStitchType: String,
+        invalidStitchNumber: String,
+        stitchIndexInRow: Int? = nil
+    )
     case multipleErrors(errors: [InputError])
+
 }
 
 extension InputError: LocalizedError {
@@ -98,6 +110,7 @@ func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?, st
 
 }
 
+
 func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitchType: String, invalidStitchCount: String, stitchIndexInRow: Int?) -> String {
     var onRow = ""
     var atIndex = ""
@@ -113,6 +126,7 @@ func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitc
     '\(invalidStitch)'\(atIndex)\(onRow) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
     """
 
+
 }
 
 func multipleErrorsMessage(errors: [InputError]) -> String {
@@ -122,4 +136,5 @@ func multipleErrorsMessage(errors: [InputError]) -> String {
         allErrorMessages.append("\n")
     }
     return allErrorMessages
+
 }

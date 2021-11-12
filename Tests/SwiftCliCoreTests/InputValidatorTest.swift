@@ -82,6 +82,7 @@ class ValidatorTests: XCTestCase {
         .to(throwError(expectedErrors))
     }
 
+
     func testZeroCountStitchShouldThrowMultipleErrors() throws {
         let multipleIncorrectStitchesPattern = ["k0 p1"]
         let expectedError = InputError.multipleErrors(errors: [
@@ -101,6 +102,7 @@ class ValidatorTests: XCTestCase {
     }
 
     func testValidPatternShouldReturnMetaData() throws {
+
 
         let result = try self.inputValidator.validateInput(
             pattern: ["p1 p1", "p1 p1"],

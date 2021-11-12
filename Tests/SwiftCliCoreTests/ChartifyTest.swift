@@ -7,7 +7,12 @@ class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidator() throws {
         let mock = MockInputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
 
-        Chartify(inputValidator: mock, chartConstructor: ChartConstructor(), fileValidator: FileValidator(), fileWriter: FileWriter()).run(userInput: ["k1"], knitFlat: false)
+        Chartify(
+            inputValidator: mock,
+            chartConstructor: ChartConstructor(),
+            fileValidator: FileValidator(),
+            outputWriter: ConsoleWriter()
+        ).run(userInput: ["k1"], knitFlat: false)
 
         expect(mock.wasValidatorCalled).to(equal(true))
     }
@@ -19,32 +24,36 @@ class ChartifyFinishedTest: XCTestCase {
                 patternNormalizer: PatternNormalizer(),
                 nestedArrayBuilder: NestedArrayBuilder()
             ),
-                    chartConstructor: mock,
-                    fileValidator: FileValidator(),
-                    fileWriter: FileWriter()).run(userInput: ["k1"])
+            chartConstructor: mock,
+            fileValidator: FileValidator(),
+            outputWriter: ConsoleWriter()
+        ).run(userInput: ["k1"])
 
         expect(mock.wasMakeChartCalled).to(equal(true))
     }
     func testRunCallsFileValidatorIfFileIsIncluded() throws {
         let mock = MockFileValidator()
 
-        Chartify(inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()), chartConstructor: ChartConstructor(), fileValidator: mock, fileWriter: FileWriter()).run(userInput: ["k1"], file: Optional("example.txt"))
+        Chartify(
+            inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()),
+            chartConstructor: ChartConstructor(),
+            fileValidator: mock,
+            outputWriter: ConsoleWriter()
+        ).run(userInput: ["k1"], file: "Example.txt")
 
         expect(mock.wasFileValidatorCalled).to(equal(true))
     }
 
     func testRunCallsWriteToFileIfUserIncludesWriteToFile() throws {
-        let mock = MockFileWriter()
-        Chartify(inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()), chartConstructor: ChartConstructor(), fileValidator: FileValidator(), fileWriter: mock).run(userInput: ["k1"], fileNameToWrite: Optional("test"))
-        expect(mock.wasWriteFileCalled).to(equal(true))
+        let mock = MockOutputWriter()
+        Chartify(
+            inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()),
+            chartConstructor: ChartConstructor(),
+            fileValidator: FileValidator(),
+            outputWriter: mock
+        ).run(userInput: ["k1"])
+        expect(mock.wasWriteOutputCalled).to(equal(true))
     }
-
-    func testRunDoesntCallWriteToFileIfUserDoesntIncludeWriteToFile() throws {
-        let mock = MockFileWriter()
-        Chartify(inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()), chartConstructor: ChartConstructor(), fileValidator: FileValidator(), fileWriter: mock).run(userInput: ["k1"])
-        expect(mock.wasWriteFileCalled).to(equal(false))
-    }
-
 }
 
 class MockInputValidator: InputValidator {
@@ -81,14 +90,12 @@ class MockFileValidator: FileValidator {
     }
 }
 
-class MockFileWriter: FileWriter {
-    var wasWriteFileCalled = false
+class MockOutputWriter: OutputWriter {
+    var wasWriteOutputCalled = false
 
-    override func writeFile(chart: String,
-                            filePath: String,
-                            fileName: String) {
+    func writeOutput(output: String) throws {
 
-        wasWriteFileCalled = true
+        wasWriteOutputCalled = true
 
     }
 }

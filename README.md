@@ -95,6 +95,12 @@ To save the chart to a text file, use `  --output-file <filename>`:
 
 This will save the file in the Charts folder.
 
+To view the allowed stitches, use this command:
+
+`swift run SwiftCli --stitches`
+
 To test the project, either use XCODE tools to run tests as you wish, or in the project directory on the terminal run:
 
 `swift test`
+
+

@@ -1,6 +1,7 @@
 import Foundation
 
 public class InputValidator {
+
     var patternNormalizer = PatternNormalizer()
     var nestedArrayBuilder = NestedArrayBuilder()
 
@@ -66,12 +67,14 @@ public class InputValidator {
     }
 
     private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
+
         var errorArray: [InputError] = []
         for (index, stitch) in stitchRow.enumerated() {
             if !isStitchValid(stitch: stitch) {
                 errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: index + 1))
             }
         }
+
 
         if errorArray.count > 0 {
             return .failure(InputError.multipleErrors(errors: errorArray))
@@ -138,10 +141,8 @@ public class InputValidator {
     public func knitFlatArray(array: [[String]]) -> [[String]] {
         let numberofRows = array.count
         var flatArray = array
-        for rowNum in 0..<numberofRows {
-            if rowNum % 2 == 1 {
-                flatArray[rowNum].reverse()
-            }
+        for rowNum in 0..<numberofRows where rowNum % 2 == 1 {
+            flatArray[rowNum].reverse()
         }
         return flatArray
     }

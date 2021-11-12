@@ -6,20 +6,23 @@ public final class Chartify {
     var inputValidator: InputValidator
     var chartConstructor: ChartConstructor
     var fileValidator: FileValidator
-    var fileWriter: FileWriter
+    var outputWriter: OutputWriter
+
 
     public init(
         inputValidator: InputValidator,
         chartConstructor: ChartConstructor,
         fileValidator: FileValidator,
-        fileWriter: FileWriter) {
-            self.inputValidator = inputValidator
-            self.chartConstructor = chartConstructor
-            self.fileValidator = fileValidator
-            self.fileWriter = fileWriter
+        outputWriter: OutputWriter
+    ) {
+        self.inputValidator = inputValidator
+        self.chartConstructor = chartConstructor
+        self.fileValidator = fileValidator
+        self.outputWriter = outputWriter
+
     }
 
-    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false, fileNameToWrite: String? = nil) {
+    public func run(userInput: [String], file: String? = nil, knitFlat: Bool = false) {
 
         var patternToProcess: [String]
         if let fileString = file {
@@ -27,18 +30,16 @@ public final class Chartify {
                 patternToProcess = try fileValidator.inputValidation(fileLocation: fileString)
             } catch {
                 print(error.localizedDescription)
-                exit(0)
+                return
             }
         } else { patternToProcess = userInput }
 
         do {
             let chart = try validateAndChartify(pattern: patternToProcess, knitFlat: knitFlat)
-
-            try returnChartInPreferredFormat(chart: chart, fileNameToWrite: fileNameToWrite)
-
+            try outputWriter.writeOutput(output: chart)
         } catch {
             print(error.localizedDescription)
-            exit(0)
+            return
         }
 
     }
@@ -47,17 +48,6 @@ public final class Chartify {
         let metaData = try inputValidator.validateInput(pattern: pattern, knitFlat: knitFlat)
         return (chartConstructor.makeChart(patternMetaData: metaData))
 
-    }
-
-    private func returnChartInPreferredFormat(chart: String, fileNameToWrite: String?) throws {
-        if let fileNameToWrite = fileNameToWrite {
-            do {
-                try fileWriter.writeFile(chart: chart, filePath: "Charts", fileName: fileNameToWrite)
-            } catch {
-                throw error
-            }
-        } else {
-            print(chart) }
     }
 
 }
