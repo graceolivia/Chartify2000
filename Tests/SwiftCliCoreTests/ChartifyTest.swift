@@ -93,7 +93,7 @@ class MockFileValidator: FileValidator {
 class MockOutputWriter: OutputWriter {
     var wasWriteOutputCalled = false
 
-    override func writeOutput(output: String) throws {
+    func writeOutput(output: String) throws {
 
         wasWriteOutputCalled = true
 
