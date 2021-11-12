@@ -17,14 +17,17 @@ public class NestedArrayBuilder {
     private func handleRepeats(row: [String]) -> [String] {
 
         var repeatedRow:[String] = []
+        var currentRowSection:[String] = []
         for (index, stitch) in row.enumerated(){
             if (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression) != nil){
                 let numbers = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
-                for i in 1..<numbers! { repeatedRow += (Array(repeatedRow[0..<index])) }
+                for i in 1..<numbers! { repeatedRow += (Array(currentRowSection[0..<index])) }
+                currentRowSection = []
             } else {
-                repeatedRow.append(stitch)
+                currentRowSection.append(stitch)
             }
         }
+        repeatedRow += currentRowSection
 
         return repeatedRow
     }
