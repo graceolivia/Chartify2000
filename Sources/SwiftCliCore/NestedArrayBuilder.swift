@@ -19,7 +19,7 @@ public class NestedArrayBuilder {
         var repeatedRow:[String] = []
         var currentRowSection:[String] = []
         for (index, stitch) in row.enumerated(){
-            if (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression) != nil){
+            if let repeats = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)){
                 let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
                 guard (numberOfRepeats! >= 1) else {
                     throw InputError.invalidRepeatCount

@@ -78,12 +78,6 @@ class MultipleStitchExpanderTest: XCTestCase {
         ))
     }
 
-    class MultipleStitchExpanderTest: XCTestCase {
-        func testExpandValidMultipleStitch() throws {
-            let result = try NestedArrayBuilder().expandRow(row: ["k4", "p1"])
-            expect(result).to(equal(["k1", "k1", "k1", "k1", "p1"]))
-        }
 
-    }
 
 }
