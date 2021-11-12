@@ -24,29 +24,36 @@ class MultipleStitchExpanderTest: XCTestCase {
         expect(result).to(equal(["k1", "k1", "k1", "k1", "p1"]))
     }
 
-    func testInvalidZeroCountStitch() throws {
-        expect {
-            try NestedArrayBuilder().expandRow(row: ["k0", "p1"])
-        }
-        .to(throwError(
-            InputError.invalidStitchNumber(
-                rowNumber: nil,
-                invalidStitch: "k0",
-                validStitchType: "k",
-                invalidStitchNumber: "0")
-        ))
-    }
 
-    func testInvalidWordCountStitch() throws {
-        expect {
-            try NestedArrayBuilder().expandRow(row: ["kx", "py"])
+    func testValidNonExpandingStitchesDontExpand() throws {
+        let result = try NestedArrayBuilder().expandRow(row: ["k1", "p1"])
+        expect(result).to(equal(["k1", "p1"]))
+
+        func testInvalidZeroCountStitch() throws {
+            expect {
+                try NestedArrayBuilder().expandRow(row: ["k0", "p1"])
+            }
+            .to(throwError(
+                InputError.invalidStitchNumber(
+                    rowNumber: nil,
+                    invalidStitch: "k0",
+                    validStitchType: "k",
+                    invalidStitchNumber: "0")
+            ))
         }
-        .to(throwError(
-            InputError.invalidStitchNumber(
+
+        func testInvalidWordCountStitch() throws {
+            expect {
+                try NestedArrayBuilder().expandRow(row: ["kx", "py"])
+            }
+            .to(throwError(
+                InputError.invalidStitchNumber(
                     rowNumber: nil,
                     invalidStitch: "kx",
                     validStitchType: "k",
                     invalidStitchNumber: "x")
-        ))
+            ))
+
+        }
     }
 }

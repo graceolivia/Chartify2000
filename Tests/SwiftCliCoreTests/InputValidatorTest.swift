@@ -14,7 +14,15 @@ class ValidatorTests: XCTestCase {
 
     func testInvalidStitchShouldThrowError() throws {
         let testPattern = ["g1 p1"]
-        let err = InputError.invalidStitch(invalidStitch: "g1", rowLocation: 1)
+        let err = InputError.multipleErrors(
+            errors: [
+                SwiftCliCore.InputError.invalidStitch(
+                    invalidStitch: "g1",
+                    rowLocation: Optional(1),
+                    stitchIndexInRow: Optional(1)
+                )
+            ]
+        )
         expect {
             try self.inputValidator.validateInput(
                 pattern: testPattern,
@@ -49,7 +57,52 @@ class ValidatorTests: XCTestCase {
 
     }
 
+    func testMultipleIncorrectStitchesTypesShouldThrowMultipleErrors() throws {
+        let multipleIncorrectStitchesPattern = ["p1 p1", "g1 p1", "p1 g1", "g1 p1"]
+       let expectedErrors = InputError.multipleErrors(errors: [
+        InputError.invalidStitch(
+            invalidStitch: "g1",
+            rowLocation: Optional(2),
+            stitchIndexInRow: 1
+        ),
+        InputError.invalidStitch(
+            invalidStitch: "g1",
+            rowLocation: Optional(3),
+            stitchIndexInRow: Optional(2)
+        ),
+        InputError.invalidStitch(
+            invalidStitch: "g1",
+            rowLocation: Optional(4),
+            stitchIndexInRow: Optional(1)
+        )])
+        expect {
+            try self.inputValidator.validateInput(
+                pattern: multipleIncorrectStitchesPattern)
+        }
+        .to(throwError(expectedErrors))
+    }
+
+
+    func testZeroCountStitchShouldThrowMultipleErrors() throws {
+        let multipleIncorrectStitchesPattern = ["k0 p1"]
+        let expectedError = InputError.multipleErrors(errors: [
+            InputError.invalidStitchNumber(
+                rowNumber: 1,
+                invalidStitch: "k0",
+                validStitchType: "k",
+                invalidStitchNumber: "0",
+                stitchIndexInRow: 1
+            )
+        ])
+        expect {
+            try self.inputValidator.validateInput(
+                pattern: multipleIncorrectStitchesPattern)
+        }
+        .to(throwError(expectedError))
+    }
+
     func testValidPatternShouldReturnMetaData() throws {
+
 
         let result = try self.inputValidator.validateInput(
             pattern: ["p1 p1", "p1 p1"],

@@ -24,19 +24,13 @@ public class NestedArrayBuilder {
             clipStitch.removeAll(where: { stitchName.contains($0) })
             let stitchNameSuffix = clipStitch
             guard let repeatNumber = Int(stitchNameSuffix) else {
-                throw InputError.invalidStitchNumber(
-                    invalidStitch: stitch,
-                    validStitchType: stitchName,
-                    invalidStitchNumber: stitchNameSuffix
-                )
+
+                return [stitch]
             }
 
             guard repeatNumber >= 1 else {
-                throw InputError.invalidStitchNumber(
-                    invalidStitch: stitch,
-                    validStitchType: stitchName,
-                    invalidStitchNumber: stitchNameSuffix
-                )
+                return [stitch]
+
             }
 
             var stitchArray: [String] = []
