@@ -14,9 +14,8 @@ class ValidatorTests: XCTestCase {
 
     func testInvalidStitchShouldThrowError() throws {
         let testPattern = ["g1 p1"]
-        let err = InputError.multipleErrors
-        (errors:
-            [
+        let err = InputError.multipleErrors(
+            errors: [
                 SwiftCliCore.InputError.invalidStitch(
                     invalidStitch: "g1",
                     rowLocation: Optional(1),
@@ -87,11 +86,11 @@ class ValidatorTests: XCTestCase {
         let multipleIncorrectStitchesPattern = ["k0 p1"]
         let error = InputError.multipleErrors(errors: [
             InputError.invalidStitchNumber(
-                rowNumber: Optional(1),
+                rowNumber: 1,
                 invalidStitch: "k0",
                 validStitchType: "k",
                 invalidStitchNumber: "0",
-                stitchIndexInRow: Optional(1)
+                stitchIndexInRow: 1
             )
         ])
         expect {

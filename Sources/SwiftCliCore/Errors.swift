@@ -4,7 +4,7 @@ enum InputError: Error, Equatable {
     case emptyRow
     case invalidStitch(invalidStitch: String, rowLocation: Int? = nil, stitchIndexInRow: Int? = nil)
     case invalidRowWidth(invalidRowNumber: Int, expectedStitchCount: Int, actualCount: Int)
-    case invalidStitchNumber(rowNumber: Int? = nil, invalidStitch: String, validStitchType: String, invalidStitchNumber: String, stitchIndexInRow: Int? = nil)
+    case invalidStitchNumber(rowNumber: Int, invalidStitch: String, validStitchType: String, invalidStitchNumber: String, stitchIndexInRow: Int)
     case multipleErrors(errors: [InputError])
 }
 
