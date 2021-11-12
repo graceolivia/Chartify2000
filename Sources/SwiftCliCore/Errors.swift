@@ -3,6 +3,7 @@ import Foundation
 enum InputError: Error, Equatable {
     case emptyRow
 
+
     case invalidStitch(invalidStitch: String, rowLocation: Int? = nil, stitchIndexInRow: Int? = nil)
     case invalidRowWidth(
         invalidRowNumber: Int,
@@ -17,6 +18,7 @@ enum InputError: Error, Equatable {
         stitchIndexInRow: Int? = nil
     )
     case multipleErrors(errors: [InputError])
+
 
 }
 
@@ -45,8 +47,13 @@ extension InputError: LocalizedError {
                 invalidStitchCount: invalidStitchNumber,
                 stitchIndexInRow: stitchIndexInRow
             )
+
+        case .invalidRepeatCount:
+            return("Stitch repeat number must be at least 1.")
+
         case .multipleErrors(let errors):
             return multipleErrorsMessage(errors: errors)
+
         }
     }
 }

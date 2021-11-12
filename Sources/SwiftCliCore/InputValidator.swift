@@ -17,8 +17,13 @@ public class InputValidator {
 
         try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
 
+
+        var patternNestedArray =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
+        if (knitFlat == true) {
+
         var patternNestedArray =  lowercaseNormalizedPattern.map { nestedArrayBuilder.arrayMaker(row: $0) }
         if knitFlat == true {
+
             patternNestedArray = knitFlatArray(array: patternNestedArray)
         }
 
