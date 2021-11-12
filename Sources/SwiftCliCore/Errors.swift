@@ -18,7 +18,7 @@ enum InputError: Error, Equatable {
         stitchIndexInRow: Int? = nil
     )
     case multipleErrors(errors: [InputError])
-
+    case invalidRepeatCount
 
 }
 
