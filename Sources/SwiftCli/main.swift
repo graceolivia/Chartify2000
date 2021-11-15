@@ -12,7 +12,7 @@ struct StartProgram: ParsableCommand {
     @Flag(help: "Set if you want your pattern to be knit flat. Default value is knit in the round.")
     var knitFlat = false
 
-    @Option(help: "File name to save pattern under.")
+    @Option(help: "File name to save pattern under. Pick a file directory or the file will be placed in the directory of this application by default.")
     var outputFile: String?
 
     @Flag(help: "Call this for info about the stitches you are allowed to use.")
@@ -31,7 +31,7 @@ struct StartProgram: ParsableCommand {
 
         let outputWriter: OutputWriter
         if let outputFile = outputFile {
-            outputWriter = FileWriter(filePath: "Charts", fileName: outputFile)
+            outputWriter = FileWriter(fileNameAndPath: outputFile)
         } else {
             outputWriter = ConsoleWriter()
         }
