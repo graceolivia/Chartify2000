@@ -17,9 +17,7 @@ public class InputValidator {
 
         try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
 
-
         var patternNestedArray =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
-
 
         if knitFlat == true {
 
@@ -79,7 +77,6 @@ private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[S
             errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: index + 1))
         }
     }
-
 
     if errorArray.count > 0 {
         return .failure(InputError.multipleErrors(errors: errorArray))
@@ -151,4 +148,3 @@ public func knitFlatArray(array: [[String]]) -> [[String]] {
     }
     return flatArray
 }
-

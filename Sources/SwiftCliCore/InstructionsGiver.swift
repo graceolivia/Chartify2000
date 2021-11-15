@@ -10,7 +10,6 @@ public class InstructionsGiver {
     }
     public func giveInstructions() throws {
 
-
         var message = """
 Chartify takes in written patterns, either on the command line or in allowed file types, and returns charts.
 
