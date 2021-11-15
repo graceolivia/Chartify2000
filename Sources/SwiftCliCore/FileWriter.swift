@@ -4,7 +4,6 @@ public class FileWriter: OutputWriter {
 
     var fileNameAndPath: String
 
-
     public init(fileNameAndPath: String) {
         self.fileNameAndPath = fileNameAndPath
     }

@@ -18,7 +18,6 @@ struct StartProgram: ParsableCommand {
     @Flag(help: "Call this for info about the stitches you are allowed to use.")
     var stitches = false
 
-
     func run() {
         let patternNormalizer = PatternNormalizer()
         let nestedArrayBuilder = NestedArrayBuilder()
@@ -57,7 +56,6 @@ struct StartProgram: ParsableCommand {
                 knitFlat: knitFlat
             )
         }
-
 
     }
 }

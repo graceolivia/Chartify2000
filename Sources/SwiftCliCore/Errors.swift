@@ -3,7 +3,6 @@ import Foundation
 enum InputError: Error, Equatable {
     case emptyRow
 
-
     case invalidStitch(invalidStitch: String, rowLocation: Int? = nil, stitchIndexInRow: Int? = nil)
     case invalidRowWidth(
         invalidRowNumber: Int,
@@ -117,7 +116,6 @@ func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?, st
 
 }
 
-
 func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitchType: String, invalidStitchCount: String, stitchIndexInRow: Int?) -> String {
     var onRow = ""
     var atIndex = ""
@@ -132,7 +130,6 @@ func invalidStitchNumberError(rowNumber: Int?, invalidStitch: String, validStitc
     Invalid Stitch Count Error:
     '\(invalidStitch)'\(atIndex)\(onRow) starts with valid stitch type \(validStitchType) but ends with the invalid stitch count \(invalidStitchCount). Please enter a positive integer number of stitches.
     """
-
 
 }
 
