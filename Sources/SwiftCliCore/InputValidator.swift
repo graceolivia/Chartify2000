@@ -13,10 +13,13 @@ public class InputValidator {
 
     public func validateInput(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
 
+        var results:[Any] = []
+
         let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
 
-        try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
 
+        let areThereNoEmptyRows = checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
+        results.append(areThereNoEmptyRows)
 
         var patternNestedArray =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
 
@@ -37,26 +40,26 @@ public class InputValidator {
     }
 }
 
-private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) throws -> [String] {
+private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> Result<[String], InputError>  {
     for row in pattern {
         let isEmptyRow = validateNoEmptyRows(row: row)
         switch isEmptyRow {
         case .success:
             continue
         case .failure(let error):
-            throw error
+            return .failure(error)
         }
     }
-    return pattern
+    return .success(pattern)
 }
 
-private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
+private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) -> Result<[[String]], InputError>  {
     let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
     switch isEveryStitchValid {
     case .success:
-        return pattern
+        return .success(pattern)
     case .failure(let error):
-        throw error
+        return .failure(error)
     }
 
 }
