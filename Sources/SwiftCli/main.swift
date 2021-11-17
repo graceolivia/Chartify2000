@@ -30,7 +30,7 @@ struct StartProgram: ParsableCommand {
 
         let outputWriter: OutputWriter
         if let outputFile = outputFile {
-            outputWriter = FileWriter(fileNameAndPath: outputFile)
+            outputWriter = FileWriter(filePath: outputFile)
         } else {
             outputWriter = ConsoleWriter()
         }

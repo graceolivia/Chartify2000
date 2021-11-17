@@ -2,16 +2,16 @@ import Foundation
 
 public class FileWriter: OutputWriter {
 
-    var fileNameAndPath: String
+    var filePath: String
 
-    public init(fileNameAndPath: String) {
-        self.fileNameAndPath = fileNameAndPath
+    public init(filePath: String) {
+        self.filePath = filePath
     }
 
     public func writeOutput(output: String) throws {
 
         do {
-            try output.write(toFile: fileNameAndPath + ".txt",
+            try output.write(toFile: filePath + ".txt",
                             atomically: true,
                             encoding: .utf8)
         } catch {

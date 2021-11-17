@@ -93,7 +93,7 @@ To save the chart to a text file, use `  --output-file <filename>`:
 
 `swift run SwiftCli "k1 k1 p1 p1 k1 k1" --output-file example`
 
-You can indicate which directory you want to write to, or simple give a file name, in which case the file will be by default written to the directory Charify is run from.
+You can indicate which directory you want to write to, or simply give a file name, in which case the file will be by default written to the directory Charify is run from.
 
 To view the allowed stitches, use this command:
 
