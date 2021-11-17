@@ -36,7 +36,7 @@ public class NestedArrayBuilder {
         return repeatedRow
     }
 
-    private func getMultipleStitchInfo(stitch: String) throws -> [String] {
+    private func getMultipleStitchInfo(stitch: String) -> [String] {
         if nonrepeatingStitches.contains(where: { $0.name == stitch }) {
             return [stitch]
         }

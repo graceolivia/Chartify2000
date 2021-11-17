@@ -35,8 +35,8 @@ public final class Chartify {
         } else { patternToProcess = userInput }
 
         do {
-            let chart = try validateAndChartify(pattern: patternToProcess, knitFlat: knitFlat)
-            try outputWriter.writeOutput(output: chart)
+//            let chart = try validateAndChartify(pattern: patternToProcess, knitFlat: knitFlat)
+//            try outputWriter.writeOutput(output: chart)
         } catch {
             print(error.localizedDescription)
             return
@@ -44,11 +44,29 @@ public final class Chartify {
 
     }
 
-    private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
-        let metaData = try inputValidator.validateInput(pattern: pattern, knitFlat: knitFlat)
-        return (chartConstructor.makeChart(patternMetaData: metaData))
+//    private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
+//        let metaData = try inputValidator.validateInput(pattern: pattern, knitFlat: knitFlat)
+//        return (chartConstructor.makeChart(patternMetaData: metaData))
+//
+//    }
 
+    private func resultParser(results: [Result<Any, InputError>]) throws -> String {
+        var errorArray: [InputError] = []
+        for result in results{
+            switch result {
+        case .success:
+            print("ok")
+        case .failure(let error):
+            errorArray.append(error)
+            }}
+        if errorArray.isEmpty{
+            return("Success")
+            }
+            else {
+                throw (InputError.multipleErrors(errors: []))
+            }
+        }
     }
 
 
-}
+
