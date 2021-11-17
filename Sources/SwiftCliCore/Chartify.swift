@@ -8,7 +8,6 @@ public final class Chartify {
     var fileValidator: FileValidator
     var outputWriter: OutputWriter
 
-
     public init(
         inputValidator: InputValidator,
         chartConstructor: ChartConstructor,

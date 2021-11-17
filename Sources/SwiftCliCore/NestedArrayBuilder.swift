@@ -16,12 +16,12 @@ public class NestedArrayBuilder {
 
     private func handleRepeats(row: [String]) throws -> [String] {
 
-        var repeatedRow:[String] = []
-        var currentRowSection:[String] = []
-        for (index, stitch) in row.enumerated(){
-            if let repeats = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)){
+        var repeatedRow: [String] = []
+        var currentRowSection: [String] = []
+        for (index, stitch) in row.enumerated() {
+            if let repeats = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
                 let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
-                guard (numberOfRepeats! >= 1) else {
+                guard numberOfRepeats! >= 1 else {
                     throw InputError.invalidRepeatCount
 
                 }

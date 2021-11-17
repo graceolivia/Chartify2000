@@ -55,8 +55,7 @@ func isStitchAndStitchCountValid(stitch: String, rowNumber: Int, stitchIndex: In
     }
     if nonrepeatingStitches.contains(where: { $0.name == stitch }) {
         return .success(stitch)
-    }
-    else {
+    } else {
         let isRepeatingStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )})
         return determineIfRepeatingStitchIsACorrectRepeatingStitch(stitch: stitch, stitchType: isRepeatingStitch!, rowNumber: rowNumber, stitchIndex: stitchIndex)
     }

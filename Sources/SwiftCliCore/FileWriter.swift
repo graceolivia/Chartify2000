@@ -5,7 +5,6 @@ public class FileWriter: OutputWriter {
     var filePath: String
     var fileName: String
 
-
     public init(filePath: String, fileName: String) {
         self.filePath = filePath
         self.fileName = fileName
