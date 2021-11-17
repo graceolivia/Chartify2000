@@ -3,6 +3,25 @@ import XCTest
 import Nimble
 @testable import SwiftCliCore
 
+//class NewValidatorTests: XCTestCase {
+//    private var inputValidator: InputValidator!
+//
+//    override func setUp() {
+//        super.setUp()
+//        inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
+//    }
+//
+//    func testEmptyRowShouldReturnFailureResult() throws {
+//        let testPattern = ["p1 p1", ""]
+//        let result = self.inputValidator.validateInput(
+//                pattern: testPattern)
+//        let expected:[Any] = ["hi", 1]
+//        expect(result).to(return(expected))
+//    }
+//
+//
+//}
+
 class ValidatorTests: XCTestCase {
 
     private var inputValidator: InputValidator!
@@ -12,16 +31,31 @@ class ValidatorTests: XCTestCase {
         inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
     }
 
+    func testEmptyRowShouldThrowError() throws {
+        let testPattern = ["p1 p1", ""]
+        let expectedResults: [Result<Success, InputError>] = [
+            .failure(InputError.emptyRow),
+            .success([[],["p1", "p1"],
+            ,)
+            ]
+        expect {
+            try self.inputValidator.validateInput(
+                pattern: testPattern)
+
+        }
+        .to(throwError(InputError.emptyRow))
+    }
+
     func testInvalidStitchShouldThrowError() throws {
         let testPattern = ["g1 p1"]
-        let err = InputError.multipleErrors(
+        let results = [InputError.multipleErrors(
             errors: [
                 SwiftCliCore.InputError.invalidStitch(
                     invalidStitch: "g1",
                     rowLocation: Optional(1),
                     stitchIndexInRow: Optional(1)
                 )
-            ]
+            ]]
         )
         expect {
             try self.inputValidator.validateInput(
@@ -32,15 +66,6 @@ class ValidatorTests: XCTestCase {
 
     }
 
-    func testEmptyRowShouldThrowError() throws {
-        let testPattern = ["p1 p1", ""]
-        expect {
-            try self.inputValidator.validateInput(
-                pattern: testPattern)
-
-        }
-        .to(throwError(InputError.emptyRow))
-    }
 
     func testInvalidStitchCountShouldThrowError() throws {
         let badCountPattern = ["p1 p1", "p1 p1", "p1 p1", "p1 p1 p1"]

@@ -30,7 +30,7 @@ public class ChartConstructor {
     }
 
     public func makeMiddleRow(width: Int, rDiff: Int, lDiff: Int) -> String {
-
+  
         let rightStitches = rightSideStringBuilder(rDiff: rDiff)
         let leftStitches = leftSideStringBuilder(lDiff: lDiff)
 
@@ -49,6 +49,7 @@ public class ChartConstructor {
         }
         let middleStitches = String(repeating: "─┼", count: (width-totalIncreases-1))
         return leftStitches + middleStitches + rightStitches
+
     }
 
     private func leftSideStringBuilder(lDiff: Int) -> String {

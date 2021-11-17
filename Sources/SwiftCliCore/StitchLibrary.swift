@@ -62,6 +62,8 @@ func isStitchAndStitchCountValid(stitch: String, rowNumber: Int, stitchIndex: In
 
 }
 
+
+
 private func determineIfRepeatingStitchIsACorrectRepeatingStitch(stitch: String, stitchType: StitchType, rowNumber: Int, stitchIndex: Int) -> Result<String, InputError> {
     let stitchName = stitchType.name
     var clipStitch = stitch
