@@ -4,8 +4,11 @@ public class FileWriter: OutputWriter {
 
     var filePath: String
 
+
     public init(filePath: String) {
+
         self.filePath = filePath
+      
     }
 
     public func writeOutput(output: String) throws {
