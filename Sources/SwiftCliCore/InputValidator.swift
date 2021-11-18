@@ -27,10 +27,10 @@ public class InputValidator {
 
     public func validateInput(pattern: [String], knitFlat: Bool = false) -> PatternDataAndPossibleErrors {
 
-
         // empty row error
 
         // empty
+
         var dataAndErrors = PatternDataAndPossibleErrors(arrayOfStrings: pattern)
 
         let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
@@ -39,7 +39,6 @@ public class InputValidator {
         let areThereNoEmptyRows = checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
         dataAndErrors.results.append(areThereNoEmptyRows)
 
-
         dataAndErrors.arrayOfArrays =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
 
 //
@@ -47,7 +46,6 @@ public class InputValidator {
 //
 //            patternNestedArray = knitFlatArray(array: patternNestedArray)
 //        }
-
 
       //  results.append(checkNoInvalidStitchesInNestedArray(pattern: patternNestedArray))
 
@@ -58,11 +56,11 @@ public class InputValidator {
 
         //try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)
 
+
         return results
 
     }
 }
-
 
 private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> Result<Success, InputError>  {
     let isRowNonEmpty = pattern.map { !$0.isEmpty }

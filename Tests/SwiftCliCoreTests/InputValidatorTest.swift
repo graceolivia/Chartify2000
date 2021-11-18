@@ -31,6 +31,7 @@ class ValidatorTests: XCTestCase {
         inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
     }
 
+
     func testEmptyRowShouldReturnEmptyRowFailureAndNotCalculateRowInfo() throws {
         let testPattern = ["p1 p1", ""]
         let result = self.inputValidator.validateInput(pattern: testPattern)
@@ -41,6 +42,7 @@ class ValidatorTests: XCTestCase {
             .success(Success.patternNestedArray([[],["p1", "p1"]]))
             ]
         expect(result).to(equal(expectedResults))
+
     }
 
     func testInvalidStitchShouldThrowError() throws {
