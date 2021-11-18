@@ -28,7 +28,7 @@ extension InputError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .emptyRow(let row):
-            return emptyRowError(row:row)
+            return emptyRowError(row: row)
         case .invalidStitch(let invalidStitch, let rowLocation, let stitchIndexInRow):
             return invalidStitchWithLocationError(
                 invalidStitch: invalidStitch,
@@ -56,7 +56,6 @@ extension InputError: LocalizedError {
                 stitchIndexInRow: stitchIndexInRow,
                 invalidRepeat: invalidRepeat
             )
-
 
         case .multipleErrors(let errors):
             return multipleErrorsMessage(errors: errors)

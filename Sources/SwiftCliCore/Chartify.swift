@@ -33,34 +33,32 @@ public final class Chartify {
             }
         } else { patternToProcess = userInput }
 
-
-            let patternOrErrors = inputValidator.validateInput(pattern: patternToProcess, knitFlat: knitFlat)
-            var errors: [InputError] = []
-            for result in patternOrErrors.results{
-                switch result{
-                case .success:
-                    continue
-                case .failure(let error):
-                    errors.append(error)
-                }
+        let patternOrErrors = inputValidator.validateInput(pattern: patternToProcess, knitFlat: knitFlat)
+        var errors: [InputError] = []
+        for result in patternOrErrors.results {
+            switch result {
+            case .success:
+                continue
+            case .failure(let error):
+                errors.append(error)
             }
+        }
 
-                guard errors.isEmpty else {
-                    errors.forEach { error in
-                        print("\(error.localizedDescription)")
-                    } 
-                    return
-
-                    }
-                let chart = chartConstructor.makeChart(patternMetaData: patternOrErrors.arrayOfRowInfo)
-                do { try outputWriter.writeOutput(output: chart)
-                    return
-                } catch {
-                    print(error.localizedDescription)
-                    return
-                }
-
+        guard errors.isEmpty else {
+            errors.forEach { error in
+                print("\(error.localizedDescription)")
             }
+            return
+
+        }
+        let chart = chartConstructor.makeChart(patternMetaData: patternOrErrors.arrayOfRowInfo)
+        do { try outputWriter.writeOutput(output: chart)
+            return
+        } catch {
+            print(error.localizedDescription)
+            return
+        }
 
     }
 
+}
