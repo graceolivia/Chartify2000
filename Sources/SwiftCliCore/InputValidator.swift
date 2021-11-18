@@ -3,7 +3,6 @@ import Foundation
 public struct PatternDataAndPossibleErrors: Equatable{
     var arrayOfStrings: [String] = []
     var arrayOfArrays: [[String]] = []
-    var expandedArrayOfArrays: [[String]] = []
     var arrayOfRowInfo: [RowInfo] = []
     var results: [Result<Success, InputError>] = []
 }
@@ -33,8 +32,7 @@ public class InputValidator {
 
         patternAndErrorResults.results  += checkNoEmptyRowsInArrayOfStrings(pattern: patternAndErrorResults.arrayOfStrings)
 
-
-        patternAndErrorResults.arrayOfArrays =  patternAndErrorResults.arrayOfStrings.map { nestedArrayBuilder.arrayMaker(row: $0) } 
+        patternAndErrorResults.arrayOfArrays = patternAndErrorResults.arrayOfStrings.map { nestedArrayBuilder.arrayMaker(row: $0) }
 
         if knitFlat == true {
             patternAndErrorResults.arrayOfArrays = knitFlatArray(array: patternAndErrorResults.arrayOfArrays)
@@ -72,15 +70,23 @@ public class InputValidator {
 
 private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> [Result<Success, InputError>] {
     var results: [Result<Success, InputError>] = []
-    let isRowNonEmpty = pattern.map { !$0.isEmpty }
-    if isRowNonEmpty.contains(false) {
-        results.append(.failure(InputError.emptyRow()))
-        // get all the indices where element is false and return those as .failure in Result
-    } else {
-        results.append(.success(Success.patternArray(pattern)))
-}
-    return results
-}
+    var anyerrors = false
+    for (index, row) in pattern.enumerated(){
+        if row.isEmpty{
+            results.append(.failure(InputError.emptyRow(row: index + 1)))
+            anyerrors = true
+        } else {
+            continue
+        }
+        }
+    guard !anyerrors else {
+        return(results)
+    }
+    results.append(.success(Success.patternArray(pattern)))
+    return(results)
+    }
+
+
 private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) -> Result<Success, InputError> {
     let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
     switch isEveryStitchValid {
@@ -127,7 +133,10 @@ private func validateEachStitchInWholePattern(pattern: [[String]]) -> Result<[[S
             case .success:
                 continue
             case .failure(let error):
-                errorArray.append(error)
+                if let _ = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)){
+                    continue
+                }
+                else {errorArray.append(error)}
             }
 
         }
@@ -184,12 +193,15 @@ public func knitFlatArray(array: [[String]]) -> [[String]] {
 
 private func checkRepeats(pattern: [[String]]) -> Result<Success, InputError> {
 
-    for (index, row) in pattern.enumerated() {
-        for (index, stitch) in row.enumerated() {
-            if let repeats = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
+    for (rowIndex, row) in pattern.enumerated() {
+        for (stitchIndex, stitch) in row.enumerated() {
+            if let _ = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
                 let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
                 guard numberOfRepeats! >= 1 else {
-                    return .failure(InputError.invalidRepeatCount)
+                    return .failure(InputError.invalidRepeatCount(rowNumber: rowIndex + 1,
+                                                                stitchIndexInRow: stitchIndex + 1,
+                                                                  invalidRepeat: stitch
+                                                                 ))
                 }
 
             } else {

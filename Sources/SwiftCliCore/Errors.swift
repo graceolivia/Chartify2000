@@ -16,15 +16,19 @@ enum InputError: Error, Equatable {
         stitchIndexInRow: Int? = nil
     )
     case multipleErrors(errors: [InputError])
-    case invalidRepeatCount
+    case invalidRepeatCount(
+        rowNumber: Int? = nil,
+        stitchIndexInRow: Int? = nil,
+        invalidRepeat: String? = nil
+    )
 
 }
 
 extension InputError: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .emptyRow:
-            return emptyRowError()
+        case .emptyRow(let row):
+            return emptyRowError(row:row)
         case .invalidStitch(let invalidStitch, let rowLocation, let stitchIndexInRow):
             return invalidStitchWithLocationError(
                 invalidStitch: invalidStitch,
@@ -46,8 +50,13 @@ extension InputError: LocalizedError {
                 stitchIndexInRow: stitchIndexInRow
             )
 
-        case .invalidRepeatCount:
-            return("Stitch repeat number must be at least 1.")
+        case .invalidRepeatCount(let rowNumber, let stitchIndexInRow, let invalidRepeat):
+            return invalidRepeatCountError(
+                rowNumber: rowNumber,
+                stitchIndexInRow: stitchIndexInRow,
+                invalidRepeat: invalidRepeat
+            )
+
 
         case .multipleErrors(let errors):
             return multipleErrorsMessage(errors: errors)
@@ -78,11 +87,15 @@ func allowedStitches() -> String {
     return allowedStitchesMessage
 }
 
-func emptyRowError() -> String {
+func emptyRowError(row: Int? = nil) -> String {
+    var onRow = ""
+    if let row = row {
+        onRow = " on row \(row)"
+    }
     return """
     Empty Row Error:
     All rows must contain stitches.
-    You have submitted an empty string for at least one row.
+    You have submitted an empty row\(onRow).
     """
 }
 
@@ -140,4 +153,25 @@ func multipleErrorsMessage(errors: [InputError]) -> String {
     }
     return allErrorMessages
 
+}
+
+func invalidRepeatCountError(rowNumber: Int? = nil, stitchIndexInRow: Int? = nil, invalidRepeat: String? = nil ) -> String {
+    var onRow = ""
+    var atIndex = ""
+    var badRepeatString  = ""
+    if let rowNumber = rowNumber {
+        onRow = " on row \(rowNumber)"
+    }
+    if let stitchIndexInRow = stitchIndexInRow {
+        atIndex = " at index \(stitchIndexInRow)"
+    }
+    if let invalidRepeat = invalidRepeat {
+        badRepeatString = "'\(invalidRepeat)'"
+    }
+
+    return """
+    Invalid Stitch Count Error:
+    One of your repeat notations \(badRepeatString)\(atIndex)\(onRow) has an invalid stitch count.
+    Stitch repeat number must be at least 1.
+    """
 }

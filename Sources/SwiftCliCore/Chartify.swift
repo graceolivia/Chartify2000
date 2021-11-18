@@ -48,11 +48,11 @@ public final class Chartify {
                 guard errors.isEmpty else {
                     errors.forEach { error in
                         print("\(error.localizedDescription)")
-                    }
+                    } 
                     return
 
                     }
-                var chart = chartConstructor.makeChart(patternMetaData: patternOrErrors.arrayOfRowInfo)
+                let chart = chartConstructor.makeChart(patternMetaData: patternOrErrors.arrayOfRowInfo)
                 do { try outputWriter.writeOutput(output: chart)
                     return
                 } catch {
@@ -61,12 +61,6 @@ public final class Chartify {
                 }
 
             }
-    private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
-        let metaData = inputValidator.validateInput(pattern: pattern, knitFlat: knitFlat)
-        //return (chartConstructor.makeChart(patternMetaData: metaData))
-        return "placeholder"
-    }
-
 
     }
 
