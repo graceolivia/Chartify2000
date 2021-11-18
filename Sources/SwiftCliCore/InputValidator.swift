@@ -4,7 +4,14 @@ public struct PatternDataAndPossibleErrors{
     var arrayOfStrings: [String] = []
     var arrayOfArrays: [[String]] = []
     var arrayOfRowInfo: [RowInfo] = []
-    var results: [Result<Any, InputError>] = []
+    var results: [Result<Success, InputError>] = []
+}
+
+public enum Success: Equatable {
+    case patternArray(_ input: [String])
+    case patternNestedArray(_ input: [[String]])
+    case patternRowInfo(_ input: [RowInfo])
+
 }
 
 public class InputValidator {
@@ -19,6 +26,11 @@ public class InputValidator {
     }
 
     public func validateInput(pattern: [String], knitFlat: Bool = false) -> PatternDataAndPossibleErrors {
+
+
+        // empty row error
+
+        // empty
         var dataAndErrors = PatternDataAndPossibleErrors(arrayOfStrings: pattern)
 
         let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
@@ -51,12 +63,7 @@ public class InputValidator {
     }
 }
 
-enum Success {
-    case patternArray(_ input: [String])
-    case patternInput(_ input: String)
-    case patternRowInfo(_ input: [RowInfo])
 
-}
 private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> Result<Success, InputError>  {
     let isRowNonEmpty = pattern.map { !$0.isEmpty }
     if isRowNonEmpty.contains(false) {

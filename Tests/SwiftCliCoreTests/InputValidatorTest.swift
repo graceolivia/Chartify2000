@@ -31,19 +31,16 @@ class ValidatorTests: XCTestCase {
         inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
     }
 
-    func testEmptyRowShouldThrowError() throws {
+    func testEmptyRowShouldReturnEmptyRowFailureAndNotCalculateRowInfo() throws {
         let testPattern = ["p1 p1", ""]
+        let result = self.inputValidator.validateInput(pattern: testPattern)
         let expectedResults: [Result<Success, InputError>] = [
             .failure(InputError.emptyRow),
-            .success([[],["p1", "p1"],
-            ,)
+            .success(Success.patternNestedArray([[],["p1", "p1"]])),
+            .success(Success.patternNestedArray([[],["p1", "p1"]])),
+            .success(Success.patternNestedArray([[],["p1", "p1"]]))
             ]
-        expect {
-            try self.inputValidator.validateInput(
-                pattern: testPattern)
-
-        }
-        .to(throwError(InputError.emptyRow))
+        expect(result).to(equal(expectedResults))
     }
 
     func testInvalidStitchShouldThrowError() throws {
