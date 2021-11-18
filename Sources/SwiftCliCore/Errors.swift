@@ -1,8 +1,7 @@
 import Foundation
 
 enum InputError: Error, Equatable {
-    case emptyRow
-
+    case emptyRow(row: Int? = nil)
     case invalidStitch(invalidStitch: String, rowLocation: Int? = nil, stitchIndexInRow: Int? = nil)
     case invalidRowWidth(
         invalidRowNumber: Int,

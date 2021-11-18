@@ -12,93 +12,65 @@ class ValidatorTests: XCTestCase {
         inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
     }
 
-    func testInvalidStitchShouldThrowError() throws {
-        let testPattern = ["g1 p1"]
-        let err = InputError.multipleErrors(
-            errors: [
-                SwiftCliCore.InputError.invalidStitch(
-                    invalidStitch: "g1",
-                    rowLocation: Optional(1),
-                    stitchIndexInRow: Optional(1)
-                )
-            ]
-        )
-        expect {
-            try self.inputValidator.validateInput(
-                pattern: testPattern,
-                knitFlat: false)
-        }
-        .to(throwError(err))
-
-    }
-
     func testEmptyRowShouldThrowError() throws {
         let testPattern = ["p1 p1", ""]
-        expect {
-            try self.inputValidator.validateInput(
-                pattern: testPattern)
-
-        }
-        .to(throwError(InputError.emptyRow))
+        let result = self.inputValidator.validateInput(
+            pattern: testPattern,
+            knitFlat: false
+        )
+        let expectedResult = PatternDataAndPossibleErrors(
+            arrayOfStrings: ["todo"],
+            results: [
+            .failure(InputError.emptyRow()),
+            .success(Success.patternNestedArray([[],["p1", "p1"]])),
+            .success(Success.patternNestedArray([[],["p1", "p1"]])),
+            .success(Success.patternNestedArray([[],["p1", "p1"]]))
+        ])
+        expect(result).to(equal(expectedResult))
     }
+
+    func testInvalidStitchShouldThrowError() throws {
+        let testPattern = ["g1 p1"]
+        let result = self.inputValidator.validateInput(
+            pattern: testPattern,
+            knitFlat: false
+        )
+        let expectedResult = PatternDataAndPossibleErrors(arrayOfStrings: ["todo"])
+        expect(result).to(equal(expectedResult))
+
+    }
+
 
     func testInvalidStitchCountShouldThrowError() throws {
         let badCountPattern = ["p1 p1", "p1 p1", "p1 p1", "p1 p1 p1"]
-
-        let badCountError = InputError.invalidRowWidth(
-            invalidRowNumber: 4,
-            expectedStitchCount: 2,
-            actualCount: 3)
-        expect {
-            try self.inputValidator.validateInput(
-                pattern: badCountPattern)
-        }
-        .to(throwError(badCountError))
+        let result = self.inputValidator.validateInput(
+            pattern: badCountPattern,
+            knitFlat: false
+        )
+        let expectedResult = PatternDataAndPossibleErrors(arrayOfStrings: ["todo"])
+        expect(result).to(equal(expectedResult))
 
     }
 
     func testMultipleIncorrectStitchesTypesShouldThrowMultipleErrors() throws {
         let multipleIncorrectStitchesPattern = ["p1 p1", "g1 p1", "p1 g1", "g1 p1"]
-       let expectedErrors = InputError.multipleErrors(errors: [
-        InputError.invalidStitch(
-            invalidStitch: "g1",
-            rowLocation: Optional(2),
-            stitchIndexInRow: 1
-        ),
-        InputError.invalidStitch(
-            invalidStitch: "g1",
-            rowLocation: Optional(3),
-            stitchIndexInRow: Optional(2)
-        ),
-        InputError.invalidStitch(
-            invalidStitch: "g1",
-            rowLocation: Optional(4),
-            stitchIndexInRow: Optional(1)
-        )])
-        expect {
-            try self.inputValidator.validateInput(
-                pattern: multipleIncorrectStitchesPattern)
-        }
-        .to(throwError(expectedErrors))
+        let result = self.inputValidator.validateInput(
+            pattern: multipleIncorrectStitchesPattern,
+            knitFlat: false
+        )
+        let expectedResult = PatternDataAndPossibleErrors(arrayOfStrings: ["todo"])
+        expect(result).to(equal(expectedResult))
     }
 
 
     func testZeroCountStitchShouldThrowMultipleErrors() throws {
-        let multipleIncorrectStitchesPattern = ["k0 p1"]
-        let expectedError = InputError.multipleErrors(errors: [
-            InputError.invalidStitchNumber(
-                rowNumber: 1,
-                invalidStitch: "k0",
-                validStitchType: "k",
-                invalidStitchNumber: "0",
-                stitchIndexInRow: 1
-            )
-        ])
-        expect {
-            try self.inputValidator.validateInput(
-                pattern: multipleIncorrectStitchesPattern)
-        }
-        .to(throwError(expectedError))
+        let zeroCountStitchesPattern = ["k0 p1"]
+        let result = self.inputValidator.validateInput(
+            pattern: zeroCountStitchesPattern,
+            knitFlat: false
+        )
+        let expectedResult = PatternDataAndPossibleErrors(arrayOfStrings: ["todo"])
+        expect(result).to(equal(expectedResult))
     }
 
     func testValidPatternShouldReturnMetaData() throws {
@@ -108,29 +80,29 @@ class ValidatorTests: XCTestCase {
             pattern: ["p1 p1", "p1 p1"],
             knitFlat: false
         )
-
-        let expectedResult = [
-            RowInfo(
-                row: ["p1", "p1"],
-                rowIndex: 0,
-                bottomLine: "└─┴─┘",
-                stitchSymbols: "│-│-│\n",
-                width: 2,
-                leftIncDec: 0,
-                rightIncDec: 0,
-                leftOffset: 0
-            ),
-            RowInfo(
-                row: ["p1", "p1"],
-                rowIndex: 1,
-                bottomLine: "├─┼─┤\n",
-                stitchSymbols: "│-│-│\n",
-                width: 2,
-                leftIncDec: 0,
-                rightIncDec: 0,
-                leftOffset: 0
-            )
-        ]
+        let expectedResult = PatternDataAndPossibleErrors(arrayOfStrings: ["todo"])
+//        let expectedResult = [
+//            RowInfo(
+//                row: ["p1", "p1"],
+//                rowIndex: 0,
+//                bottomLine: "└─┴─┘",
+//                stitchSymbols: "│-│-│\n",
+//                width: 2,
+//                leftIncDec: 0,
+//                rightIncDec: 0,
+//                leftOffset: 0
+//            ),
+//            RowInfo(
+//                row: ["p1", "p1"],
+//                rowIndex: 1,
+//                bottomLine: "├─┼─┤\n",
+//                stitchSymbols: "│-│-│\n",
+//                width: 2,
+//                leftIncDec: 0,
+//                rightIncDec: 0,
+//                leftOffset: 0
+//            )
+//        ]
         expect(result).to(equal(expectedResult))
     }
 
@@ -140,29 +112,30 @@ class ValidatorTests: XCTestCase {
             pattern: ["k1 p1", "p1 k1"],
             knitFlat: true
         )
+        let expectedResult = PatternDataAndPossibleErrors(arrayOfStrings: ["todo"])
 
-        let expectedResult = [
-            RowInfo(
-                row: ["k1", "p1"],
-                rowIndex: 0,
-                bottomLine: "└─┴─┘",
-                stitchSymbols: "│ │-│\n",
-                width: 2,
-                leftIncDec: 0,
-                rightIncDec: 0,
-                leftOffset: 0
-            ),
-            RowInfo(
-                row: ["k1", "p1"],
-                rowIndex: 1,
-                bottomLine: "├─┼─┤\n",
-                stitchSymbols: "│ │-│\n",
-                width: 2,
-                leftIncDec: 0,
-                rightIncDec: 0,
-                leftOffset: 0
-            )
-        ]
+//        let expectedResult = [
+//            RowInfo(
+//                row: ["k1", "p1"],
+//                rowIndex: 0,
+//                bottomLine: "└─┴─┘",
+//                stitchSymbols: "│ │-│\n",
+//                width: 2,
+//                leftIncDec: 0,
+//                rightIncDec: 0,
+//                leftOffset: 0
+//            ),
+//            RowInfo(
+//                row: ["k1", "p1"],
+//                rowIndex: 1,
+//                bottomLine: "├─┼─┤\n",
+//                stitchSymbols: "│ │-│\n",
+//                width: 2,
+//                leftIncDec: 0,
+//                rightIncDec: 0,
+//                leftOffset: 0
+//            )
+//        ]
         expect(result).to(equal(expectedResult))
     }
 
@@ -170,28 +143,29 @@ class ValidatorTests: XCTestCase {
         let result = try self.inputValidator.validateInput(
             pattern: ["K1 P1", "P1 K1"]
         )
-        let expectedResult = [
-            RowInfo(
-                row: ["k1", "p1"],
-                rowIndex: 0,
-                bottomLine: "└─┴─┘",
-                stitchSymbols: "│ │-│\n",
-                width: 2,
-                leftIncDec: 0,
-                rightIncDec: 0,
-                leftOffset: 0
-            ),
-            RowInfo(
-                row: ["p1", "k1"],
-                rowIndex: 1,
-                bottomLine: "├─┼─┤\n",
-                stitchSymbols: "│-│ │\n",
-                width: 2,
-                leftIncDec: 0,
-                rightIncDec: 0,
-                leftOffset: 0
-            )
-        ]
+        let expectedResult = PatternDataAndPossibleErrors(arrayOfStrings: ["todo"])
+//        let expectedResult = [
+//            RowInfo(
+//                row: ["k1", "p1"],
+//                rowIndex: 0,
+//                bottomLine: "└─┴─┘",
+//                stitchSymbols: "│ │-│\n",
+//                width: 2,
+//                leftIncDec: 0,
+//                rightIncDec: 0,
+//                leftOffset: 0
+//            ),
+//            RowInfo(
+//                row: ["p1", "k1"],
+//                rowIndex: 1,
+//                bottomLine: "├─┼─┤\n",
+//                stitchSymbols: "│-│ │\n",
+//                width: 2,
+//                leftIncDec: 0,
+//                rightIncDec: 0,
+//                leftOffset: 0
+//            )
+//        ]
         expect(result).to(equal(expectedResult))
     }
 }

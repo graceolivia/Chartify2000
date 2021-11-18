@@ -1,5 +1,29 @@
 import Foundation
 
+extension Array{
+
+    func forEachWithIndex(_ callback: (Int, Element) -> ()){
+
+        for (index, element) in self.enumerated(){
+            callback(index, element)
+        }
+    }
+}
+
+public struct PatternDataAndPossibleErrors: Equatable{
+    var arrayOfStrings: [String] = []
+    var arrayOfArrays: [[String]] = []
+    var arrayOfRowInfo: [RowInfo] = []
+    var results: [Result<Success, InputError>] = []
+}
+
+public enum Success: Equatable {
+    case patternArray(_ input: [String])
+    case patternNestedArray(_ input: [[String]])
+    case patternRowInfo(_ input: [RowInfo])
+
+}
+
 public class InputValidator {
 
     var patternNormalizer = PatternNormalizer()
@@ -11,43 +35,47 @@ public class InputValidator {
         self.nestedArrayBuilder = nestedArrayBuilder
     }
 
-    public func validateInput(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
+    public func validateInput(pattern: [String], knitFlat: Bool = false) -> PatternDataAndPossibleErrors {
 
-        let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
+        var patternAndErrorResults = PatternDataAndPossibleErrors(arrayOfStrings: pattern)
 
-        try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
+        patternAndErrorResults.arrayOfStrings =  patternAndErrorResults.arrayOfStrings.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
 
-        var patternNestedArray =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
+        patternAndErrorResults.results  += checkNoEmptyRowsInArrayOfStrings(pattern: patternAndErrorResults.arrayOfStrings)
 
-        if knitFlat == true {
-
-            patternNestedArray = knitFlatArray(array: patternNestedArray)
-        }
-
-        try checkNoInvalidStitchesInNestedArray(pattern: patternNestedArray)
-
-        let expandedNestedArray = try patternNestedArray.map { try nestedArrayBuilder.expandRow(row: $0) }
-
-        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
-
-        return try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)
+//
+//        var patternNestedArray: [[String]]
+//        do { patternNestedArray =  try patternAndErrorResults.arrayOfStrings.map { try nestedArrayBuilder.arrayMaker(row: $0) } }  catch { print("todo")  }
+//
+//        if knitFlat == true {
+//
+//            patternNestedArray = knitFlatArray(array: patternNestedArray)
+//        }
+//
+//        do { try checkNoInvalidStitchesInNestedArray(pattern: patternNestedArray)} catch { print("todo") }
+//
+//        var expandedNestedArray: [[String]]
+//        do { expandedNestedArray = try patternNestedArray.map { try nestedArrayBuilder.expandRow(row: $0) } } catch {print("todo")}
+//
+//        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
+//
+//        do { try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)} catch {print("todo")}
+        return PatternDataAndPossibleErrors()
 
     }
 }
 
-private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) throws -> [String] {
-    for row in pattern {
-        let isEmptyRow = validateNoEmptyRows(row: row)
-        switch isEmptyRow {
-        case .success:
-            continue
-        case .failure(let error):
-            throw error
-        }
-    }
-    return pattern
+private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> [Result<Success, InputError>] {
+    var results: [Result<Success, InputError>] = []
+    let isRowNonEmpty = pattern.map { !$0.isEmpty }
+    if isRowNonEmpty.contains(false) {
+        results.append(.failure(InputError.emptyRow()))
+        // get all the indices where element is false and return those as .failure in Result
+    } else {
+        results.append(.success(Success.patternArray(pattern)))
 }
-
+    return results
+}
 private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
     let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
     switch isEveryStitchValid {
@@ -110,7 +138,7 @@ private func validateEachStitchInWholePattern(pattern: [[String]]) -> Result<[[S
 private func validateNoEmptyRows(row: String) -> Result<String, InputError> {
 
     guard !row.isEmpty else {
-        return .failure(InputError.emptyRow)
+        return .failure(InputError.emptyRow())
     }
     return .success(row)
 }

@@ -45,8 +45,8 @@ public final class Chartify {
 
     private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
         let metaData = try inputValidator.validateInput(pattern: pattern, knitFlat: knitFlat)
-        return (chartConstructor.makeChart(patternMetaData: metaData))
-
+        //return (chartConstructor.makeChart(patternMetaData: metaData))
+        return "placeholder"
     }
 
 }
