@@ -1,15 +1,5 @@
 import Foundation
 
-extension Array{
-
-    func forEachWithIndex(_ callback: (Int, Element) -> ()){
-
-        for (index, element) in self.enumerated(){
-            callback(index, element)
-        }
-    }
-}
-
 public struct PatternDataAndPossibleErrors: Equatable{
     var arrayOfStrings: [String] = []
     var arrayOfArrays: [[String]] = []
@@ -52,21 +42,34 @@ public class InputValidator {
 
         patternAndErrorResults.results.append(checkNoInvalidStitchesInNestedArray(pattern: patternAndErrorResults.arrayOfArrays))
 
-        // check for no incorrect (10x)
 
-        // expand k6 and 10x, if
-
-
-//        patternAndErrorResults.expandedArrayOfArrays = try patternAndErrorResults.arrayOfArrays.map { try nestedArrayBuilder.expandRow(row: $0) } }
+        patternAndErrorResults.results.append(checkRepeats(pattern: patternAndErrorResults.arrayOfArrays))
 
 
-//        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
-//
-//        do { try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)} catch {print("todo")}
-        return PatternDataAndPossibleErrors()
+
+        for result in patternAndErrorResults.results {
+            switch result {
+            case .success:
+                continue
+            case .failure:
+                return patternAndErrorResults
+            }
+
+        }
+
+
+        patternAndErrorResults.arrayOfArrays = patternAndErrorResults.arrayOfArrays.map { nestedArrayBuilder.expandRow(row: $0) }
+        patternAndErrorResults.arrayOfRowInfo = MetaDataBuilder().buildAllMetaData(stitchArray: patternAndErrorResults.arrayOfArrays)
+
+                do { try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternAndErrorResults.arrayOfRowInfo)} catch {print("todo")}
+        return patternAndErrorResults
+
 
     }
-}
+
+
+
+
 
 private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> [Result<Success, InputError>] {
     var results: [Result<Success, InputError>] = []
@@ -90,13 +93,13 @@ private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) -> Result<
 
 }
 
-private func checkNoMathematicalIssuesInArrayOfRowInfo(pattern: [RowInfo]) throws -> [RowInfo] {
+private func checkNoMathematicalIssuesInArrayOfRowInfo(pattern: [RowInfo]) -> Result<Success, InputError> {
     let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: pattern)
     switch isPatternMathematicallySound {
     case .success:
-        return pattern
+        return .success(Success.patternRowInfo(pattern))
     case .failure(let error):
-        throw error
+        return .failure(error)
     }
 }
 
@@ -178,4 +181,23 @@ public func knitFlatArray(array: [[String]]) -> [[String]] {
         flatArray[rowNum].reverse()
     }
     return flatArray
+}
+
+private func checkRepeats(pattern: [[String]]) -> Result<Success, InputError> {
+
+    for (index, row) in pattern.enumerated() {
+        for (index, stitch) in row.enumerated() {
+            if let repeats = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
+                let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
+                guard numberOfRepeats! >= 1 else {
+                    return .failure(InputError.invalidRepeatCount)
+                }
+
+            } else {
+                continue
+            }
+        }
+    }
+    return .success(Success.patternNestedArray(pattern))
+    }
 }

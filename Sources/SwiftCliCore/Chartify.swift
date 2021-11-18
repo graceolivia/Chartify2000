@@ -33,20 +33,40 @@ public final class Chartify {
             }
         } else { patternToProcess = userInput }
 
-        do {
-            let chart = try validateAndChartify(pattern: patternToProcess, knitFlat: knitFlat)
-            try outputWriter.writeOutput(output: chart)
-        } catch {
-            print(error.localizedDescription)
-            return
-        }
 
-    }
+            let patternOrErrors = inputValidator.validateInput(pattern: patternToProcess, knitFlat: knitFlat)
+            var errors: [InputError] = []
+            for result in patternOrErrors.results{
+                switch result{
+                case .success:
+                    continue
+                case .failure(let error):
+                    errors.append(error)
+                }
+            }
 
+                guard errors.isEmpty else {
+                    errors.forEach { error in
+                        print("\(error.localizedDescription)")
+                    }
+                    return
+
+                    }
+                var chart = chartConstructor.makeChart(patternMetaData: patternOrErrors.arrayOfRowInfo)
+                do { try outputWriter.writeOutput(output: chart)
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                    return
+                }
+
+            }
     private func validateAndChartify(pattern: [String], knitFlat: Bool) throws -> String {
-        let metaData = try inputValidator.validateInput(pattern: pattern, knitFlat: knitFlat)
+        let metaData = inputValidator.validateInput(pattern: pattern, knitFlat: knitFlat)
         //return (chartConstructor.makeChart(patternMetaData: metaData))
         return "placeholder"
     }
 
-}
+
+    }
+

@@ -10,27 +10,13 @@ public class NestedArrayBuilder {
         return(rowStitches)
     }
 
-    public func expandRow(row: [String]) throws ->  [String] {
-        return try row.flatMap { try getMultipleStitchInfo(stitch: $0) }
+    public func expandRow(row: [String])  ->  [String] {
+        var rowWithExpandedMultipleStitches: [String] = []
+        do { try rowWithExpandedMultipleStitches = row.flatMap { try getMultipleStitchInfo(stitch: $0) } }  catch { return row }
+        do { return try handleRepeats(row: rowWithExpandedMultipleStitches) }  catch { return rowWithExpandedMultipleStitches }
     }
 
-    public func checkRepeats(pattern: [[String]]) -> Result<Success, InputError> {
 
-        for (index, row) in pattern.enumerated() {
-        for (index, stitch) in row.enumerated() {
-            if let repeats = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
-                let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
-                guard numberOfRepeats! >= 1 else {
-                    return .failure(InputError.invalidRepeatCount)
-                }
-
-            } else {
-                continue
-            }
-        }
-        }
-        return .success(Success.patternNestedArray(pattern))
-    }
 
 
     private func handleRepeats(row: [String]) throws -> [String] {
