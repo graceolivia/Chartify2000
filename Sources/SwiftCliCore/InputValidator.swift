@@ -138,14 +138,6 @@ public class InputValidator {
         return .success(pattern)
     }
 
-    private func validateNoEmptyRows(row: String) -> Result<String, InputError> {
-
-        guard !row.isEmpty else {
-            return .failure(InputError.emptyRow())
-        }
-        return .success(row)
-    }
-
     private func validateEachRowWidth(allRowsMetaData: [RowInfo]) -> Result<[RowInfo], InputError> {
         let numberOfRowsToCheck = (allRowsMetaData.count) - 1
         if numberOfRowsToCheck == 0 {
