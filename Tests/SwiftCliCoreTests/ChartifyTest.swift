@@ -59,19 +59,11 @@ class ChartifyFinishedTest: XCTestCase {
 class MockInputValidator: InputValidator {
     var wasValidatorCalled = false
 
-    override func validateInput(pattern: [String], knitFlat: Bool) -> [Any] {
+    override func validateInput(pattern: [String], knitFlat: Bool) -> PatternDataAndPossibleErrors {
 
         wasValidatorCalled = true
-        return [RowInfo(
-            row: ["p1", "p1"],
-            rowIndex: 0,
-            bottomLine: "└─┴─┘",
-            stitchSymbols: "│-│-│\n",
-            width: 2,
-            leftIncDec: 0,
-            rightIncDec: 0,
-            leftOffset: 0
-        )]}
+        let result = PatternDataAndPossibleErrors()
+        return(result)
 }
 
 class MockChartConstructor: ChartConstructor {

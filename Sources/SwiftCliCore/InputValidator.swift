@@ -39,7 +39,7 @@ public class InputValidator {
         let areThereNoEmptyRows = checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
         dataAndErrors.results.append(areThereNoEmptyRows)
 
-        dataAndErrors.arrayOfArrays =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
+    //dataAndErrors.arrayOfArrays =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
 
 //
 //        if knitFlat == true {
@@ -57,7 +57,7 @@ public class InputValidator {
         //try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)
 
 
-        return results
+        return dataAndErrors
 
     }
 }
@@ -65,6 +65,7 @@ public class InputValidator {
 private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> Result<Success, InputError>  {
     let isRowNonEmpty = pattern.map { !$0.isEmpty }
     if isRowNonEmpty.contains(false) {
+        return .failure(InputError.emptyRow)
         // get all the indices where element is false and return those as .failure in Result
     } else {
         return .success(Success.patternArray(pattern))

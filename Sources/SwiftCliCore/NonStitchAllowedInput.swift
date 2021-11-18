@@ -14,14 +14,14 @@ public class NonStitchAllowedNotation {
 
     }
 
-    public func isValidRepeat(repeat: String) -> Result<String, InputError> {
+    public func isValidRepeat(repeat: String) -> Bool {
 
-            if let isValidRepeat = (isValidRepeat.range(of: "^[(0-9x)]*$", options: .regularExpression)){
-                let numberOfRepeats = Int(isValidRepeat.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
-                guard (numberOfRepeats! >= 1) else {
-                    return .failure(InputError.invalidRepeatCount)
-                }
-            }
-
-
+//            if let isValidRepeat = (repeat.range(of: "^[(0-9x)]*$", options: .regularExpression)){
+//                let numberOfRepeats = Int(isValidRepeat.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
+//                guard (numberOfRepeats! >= 1) else {
+//                    return .failure(InputError.invalidRepeatCount)
+//                }
+//            }
+return true
+    }
 }
