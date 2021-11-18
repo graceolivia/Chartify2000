@@ -13,6 +13,7 @@ extension Array{
 public struct PatternDataAndPossibleErrors: Equatable{
     var arrayOfStrings: [String] = []
     var arrayOfArrays: [[String]] = []
+    var expandedArrayOfArrays: [[String]] = []
     var arrayOfRowInfo: [RowInfo] = []
     var results: [Result<Success, InputError>] = []
 }
@@ -21,7 +22,6 @@ public enum Success: Equatable {
     case patternArray(_ input: [String])
     case patternNestedArray(_ input: [[String]])
     case patternRowInfo(_ input: [RowInfo])
-
 }
 
 public class InputValidator {
@@ -43,20 +43,23 @@ public class InputValidator {
 
         patternAndErrorResults.results  += checkNoEmptyRowsInArrayOfStrings(pattern: patternAndErrorResults.arrayOfStrings)
 
-//
-//        var patternNestedArray: [[String]]
-//        do { patternNestedArray =  try patternAndErrorResults.arrayOfStrings.map { try nestedArrayBuilder.arrayMaker(row: $0) } }  catch { print("todo")  }
-//
-//        if knitFlat == true {
-//
-//            patternNestedArray = knitFlatArray(array: patternNestedArray)
-//        }
-//
-//        do { try checkNoInvalidStitchesInNestedArray(pattern: patternNestedArray)} catch { print("todo") }
-//
-//        var expandedNestedArray: [[String]]
-//        do { expandedNestedArray = try patternNestedArray.map { try nestedArrayBuilder.expandRow(row: $0) } } catch {print("todo")}
-//
+
+        patternAndErrorResults.arrayOfArrays =  patternAndErrorResults.arrayOfStrings.map { nestedArrayBuilder.arrayMaker(row: $0) } 
+
+        if knitFlat == true {
+            patternAndErrorResults.arrayOfArrays = knitFlatArray(array: patternAndErrorResults.arrayOfArrays)
+        }
+
+        patternAndErrorResults.results.append(checkNoInvalidStitchesInNestedArray(pattern: patternAndErrorResults.arrayOfArrays))
+
+        // check for no incorrect (10x)
+
+        // expand k6 and 10x, if
+
+
+//        patternAndErrorResults.expandedArrayOfArrays = try patternAndErrorResults.arrayOfArrays.map { try nestedArrayBuilder.expandRow(row: $0) } }
+
+
 //        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
 //
 //        do { try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)} catch {print("todo")}
@@ -76,13 +79,13 @@ private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> [Result<Succ
 }
     return results
 }
-private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
+private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) -> Result<Success, InputError> {
     let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
     switch isEveryStitchValid {
     case .success:
-        return pattern
+        return .success(Success.patternNestedArray(pattern))
     case .failure(let error):
-        throw error
+        return .failure(error)
     }
 
 }
