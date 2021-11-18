@@ -60,8 +60,7 @@ public class InputValidator {
 
         patternAndErrorResults.arrayOfArrays = patternAndErrorResults.arrayOfArrays.map { nestedArrayBuilder.expandRow(row: $0) }
         patternAndErrorResults.arrayOfRowInfo = MetaDataBuilder().buildAllMetaData(stitchArray: patternAndErrorResults.arrayOfArrays)
-
-                do { try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternAndErrorResults.arrayOfRowInfo)} catch {print("todo")}
+        patternAndErrorResults.results.append(checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternAndErrorResults.arrayOfRowInfo))
         return patternAndErrorResults
 
 
