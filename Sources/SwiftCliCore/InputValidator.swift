@@ -179,10 +179,13 @@ public class InputValidator {
                 if let _ = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
                     let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
                     guard numberOfRepeats! >= 1 else {
-                        return .failure(InputError.invalidRepeatCount(rowNumber: rowIndex + 1,
-                                                                      stitchIndexInRow: stitchIndex + 1,
-                                                                      invalidRepeat: stitch
-                                                                     ))
+                        return .failure(
+                            InputError.invalidRepeatCount(
+                                rowNumber: rowIndex + 1,
+                                stitchIndexInRow: stitchIndex + 1,
+                                invalidRepeat: stitch
+                            )
+                        )
                     }
 
                 } else {
