@@ -1,8 +1,12 @@
 import Foundation
 
 enum InputError: Error, Equatable {
-    case emptyRow(row: Int? = nil)
-    case invalidStitch(invalidStitch: String, rowLocation: Int? = nil, stitchIndexInRow: Int? = nil)
+    case emptyRow(row: Int)
+    case invalidStitch(
+        invalidStitch: String,
+        rowLocation: Int? = nil,
+        stitchIndexInRow: Int? = nil
+    )
     case invalidRowWidth(
         invalidRowNumber: Int,
         expectedStitchCount: Int,
@@ -17,9 +21,9 @@ enum InputError: Error, Equatable {
     )
     case multipleErrors(errors: [InputError])
     case invalidRepeatCount(
-        rowNumber: Int? = nil,
-        stitchIndexInRow: Int? = nil,
-        invalidRepeat: String? = nil
+        rowNumber: Int,
+        stitchIndexInRow: Int,
+        invalidRepeat: String
     )
 
 }
@@ -86,15 +90,11 @@ func allowedStitches() -> String {
     return allowedStitchesMessage
 }
 
-func emptyRowError(row: Int? = nil) -> String {
-    var onRow = ""
-    if let row = row {
-        onRow = " on row \(row)"
-    }
+func emptyRowError(row: Int) -> String {
     return """
     Empty Row Error:
     All rows must contain stitches.
-    You have submitted an empty row\(onRow).
+    You have submitted an empty row on row \(row).
     """
 }
 

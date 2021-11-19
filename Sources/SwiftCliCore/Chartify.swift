@@ -52,7 +52,8 @@ public final class Chartify {
 
         }
         let chart = chartConstructor.makeChart(patternMetaData: patternOrErrors.arrayOfRowInfo)
-        do { try outputWriter.writeOutput(output: chart)
+        do {
+            try outputWriter.writeOutput(output: chart)
             return
         } catch {
             print(error.localizedDescription)

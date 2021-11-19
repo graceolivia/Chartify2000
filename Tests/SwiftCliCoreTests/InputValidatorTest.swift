@@ -23,8 +23,8 @@ class ValidatorTests: XCTestCase {
             arrayOfArrays: [["p1", "p1"], []],
             arrayOfRowInfo: [],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(SwiftCliCore.InputError.emptyRow(row: Optional(2))),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], []])),
+                Result.failure(SwiftCliCore.InputError.emptyRow(row: 2)),
+                Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], []])),
                 Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], []]))
             ]
         )
@@ -109,7 +109,7 @@ class ValidatorTests: XCTestCase {
             arrayOfArrays: [[], ["g1", "p1"], ["p1", "g1"]],
             arrayOfRowInfo: [],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(SwiftCliCore.InputError.emptyRow(row: Optional(1))),
+                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(SwiftCliCore.InputError.emptyRow(row: 1)),
                 Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(
                     SwiftCliCore.InputError.multipleErrors(
                         errors: [
