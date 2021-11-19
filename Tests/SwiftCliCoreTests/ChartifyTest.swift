@@ -12,10 +12,11 @@ class ChartifyFinishedTest: XCTestCase {
             chartConstructor: ChartConstructor(),
             fileValidator: FileValidator(),
             outputWriter: ConsoleWriter()
-        ).run(userInput: ["k1"], knitFlat: false)
+        ).run(userInput: ["k1 k1 k1", "k1 k1 k1"], knitFlat: false)
 
         expect(mock.wasValidatorCalled).to(equal(true))
     }
+
     func testRunCallsMakeChartIfInputIsValid() throws {
         let mock = MockChartConstructor()
 
@@ -59,19 +60,48 @@ class ChartifyFinishedTest: XCTestCase {
 class MockInputValidator: InputValidator {
     var wasValidatorCalled = false
 
-    override func validateInput(pattern: [String], knitFlat: Bool) throws -> [RowInfo] {
+    override func validateInput(pattern: [String], knitFlat: Bool) -> PatternDataAndPossibleErrors {
 
         wasValidatorCalled = true
-        return [RowInfo(
-            row: ["p1", "p1"],
-            rowIndex: 0,
-            bottomLine: "└─┴─┘",
-            stitchSymbols: "│-│-│\n",
-            width: 2,
-            leftIncDec: 0,
-            rightIncDec: 0,
-            leftOffset: 0
-        )]}
+        return PatternDataAndPossibleErrors(
+            arrayOfStrings: ["p1 p1"],
+            arrayOfArrays: [["p1", "p1"]],
+            arrayOfRowInfo: [
+                SwiftCliCore.RowInfo(
+                    row: ["p1", "p1"],
+                    rowIndex: 0,
+                    bottomLine: "└─┴─┘",
+                    stitchSymbols: "│-│-│\n",
+                    width: 2,
+                    patternRowsCount: 0,
+                    leftIncDec: 0,
+                    rightIncDec: 0,
+                    leftOffset: 0,
+                    transRowLeftOffset: 0)
+            ],
+            results: [
+                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternArray(["p1 p1"])),
+                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"]])),
+                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"]])),
+                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternRowInfo(
+                    [
+                        SwiftCliCore.RowInfo(
+                            row: ["p1", "p1"],
+                            rowIndex: 0,
+                            bottomLine: "└─┴─┘",
+                            stitchSymbols: "│-│-│\n",
+                            width: 2,
+                            patternRowsCount: 0,
+                            leftIncDec: 0,
+                            rightIncDec: 0,
+                            leftOffset: 0,
+                            transRowLeftOffset: 0)
+                    ]
+                ))
+            ]
+        )
+    }
+
 }
 
 class MockChartConstructor: ChartConstructor {

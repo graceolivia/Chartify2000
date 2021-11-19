@@ -3,26 +3,34 @@ import Foundation
 public class NestedArrayBuilder {
     public init() {}
 
-    public func arrayMaker(row: String) throws -> [String] {
+    public func arrayMaker(row: String) -> [String] {
         let substringRowStitches = row.split(separator: " ")
         let rowStitches = substringRowStitches.map {(String($0))}
-        let expandedRowStitches = try handleRepeats(row: rowStitches)
-        return(expandedRowStitches)
+        return(rowStitches)
     }
 
-    public func expandRow(row: [String]) throws ->  [String] {
-        return try row.flatMap { try getMultipleStitchInfo(stitch: $0) }
+    public func expandRow(row: [String]) -> [String] {
+        var rowWithExpandedMultipleStitches: [String] = []
+        do {
+            try rowWithExpandedMultipleStitches = row.flatMap {
+                try getMultipleStitchInfo(stitch: $0)
+            }
+
+        } catch {
+            return row
+        }
+        do { return try handleRepeats(row: rowWithExpandedMultipleStitches) } catch { return rowWithExpandedMultipleStitches }
     }
 
     private func handleRepeats(row: [String]) throws -> [String] {
 
         var repeatedRow: [String] = []
         var currentRowSection: [String] = []
-        for (index, stitch) in row.enumerated() {
-            if let repeats = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
+        for (_, stitch) in row.enumerated() {
+            if let _ = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
                 let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
                 guard numberOfRepeats! >= 1 else {
-                    throw InputError.invalidRepeatCount
+                    continue
 
                 }
                 for _ in 1...numberOfRepeats! { repeatedRow += currentRowSection }

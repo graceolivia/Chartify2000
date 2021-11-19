@@ -1,5 +1,18 @@
 import Foundation
 
+public struct PatternDataAndPossibleErrors: Equatable {
+    var arrayOfStrings: [String] = []
+    var arrayOfArrays: [[String]] = []
+    var arrayOfRowInfo: [RowInfo] = []
+    var results: [Result<Success, InputError>] = []
+}
+
+public enum Success: Equatable {
+    case patternArray(_ input: [String])
+    case patternNestedArray(_ input: [[String]])
+    case patternRowInfo(_ input: [RowInfo])
+}
+
 public class InputValidator {
 
     var patternNormalizer = PatternNormalizer()
@@ -11,140 +24,175 @@ public class InputValidator {
         self.nestedArrayBuilder = nestedArrayBuilder
     }
 
-    public func validateInput(pattern: [String], knitFlat: Bool = false) throws -> [RowInfo] {
+    public func validateInput(pattern: [String], knitFlat: Bool = false) -> PatternDataAndPossibleErrors {
 
-        let lowercaseNormalizedPattern =  pattern.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
+        var patternAndErrorResults = PatternDataAndPossibleErrors(arrayOfStrings: pattern)
 
-        try checkNoEmptyRowsInArrayOfStrings(pattern: lowercaseNormalizedPattern)
+        patternAndErrorResults.arrayOfStrings =  patternAndErrorResults.arrayOfStrings.map { patternNormalizer.makeAllLowercase(stitchesToLowercase: $0) }
 
-        var patternNestedArray =  try lowercaseNormalizedPattern.map { try nestedArrayBuilder.arrayMaker(row: $0) }
+        patternAndErrorResults.results  += checkNoEmptyRowsInArrayOfStrings(pattern: patternAndErrorResults.arrayOfStrings)
+
+        patternAndErrorResults.arrayOfArrays = patternAndErrorResults.arrayOfStrings.map { nestedArrayBuilder.arrayMaker(row: $0) }
 
         if knitFlat == true {
-
-            patternNestedArray = knitFlatArray(array: patternNestedArray)
+            patternAndErrorResults.arrayOfArrays = knitFlatArray(array: patternAndErrorResults.arrayOfArrays)
         }
 
-        try checkNoInvalidStitchesInNestedArray(pattern: patternNestedArray)
+        patternAndErrorResults.results.append(checkNoInvalidStitchesInNestedArray(pattern: patternAndErrorResults.arrayOfArrays))
 
-        let expandedNestedArray = try patternNestedArray.map { try nestedArrayBuilder.expandRow(row: $0) }
+        patternAndErrorResults.results.append(checkRepeats(pattern: patternAndErrorResults.arrayOfArrays))
 
-        let patternMetaData = MetaDataBuilder().buildAllMetaData(stitchArray: expandedNestedArray)
-
-        return try checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternMetaData)
-
-    }
-}
-
-private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) throws -> [String] {
-    for row in pattern {
-        let isEmptyRow = validateNoEmptyRows(row: row)
-        switch isEmptyRow {
-        case .success:
-            continue
-        case .failure(let error):
-            throw error
-        }
-    }
-    return pattern
-}
-
-private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) throws -> [[String]] {
-    let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
-    switch isEveryStitchValid {
-    case .success:
-        return pattern
-    case .failure(let error):
-        throw error
-    }
-
-}
-
-private func checkNoMathematicalIssuesInArrayOfRowInfo(pattern: [RowInfo]) throws -> [RowInfo] {
-    let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: pattern)
-    switch isPatternMathematicallySound {
-    case .success:
-        return pattern
-    case .failure(let error):
-        throw error
-    }
-}
-
-private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
-
-    var errorArray: [InputError] = []
-    for (index, stitch) in stitchRow.enumerated() {
-        if !isStitchValid(stitch: stitch) {
-            errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: index + 1))
-        }
-    }
-
-    if errorArray.count > 0 {
-        return .failure(InputError.multipleErrors(errors: errorArray))
-    }
-
-    return .success(stitchRow)
-}
-
-private func validateEachStitchInWholePattern(pattern: [[String]]) -> Result<[[String]], InputError> {
-    var errorArray: [InputError] = []
-    for (rowIndex, row) in pattern.enumerated() {
-        for (stitchIndex, stitch) in row.enumerated() {
-            let result = isStitchAndStitchCountValid(stitch: stitch, rowNumber: rowIndex + 1, stitchIndex: stitchIndex + 1)
+        for result in patternAndErrorResults.results {
             switch result {
             case .success:
                 continue
-            case .failure(let error):
-                errorArray.append(error)
+            case .failure:
+                return patternAndErrorResults
             }
 
         }
+
+        patternAndErrorResults.arrayOfArrays = patternAndErrorResults.arrayOfArrays.map { nestedArrayBuilder.expandRow(row: $0) }
+        patternAndErrorResults.arrayOfRowInfo = MetaDataBuilder().buildAllMetaData(stitchArray: patternAndErrorResults.arrayOfArrays)
+        patternAndErrorResults.results.append(checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternAndErrorResults.arrayOfRowInfo))
+        return patternAndErrorResults
+
     }
 
-    if errorArray.count > 0 {
-        return .failure(InputError.multipleErrors(errors: errorArray))
+    private func checkNoEmptyRowsInArrayOfStrings(pattern: [String]) -> [Result<Success, InputError>] {
+        var results: [Result<Success, InputError>] = []
+        var anyerrors = false
+        for (index, row) in pattern.enumerated() {
+            if row.isEmpty {
+                results.append(.failure(InputError.emptyRow(row: index + 1)))
+                anyerrors = true
+            } else {
+                continue
+            }
+        }
+        guard !anyerrors else {
+            return(results)
+        }
+        results.append(.success(Success.patternArray(pattern)))
+        return(results)
     }
 
-    return .success(pattern)
-}
+    private func checkNoInvalidStitchesInNestedArray(pattern: [[String]]) -> Result<Success, InputError> {
+        let isEveryStitchValid = validateEachStitchInWholePattern(pattern: pattern)
+        switch isEveryStitchValid {
+        case .success:
+            return .success(Success.patternNestedArray(pattern))
+        case .failure(let error):
+            return .failure(error)
+        }
 
-private func validateNoEmptyRows(row: String) -> Result<String, InputError> {
-
-    guard !row.isEmpty else {
-        return .failure(InputError.emptyRow)
     }
-    return .success(row)
-}
 
-private func validateEachRowWidth(allRowsMetaData: [RowInfo]) -> Result<[RowInfo], InputError> {
-    let numberOfRowsToCheck = (allRowsMetaData.count) - 1
-    if numberOfRowsToCheck == 0 {
-        return .success(allRowsMetaData)
-    }
-    for rowNum in 1...numberOfRowsToCheck {
-        let prevRow = allRowsMetaData[rowNum-1]
-        var currentRow = allRowsMetaData[rowNum]
-        if !isCurrentRowStitchCountValid(prevRow: prevRow, currentRow: currentRow) {
-            let expectedNextRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
-            return .failure(InputError.invalidRowWidth(
-                invalidRowNumber: currentRow.userRowNumber,
-                expectedStitchCount: expectedNextRowWidth,
-                actualCount: currentRow.width
-            ))
+    private func checkNoMathematicalIssuesInArrayOfRowInfo(pattern: [RowInfo]) -> Result<Success, InputError> {
+        let isPatternMathematicallySound = validateEachRowWidth(allRowsMetaData: pattern)
+        switch isPatternMathematicallySound {
+        case .success:
+            return .success(Success.patternRowInfo(pattern))
+        case .failure(let error):
+            return .failure(error)
         }
     }
-    return .success(allRowsMetaData)
-}
 
-private func isCurrentRowStitchCountValid(prevRow: RowInfo, currentRow: RowInfo) -> Bool {
-    let expectedCurrentRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
-    return expectedCurrentRowWidth == currentRow.width
-}
+    private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
 
-public func knitFlatArray(array: [[String]]) -> [[String]] {
-    let numberofRows = array.count
-    var flatArray = array
-    for rowNum in 0..<numberofRows where rowNum % 2 == 1 {
-        flatArray[rowNum].reverse()
+        var errorArray: [InputError] = []
+        for (index, stitch) in stitchRow.enumerated() {
+            if !isStitchValid(stitch: stitch) {
+                errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: index + 1))
+            }
+        }
+
+        if errorArray.count > 0 {
+            return .failure(InputError.multipleErrors(errors: errorArray))
+        }
+
+        return .success(stitchRow)
     }
-    return flatArray
+
+    private func validateEachStitchInWholePattern(pattern: [[String]]) -> Result<[[String]], InputError> {
+        var errorArray: [InputError] = []
+        for (rowIndex, row) in pattern.enumerated() {
+            for (stitchIndex, stitch) in row.enumerated() {
+                let result = isStitchAndStitchCountValid(stitch: stitch, rowNumber: rowIndex + 1, stitchIndex: stitchIndex + 1)
+                switch result {
+                case .success:
+                    continue
+                case .failure(let error):
+                    if let _ = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
+                        continue
+                    } else {errorArray.append(error)}
+                }
+
+            }
+        }
+
+        if errorArray.count > 0 {
+            return .failure(InputError.multipleErrors(errors: errorArray))
+        }
+
+        return .success(pattern)
+    }
+
+    private func validateEachRowWidth(allRowsMetaData: [RowInfo]) -> Result<[RowInfo], InputError> {
+        let numberOfRowsToCheck = (allRowsMetaData.count) - 1
+        if numberOfRowsToCheck == 0 {
+            return .success(allRowsMetaData)
+        }
+        for rowNum in 1...numberOfRowsToCheck {
+            let prevRow = allRowsMetaData[rowNum-1]
+            var currentRow = allRowsMetaData[rowNum]
+            if !isCurrentRowStitchCountValid(prevRow: prevRow, currentRow: currentRow) {
+                let expectedNextRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
+                return .failure(InputError.invalidRowWidth(
+                    invalidRowNumber: currentRow.userRowNumber,
+                    expectedStitchCount: expectedNextRowWidth,
+                    actualCount: currentRow.width
+                ))
+            }
+        }
+        return .success(allRowsMetaData)
+    }
+
+    private func isCurrentRowStitchCountValid(prevRow: RowInfo, currentRow: RowInfo) -> Bool {
+        let expectedCurrentRowWidth = prevRow.width + currentRow.leftIncDec + currentRow.rightIncDec
+        return expectedCurrentRowWidth == currentRow.width
+    }
+
+    public func knitFlatArray(array: [[String]]) -> [[String]] {
+        let numberofRows = array.count
+        var flatArray = array
+        for rowNum in 0..<numberofRows where rowNum % 2 == 1 {
+            flatArray[rowNum].reverse()
+        }
+        return flatArray
+    }
+
+    private func checkRepeats(pattern: [[String]]) -> Result<Success, InputError> {
+
+        for (rowIndex, row) in pattern.enumerated() {
+            for (stitchIndex, stitch) in row.enumerated() {
+                if let _ = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
+                    let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
+                    guard numberOfRepeats! >= 1 else {
+                        return .failure(
+                            InputError.invalidRepeatCount(
+                                rowNumber: rowIndex + 1,
+                                stitchIndexInRow: stitchIndex + 1,
+                                invalidRepeat: stitch
+                            )
+                        )
+                    }
+
+                } else {
+                    continue
+                }
+            }
+        }
+        return .success(Success.patternNestedArray(pattern))
+    }
 }
