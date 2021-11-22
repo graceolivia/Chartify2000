@@ -1,4 +1,7 @@
 import Foundation
+public class BasicStitchLibrary {
+
+public init() {}
 
 struct StitchType: Equatable {
     var name: String
@@ -90,5 +93,7 @@ private func determineIfRepeatingStitchIsACorrectRepeatingStitch(stitch: String,
     var stitchArray: [String] = []
     stitchArray.append(contentsOf: repeatElement((stitchName + "1"), count: repeatNumber))
     return .success(stitch)
+
+}
 
 }
