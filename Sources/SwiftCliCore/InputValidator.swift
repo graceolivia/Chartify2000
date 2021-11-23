@@ -16,12 +16,16 @@ public enum Success: Equatable {
 public class InputValidator {
 
     var patternNormalizer = PatternNormalizer()
-    var nestedArrayBuilder = NestedArrayBuilder()
+    var nestedArrayBuilder = NestedArrayBuilder(stitchLibrary: StitchLibrary())
+    var stitchLibrary = StitchLibrary()
+    var metaDataBuilder = MetaDataBuilder(chartConstructor: ChartConstructor(stitchLibrary: StitchLibrary()), stitchLibrary: StitchLibrary())
 
-    public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder) {
+    public init(patternNormalizer: PatternNormalizer, nestedArrayBuilder: NestedArrayBuilder, stitchLibrary: StitchLibrary, metaDataBuilder: MetaDataBuilder) {
 
         self.patternNormalizer = patternNormalizer
         self.nestedArrayBuilder = nestedArrayBuilder
+        self.stitchLibrary = stitchLibrary
+        self.metaDataBuilder = metaDataBuilder
     }
 
     public func validateInput(pattern: [String], knitFlat: Bool = false) -> PatternDataAndPossibleErrors {
@@ -53,7 +57,7 @@ public class InputValidator {
         }
 
         patternAndErrorResults.arrayOfArrays = patternAndErrorResults.arrayOfArrays.map { nestedArrayBuilder.expandRow(row: $0) }
-        patternAndErrorResults.arrayOfRowInfo = MetaDataBuilder().buildAllMetaData(stitchArray: patternAndErrorResults.arrayOfArrays)
+        patternAndErrorResults.arrayOfRowInfo = metaDataBuilder.buildAllMetaData(stitchArray: patternAndErrorResults.arrayOfArrays)
         patternAndErrorResults.results.append(checkNoMathematicalIssuesInArrayOfRowInfo(pattern: patternAndErrorResults.arrayOfRowInfo))
         return patternAndErrorResults
 
@@ -102,7 +106,7 @@ public class InputValidator {
 
         var errorArray: [InputError] = []
         for (index, stitch) in stitchRow.enumerated() {
-            if !isStitchValid(stitch: stitch) {
+            if !stitchLibrary.isStitchValid(stitch: stitch) {
                 errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: index + 1))
             }
         }
@@ -118,7 +122,7 @@ public class InputValidator {
         var errorArray: [InputError] = []
         for (rowIndex, row) in pattern.enumerated() {
             for (stitchIndex, stitch) in row.enumerated() {
-                let result = isStitchAndStitchCountValid(stitch: stitch, rowNumber: rowIndex + 1, stitchIndex: stitchIndex + 1)
+                let result = stitchLibrary.isStitchAndStitchCountValid(stitch: stitch, rowNumber: rowIndex + 1, stitchIndex: stitchIndex + 1)
                 switch result {
                 case .success:
                     continue

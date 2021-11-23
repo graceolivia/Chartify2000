@@ -1,25 +1,24 @@
 import Foundation
-public class BasicStitchLibrary {
+public class StitchLibrary {
 
-public init() {}
+    public init(){}
+    public struct StitchType: Equatable {
+        var name: String
+        var canRepeat: Bool
+        var incDecValue: Int = 0
+        var symbol: String
+    }
 
-struct StitchType: Equatable {
-    var name: String
-    var canRepeat: Bool
-    var incDecValue: Int = 0
-    var symbol: String
-}
-
-let allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0, symbol: " "),
+var allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0, symbol: " "),
                            StitchType(name: "p", canRepeat: true, incDecValue: 0, symbol: "-"),
                            StitchType(name: "ssk", canRepeat: false, incDecValue: -1, symbol: "\\"),
                            StitchType(name: "k2tog", canRepeat: false, incDecValue: -1, symbol: "/"),
                            StitchType(name: "yo", canRepeat: false, incDecValue: 1, symbol: "o"),
                            StitchType(name: "m1", canRepeat: false, incDecValue: 1, symbol: "m")]
 
-let nonrepeatingStitches = allowedStitchesInfo.filter({ !$0.canRepeat })
+lazy var nonrepeatingStitches = allowedStitchesInfo.filter({ !$0.canRepeat })
 
-let repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
+lazy var repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
 
 func getStitchInfo(stitch: String) throws -> StitchType {
     if let lookupStitch = nonrepeatingStitches.first(where: { $0.name == stitch }) {

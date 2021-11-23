@@ -9,7 +9,16 @@ class ValidatorTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
+        inputValidator = InputValidator(
+            patternNormalizer: PatternNormalizer(),
+            nestedArrayBuilder: NestedArrayBuilder(stitchLibrary: StitchLibrary()),
+            stitchLibrary: StitchLibrary(),
+            metaDataBuilder: MetaDataBuilder(
+                chartConstructor: ChartConstructor(
+                    stitchLibrary: StitchLibrary()),
+                stitchLibrary: StitchLibrary()
+            )
+        )
     }
 
     func testEmptyRowShouldThrowError() throws {

@@ -7,17 +7,20 @@ public final class Chartify {
     var chartConstructor: ChartConstructor
     var fileValidator: FileValidator
     var outputWriter: OutputWriter
+    var stitchLibrary: StitchLibrary
 
     public init(
         inputValidator: InputValidator,
         chartConstructor: ChartConstructor,
         fileValidator: FileValidator,
-        outputWriter: OutputWriter
+        outputWriter: OutputWriter,
+        stitchLibrary: StitchLibrary
     ) {
         self.inputValidator = inputValidator
         self.chartConstructor = chartConstructor
         self.fileValidator = fileValidator
         self.outputWriter = outputWriter
+        self.stitchLibrary = stitchLibrary
 
     }
 

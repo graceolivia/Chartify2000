@@ -1,7 +1,11 @@
 import Foundation
 
 public class ChartConstructor {
-    public init() {}
+    var stitchLibrary = StitchLibrary()
+
+    public init(stitchLibrary: StitchLibrary) {
+        self.stitchLibrary = stitchLibrary
+    }
     public func makeChart(patternMetaData: [RowInfo]) -> String {
         var metaData = patternMetaData
         let lastRow = patternMetaData.count - 1
@@ -108,7 +112,7 @@ public class ChartConstructor {
             var middleStitches = ""
             for stitch in row {
 
-                let getStitch = try! getStitchInfo(stitch: stitch)
+                let getStitch = try! stitchLibrary.getStitchInfo(stitch: stitch)
                 middleStitches += "\(getStitch.symbol)│"
             }
             return "│\(middleStitches)\n"

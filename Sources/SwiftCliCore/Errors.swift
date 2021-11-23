@@ -84,7 +84,7 @@ extension ReadFilePathError: LocalizedError {
 func allowedStitches() -> String {
     var allowedStitchesMessage = "Allowed stitches include: "
 
-    for stitch in allowedStitchesInfo {
+    for stitch in StitchLibrary().allowedStitchesInfo {
         allowedStitchesMessage +=  "\n" + stitch.name
     }
     return allowedStitchesMessage

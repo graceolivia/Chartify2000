@@ -1,7 +1,12 @@
 import Foundation
 
 public class NestedArrayBuilder {
-    public init() {}
+
+    var stitchLibrary = StitchLibrary()
+
+    public init(stitchLibrary: StitchLibrary) {
+        self.stitchLibrary = stitchLibrary
+    }
 
     public func arrayMaker(row: String) -> [String] {
         let substringRowStitches = row.split(separator: " ")
@@ -45,10 +50,10 @@ public class NestedArrayBuilder {
     }
 
     private func getMultipleStitchInfo(stitch: String) throws -> [String] {
-        if nonrepeatingStitches.contains(where: { $0.name == stitch }) {
+        if stitchLibrary.nonrepeatingStitches.contains(where: { $0.name == stitch }) {
             return [stitch]
         }
-        let isRepeatingStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )})
+        let isRepeatingStitch = stitchLibrary.repeatingStitches.first(where: { stitch.starts(with: $0.name )})
         if let isRepeatingStitch = isRepeatingStitch {
             let stitchName = isRepeatingStitch.name
             var clipStitch = stitch
