@@ -102,22 +102,6 @@ public class InputValidator {
         }
     }
 
-    private func validateEachStitch(stitchRow: [String], rowIndex: Int) -> Result<[String], InputError> {
-
-        var errorArray: [InputError] = []
-        for (index, stitch) in stitchRow.enumerated() {
-            if !stitchLibrary.isStitchValid(stitch: stitch) {
-                errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: rowIndex + 1, stitchIndexInRow: index + 1))
-            }
-        }
-
-        if errorArray.count > 0 {
-            return .failure(InputError.multipleErrors(errors: errorArray))
-        }
-
-        return .success(stitchRow)
-    }
-
     private func validateEachStitchInWholePattern(pattern: [[String]]) -> Result<[[String]], InputError> {
         var errorArray: [InputError] = []
         for (rowIndex, row) in pattern.enumerated() {
