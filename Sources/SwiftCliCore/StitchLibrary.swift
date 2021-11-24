@@ -1,13 +1,17 @@
 import Foundation
+
+
+public struct StitchType: Equatable {
+    var name: String
+    var canRepeat: Bool
+    var incDecValue: Int = 0
+    var symbol: String
+}
+
+ 
 public class StitchLibrary {
 
     public init(){}
-    public struct StitchType: Equatable {
-        var name: String
-        var canRepeat: Bool
-        var incDecValue: Int = 0
-        var symbol: String
-    }
 
 var allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0, symbol: " "),
                            StitchType(name: "p", canRepeat: true, incDecValue: 0, symbol: "-"),
