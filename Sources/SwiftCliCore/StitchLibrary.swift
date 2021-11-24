@@ -8,7 +8,7 @@ public struct StitchType: Equatable {
     var symbol: String
 }
 
- 
+
 public class StitchLibrary {
 
     public init(){}
@@ -24,12 +24,11 @@ lazy var nonrepeatingStitches = allowedStitchesInfo.filter({ !$0.canRepeat })
 
 lazy var repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
 
-func getStitchInfo(stitch: String) throws -> StitchType {
+func getStitchInfo(stitch: String) -> StitchType {
     if let lookupStitch = nonrepeatingStitches.first(where: { $0.name == stitch }) {
         return lookupStitch
-    } else if let lookupStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )}) {
-        return lookupStitch
-    } else {throw InputError.invalidStitch(invalidStitch: stitch)}
+    }
+   return repeatingStitches.first(where: { stitch.starts(with: $0.name )})!
 
 }
 

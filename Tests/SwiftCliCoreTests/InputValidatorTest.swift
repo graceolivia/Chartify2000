@@ -53,7 +53,7 @@ class ValidatorTests: XCTestCase {
             results: [
                .success(Success.patternArray(["g1 p1"])),
                .failure(InputError.multipleErrors(errors: [
-                    InputError.invalidStitch(invalidStitch: "g1", rowLocation: Optional(1), stitchIndexInRow: Optional(1))
+                    InputError.invalidStitch(invalidStitch: "g1", rowLocation: 1, stitchIndexInRow: 1)
                 ])),
                .success(Success.patternNestedArray([["g1", "p1"]]))])
         expect(result).to(equal(expectedResult))
@@ -122,8 +122,8 @@ class ValidatorTests: XCTestCase {
                .failure(
                     InputError.multipleErrors(
                         errors: [
-                            InputError.invalidStitch(invalidStitch: "g1", rowLocation: Optional(2), stitchIndexInRow: Optional(1)),
-                            InputError.invalidStitch(invalidStitch: "g1", rowLocation: Optional(3), stitchIndexInRow: Optional(2))
+                            InputError.invalidStitch(invalidStitch: "g1", rowLocation: 2, stitchIndexInRow: 1),
+                            InputError.invalidStitch(invalidStitch: "g1", rowLocation: 3, stitchIndexInRow: 2)
                         ]
                     )
                 ),
@@ -147,11 +147,11 @@ class ValidatorTests: XCTestCase {
                .failure(InputError.multipleErrors(
                     errors: [
                         InputError.invalidStitchNumber(
-                            rowNumber: Optional(1),
+                            rowNumber: 1,
                             invalidStitch: "k0",
                             validStitchType: "k",
                             invalidStitchNumber: "0",
-                            stitchIndexInRow: Optional(1)
+                            stitchIndexInRow: 1
                         )
                     ]
                 )),

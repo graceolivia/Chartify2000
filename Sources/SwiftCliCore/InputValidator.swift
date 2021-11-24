@@ -107,7 +107,7 @@ public class InputValidator {
         var errorArray: [InputError] = []
         for (index, stitch) in stitchRow.enumerated() {
             if !stitchLibrary.isStitchValid(stitch: stitch) {
-                errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: index + 1))
+                errorArray.append(InputError.invalidStitch(invalidStitch: stitchRow[index], rowLocation: rowIndex + 1, stitchIndexInRow: index + 1))
             }
         }
 
@@ -177,8 +177,7 @@ public class InputValidator {
     }
 
     private func checkRepeats(pattern: [[String]]) -> Result<Success, InputError> {
-        var toTrim = CharacterSet()
-        toTrim.insert(charactersIn: "(x))")
+        let toTrim = CharacterSet(charactersIn: "(x)")
         let RegexForStitchRepeat = "^[(0-9x)]*$"
         for (rowIndex, row) in pattern.enumerated() {
             for (stitchIndex, stitch) in row.enumerated() {

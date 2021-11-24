@@ -87,7 +87,7 @@ public class MetaDataBuilder {
         var totalChange = 0
         for stitch in halfStitchRow {
 
-            let lookupStitch = try! stitchLibrary.getStitchInfo(stitch: stitch)
+            let lookupStitch = stitchLibrary.getStitchInfo(stitch: stitch)
             totalChange += lookupStitch.incDecValue
         }
         return totalChange

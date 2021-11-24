@@ -112,7 +112,7 @@ public class ChartConstructor {
             var middleStitches = ""
             for stitch in row {
 
-                let getStitch = try! stitchLibrary.getStitchInfo(stitch: stitch)
+                let getStitch = stitchLibrary.getStitchInfo(stitch: stitch)
                 middleStitches += "\(getStitch.symbol)│"
             }
             return "│\(middleStitches)\n"
