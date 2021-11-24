@@ -177,11 +177,13 @@ public class InputValidator {
     }
 
     private func checkRepeats(pattern: [[String]]) -> Result<Success, InputError> {
-
+        var toTrim = CharacterSet()
+        toTrim.insert(charactersIn: "(x))")
+        let RegexForStitchRepeat = "^[(0-9x)]*$"
         for (rowIndex, row) in pattern.enumerated() {
             for (stitchIndex, stitch) in row.enumerated() {
-                if let _ = (stitch.range(of: "^[(0-9x)]*$", options: .regularExpression)) {
-                    let numberOfRepeats = Int(stitch.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
+                if let _ = (stitch.range(of: RegexForStitchRepeat, options: .regularExpression)) {
+                    let numberOfRepeats = Int(stitch.trimmingCharacters(in: toTrim))
                     guard numberOfRepeats! >= 1 else {
                         return .failure(
                             InputError.invalidRepeatCount(
