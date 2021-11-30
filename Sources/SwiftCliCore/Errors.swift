@@ -4,8 +4,8 @@ enum InputError: Error, Equatable {
     case emptyRow(row: Int)
     case invalidStitch(
         invalidStitch: String,
-        rowLocation: Int? = nil,
-        stitchIndexInRow: Int? = nil
+        rowLocation: Int,
+        stitchIndexInRow: Int
     )
     case invalidRowWidth(
         invalidRowNumber: Int,
@@ -13,11 +13,11 @@ enum InputError: Error, Equatable {
         actualCount: Int
     )
     case invalidStitchNumber(
-        rowNumber: Int? = nil,
+        rowNumber: Int,
         invalidStitch: String,
         validStitchType: String,
         invalidStitchNumber: String,
-        stitchIndexInRow: Int? = nil
+        stitchIndexInRow: Int
     )
     case multipleErrors(errors: [InputError])
     case invalidRepeatCount(
@@ -84,7 +84,7 @@ extension ReadFilePathError: LocalizedError {
 func allowedStitches() -> String {
     var allowedStitchesMessage = "Allowed stitches include: "
 
-    for stitch in allowedStitchesInfo {
+    for stitch in StitchLibrary().allowedStitchesInfo {
         allowedStitchesMessage +=  "\n" + stitch.name
     }
     return allowedStitchesMessage
@@ -110,19 +110,11 @@ func invalidRowWidthError(invalidRowNumber: Int, expectedStitchCount: Int, actua
     )
 }
 
-func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int?, stitchIndexInRow: Int?) -> String {
-    var onRow = ""
-    var atIndex = ""
-    if let rowLocation = rowLocation {
-        onRow = " on row \(rowLocation)"
-    }
-    if let stitchIndexInRow = stitchIndexInRow {
-        atIndex = " at index \(stitchIndexInRow)"
-    }
+func invalidStitchWithLocationError(invalidStitch: String, rowLocation: Int, stitchIndexInRow: Int) -> String {
 
     return """
     Invalid Stitch Error:
-    '\(invalidStitch)'\(atIndex)\(onRow) is not a valid stitch type.
+    '\(invalidStitch)' at index \(stitchIndexInRow) on row \(rowLocation) is not a valid stitch type.
     """
 
 }

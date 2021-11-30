@@ -18,14 +18,22 @@ struct StartProgram: ParsableCommand {
     @Flag(help: "Call this for info about the stitches you are allowed to use.")
     var stitches = false
 
-    func run() {
+    func run() {   
         let patternNormalizer = PatternNormalizer()
-        let nestedArrayBuilder = NestedArrayBuilder()
+        let stitchLibrary = StitchLibrary()
+        let chartConstructor = ChartConstructor(stitchLibrary: stitchLibrary)
+        let nestedArrayBuilder = NestedArrayBuilder(stitchLibrary: stitchLibrary)
+        let metaDataBuilder = MetaDataBuilder(
+            chartConstructor: chartConstructor,
+            stitchLibrary: stitchLibrary
+        )
         let inputValidator = InputValidator(
             patternNormalizer: patternNormalizer,
-            nestedArrayBuilder: nestedArrayBuilder
+            nestedArrayBuilder: nestedArrayBuilder,
+            stitchLibrary: stitchLibrary,
+            metaDataBuilder: metaDataBuilder
         )
-        let chartConstructor = ChartConstructor()
+
         let fileValidator = FileValidator()
 
         let outputWriter: OutputWriter
@@ -34,7 +42,12 @@ struct StartProgram: ParsableCommand {
         } else {
             outputWriter = ConsoleWriter()
         }
-        let instructionsGiver = InstructionsGiver(consoleWriter: ConsoleWriter(), fileValidator: fileValidator)
+        let instructionsGiver = InstructionsGiver(
+            consoleWriter: ConsoleWriter(),
+            fileValidator: fileValidator,
+            stitchLibrary: stitchLibrary
+        )
+
 
         if stitches {
             do {
@@ -48,7 +61,8 @@ struct StartProgram: ParsableCommand {
                 inputValidator: inputValidator,
                 chartConstructor: chartConstructor,
                 fileValidator: fileValidator,
-                outputWriter: outputWriter
+                outputWriter: outputWriter,
+                stitchLibrary: stitchLibrary
             )
             chartify.run(
                 userInput: pattern,

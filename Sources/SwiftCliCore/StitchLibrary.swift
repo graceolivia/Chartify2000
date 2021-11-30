@@ -1,29 +1,34 @@
 import Foundation
 
-struct StitchType: Equatable {
+
+public struct StitchType: Equatable {
     var name: String
     var canRepeat: Bool
     var incDecValue: Int = 0
     var symbol: String
 }
 
-let allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0, symbol: " "),
+
+public class StitchLibrary {
+
+    public init(){}
+
+var allowedStitchesInfo = [StitchType(name: "k", canRepeat: true, incDecValue: 0, symbol: " "),
                            StitchType(name: "p", canRepeat: true, incDecValue: 0, symbol: "-"),
                            StitchType(name: "ssk", canRepeat: false, incDecValue: -1, symbol: "\\"),
                            StitchType(name: "k2tog", canRepeat: false, incDecValue: -1, symbol: "/"),
                            StitchType(name: "yo", canRepeat: false, incDecValue: 1, symbol: "o"),
                            StitchType(name: "m1", canRepeat: false, incDecValue: 1, symbol: "m")]
 
-let nonrepeatingStitches = allowedStitchesInfo.filter({ !$0.canRepeat })
+lazy var nonrepeatingStitches = allowedStitchesInfo.filter({ !$0.canRepeat })
 
-let repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
+lazy var repeatingStitches = allowedStitchesInfo.filter({ $0.canRepeat })
 
-func getStitchInfo(stitch: String) throws -> StitchType {
+func getStitchInfo(stitch: String) -> StitchType {
     if let lookupStitch = nonrepeatingStitches.first(where: { $0.name == stitch }) {
         return lookupStitch
-    } else if let lookupStitch = repeatingStitches.first(where: { stitch.starts(with: $0.name )}) {
-        return lookupStitch
-    } else {throw InputError.invalidStitch(invalidStitch: stitch)}
+    }
+   return repeatingStitches.first(where: { stitch.starts(with: $0.name )})!
 
 }
 
@@ -90,5 +95,7 @@ private func determineIfRepeatingStitchIsACorrectRepeatingStitch(stitch: String,
     var stitchArray: [String] = []
     stitchArray.append(contentsOf: repeatElement((stitchName + "1"), count: repeatNumber))
     return .success(stitch)
+
+}
 
 }

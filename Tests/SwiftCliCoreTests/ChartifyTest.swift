@@ -5,29 +5,48 @@ import Nimble
 
 class ChartifyFinishedTest: XCTestCase {
     func testRunCallsValidator() throws {
-        let mock = MockInputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
+        let mock = MockInputValidator(
+            patternNormalizer: PatternNormalizer(),
+            nestedArrayBuilder: NestedArrayBuilder(stitchLibrary: StitchLibrary()),
+            stitchLibrary: StitchLibrary(),
+            metaDataBuilder: MetaDataBuilder(
+                chartConstructor: ChartConstructor(
+                    stitchLibrary: StitchLibrary()
+                ),
+                stitchLibrary: StitchLibrary()
+            )
+        )
 
         Chartify(
             inputValidator: mock,
-            chartConstructor: ChartConstructor(),
+            chartConstructor: ChartConstructor(stitchLibrary: StitchLibrary()),
             fileValidator: FileValidator(),
-            outputWriter: ConsoleWriter()
+            outputWriter: ConsoleWriter(),
+            stitchLibrary: StitchLibrary()
         ).run(userInput: ["k1 k1 k1", "k1 k1 k1"], knitFlat: false)
 
         expect(mock.wasValidatorCalled).to(equal(true))
     }
 
     func testRunCallsMakeChartIfInputIsValid() throws {
-        let mock = MockChartConstructor()
+        let mock = MockChartConstructor(stitchLibrary: StitchLibrary())
 
         Chartify(
             inputValidator: InputValidator(
                 patternNormalizer: PatternNormalizer(),
-                nestedArrayBuilder: NestedArrayBuilder()
+                nestedArrayBuilder: NestedArrayBuilder(stitchLibrary: StitchLibrary()),
+                stitchLibrary: StitchLibrary(),
+                metaDataBuilder: MetaDataBuilder(
+                    chartConstructor: ChartConstructor(
+                        stitchLibrary: StitchLibrary()
+                    ),
+                    stitchLibrary: StitchLibrary()
+                )
             ),
             chartConstructor: mock,
             fileValidator: FileValidator(),
-            outputWriter: ConsoleWriter()
+            outputWriter: ConsoleWriter(),
+            stitchLibrary: StitchLibrary()
         ).run(userInput: ["k1"])
 
         expect(mock.wasMakeChartCalled).to(equal(true))
@@ -36,10 +55,21 @@ class ChartifyFinishedTest: XCTestCase {
         let mock = MockFileValidator()
 
         Chartify(
-            inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()),
-            chartConstructor: ChartConstructor(),
+            inputValidator: InputValidator(
+                patternNormalizer: PatternNormalizer(),
+                nestedArrayBuilder: NestedArrayBuilder(stitchLibrary: StitchLibrary()),
+                stitchLibrary: StitchLibrary(),
+                metaDataBuilder: MetaDataBuilder(
+                    chartConstructor: ChartConstructor(
+                        stitchLibrary: StitchLibrary()
+                    ),
+                    stitchLibrary: StitchLibrary()
+                )
+            ),
+            chartConstructor: ChartConstructor(stitchLibrary: StitchLibrary()),
             fileValidator: mock,
-            outputWriter: ConsoleWriter()
+            outputWriter: ConsoleWriter(),
+            stitchLibrary: StitchLibrary()
         ).run(userInput: ["k1"], file: "Example.txt")
 
         expect(mock.wasFileValidatorCalled).to(equal(true))
@@ -48,10 +78,21 @@ class ChartifyFinishedTest: XCTestCase {
     func testRunCallsWriteToFileIfUserIncludesWriteToFile() throws {
         let mock = MockOutputWriter()
         Chartify(
-            inputValidator: InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder()),
-            chartConstructor: ChartConstructor(),
+            inputValidator: InputValidator(
+                patternNormalizer: PatternNormalizer(),
+                nestedArrayBuilder: NestedArrayBuilder(stitchLibrary: StitchLibrary()),
+                stitchLibrary: StitchLibrary(),
+                metaDataBuilder: MetaDataBuilder(
+                    chartConstructor: ChartConstructor(
+                        stitchLibrary: StitchLibrary()
+                    ),
+                    stitchLibrary: StitchLibrary()
+                )
+            ),
+            chartConstructor: ChartConstructor(stitchLibrary: StitchLibrary()),
             fileValidator: FileValidator(),
-            outputWriter: mock
+            outputWriter: mock,
+            stitchLibrary: StitchLibrary()
         ).run(userInput: ["k1"])
         expect(mock.wasWriteOutputCalled).to(equal(true))
     }

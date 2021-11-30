@@ -3,10 +3,12 @@ import Foundation
 public class InstructionsGiver {
     var consoleWriter: ConsoleWriter
     var fileValidator: FileValidator
+    var stitchLibrary: StitchLibrary
 
-    public init(consoleWriter: ConsoleWriter, fileValidator: FileValidator) {
+    public init(consoleWriter: ConsoleWriter, fileValidator: FileValidator, stitchLibrary: StitchLibrary) {
         self.consoleWriter = consoleWriter
         self.fileValidator = fileValidator
+        self.stitchLibrary = stitchLibrary
     }
     public func giveInstructions() throws {
 
@@ -20,11 +22,11 @@ Allowed file types include:\n
 \nCurrent allowed stitches are listed below.\n\n
 """)
         message.append("Repeating stitches (can be written with any number 1 or greater afterwards: \n")
-        for stitch in repeatingStitches {
+        for stitch in stitchLibrary.repeatingStitches {
             message.append(stitch.name + "\n")
         }
         message.append("Non-repeating stitches:\n")
-        for stitch in nonrepeatingStitches {
+        for stitch in stitchLibrary.nonrepeatingStitches {
             message.append(stitch.name + "\n")
         }
 

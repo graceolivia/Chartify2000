@@ -8,7 +8,12 @@ class BuildAllMetaDataTests: XCTestCase {
     func testBuildAllMetaDataTestNoIncDec() throws {
         let testArray = [["k1", "p1"],
                          ["k1", "p1"]]
-        let result = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let expectedResult = [
             RowInfo(
@@ -38,7 +43,12 @@ class BuildAllMetaDataTests: XCTestCase {
     func testBuildAllMetaDataTestSingleLeftInc() throws {
         let testArray = [["k1", "k1", "p1"],
                          ["k1", "yo", "k1", "p1"]]
-        let result = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let expectedResult = [
             RowInfo(
@@ -69,7 +79,12 @@ class BuildAllMetaDataTests: XCTestCase {
         let testArray = [["k1", "k1", "p1"],
                          ["k1", "yo", "k1", "p1"],
                          ["k1", "yo", "k1", "k1", "p1"]]
-        let result = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
@@ -109,7 +124,12 @@ class BuildAllMetaDataTests: XCTestCase {
     func testBuildAllMetaDataTestSingleRightInc() throws {
         let testArray = [["k1", "k1", "p1"],
                          ["k1", "k1", "yo", "p1"]]
-        let result = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
@@ -139,7 +159,12 @@ class BuildAllMetaDataTests: XCTestCase {
     func testBuildAllMetaDataTestMultiRightInc() throws {
         let testArray = [["k1", "k1", "p1"],
                          ["k1", "k1", "yo", "m1", "p1"]]
-        let result = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
@@ -169,7 +194,12 @@ class BuildAllMetaDataTests: XCTestCase {
     func testBuildAllMetaDataTestSingleRightDec() throws {
         let testArray = [["k1", "k1", "p1"],
                          ["k1", "ssk"]]
-        let result = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
         let expectedResult = [
             RowInfo(
                 row: ["k1", "k1", "p1"],
@@ -199,7 +229,12 @@ class BuildAllMetaDataTests: XCTestCase {
     func testBuildAllMetaDataTestMultiRightDec() throws {
         let testArray = [["k1", "k1", "p1", "k1", "k1"],
                          ["k1", "ssk", "ssk"]]
-        let result = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        let result = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let expectedResult = [
             RowInfo(
@@ -233,7 +268,12 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     func testBuildAllMetaDataLeftOffsetString() throws {
         let testArray = [["k1", "k1", "k1", "k1", "p1"],
                          ["k1", "m1", "yo", "k1", "k1", "k1", "p1"]]
-        var testOffset = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        var testOffset = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let result = testOffset[0].leftOffsetString
         let expectedResult = "    "
@@ -244,7 +284,12 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     func testBuildAllMetaDataTransRowLeftOffsetString() throws {
         let testArray = [["k1", "k1", "k1", "k1", "p1"],
                          ["k1", "m1", "yo", "k1", "k1", "k1", "p1"]]
-        var testOffset = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        var testOffset = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let result = testOffset[0].transRowLeftOffsetString
         let expectedResult = ""
@@ -255,7 +300,12 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     func testBuildAllMetaDataOffsetBottomLine() throws {
         let testArray = [["k1", "k1", "k1", "k1", "p1"],
                          ["k1", "m1", "yo", "k1", "k1", "k1", "p1"]]
-        var testOffset = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        var testOffset = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let result = testOffset[0].offsetBottomLine
         let expectedResult = "    └─┴─┴─┴─┴─┘"
@@ -266,7 +316,12 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     func testBuildAllMetaDataOffsetStitchSymbols() throws {
         let testArray = [["k1", "k1", "k1", "k1", "p1"],
                          ["k1", "m1", "yo", "k1", "k1", "k1", "p1"]]
-        var testOffset = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        var testOffset = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let result = testOffset[0].offsetStitchSymbols
         let expectedResult = "    │ │ │ │ │-│\n"
@@ -277,7 +332,12 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     func testBuildAllMetaDataTotalRow() throws {
         let testArray = [["k1", "k1", "k1", "k1", "p1"],
                          ["k1", "m1", "yo", "k1", "k1", "k1", "p1"]]
-        var testOffset = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        var testOffset = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let result = testOffset[0].totalRow
         let expectedResult = """
@@ -290,7 +350,12 @@ class BuildAllMetaDataLazyValues: XCTestCase {
     func testBuildAllMetaDataUserRowNumber() throws {
         let testArray = [["k1", "k1", "k1", "k1", "p1"],
                          ["k1", "k1", "k1", "k1", "p1"]]
-        var testUserRowNumber = MetaDataBuilder().buildAllMetaData(stitchArray: testArray)
+        var testUserRowNumber = MetaDataBuilder(
+            chartConstructor: ChartConstructor(
+                stitchLibrary: StitchLibrary()
+            ),
+            stitchLibrary: StitchLibrary()
+        ).buildAllMetaData(stitchArray: testArray)
 
         let result = testUserRowNumber[0].userRowNumber
         let expectedResult = 1

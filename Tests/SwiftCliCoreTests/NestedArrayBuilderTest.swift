@@ -6,12 +6,12 @@ import Nimble
 class NestedArrayMakerTest: XCTestCase {
 
     func testNestedArrayBuilderEmpty() throws {
-        let result = NestedArrayBuilder().arrayMaker(row: "")
+        let result = NestedArrayBuilder(stitchLibrary: StitchLibrary()).arrayMaker(row: "")
         expect(result).to(equal([]))
     }
 
     func testNestedArrayBuilder() throws {
-        let result = NestedArrayBuilder().arrayMaker(row: "k1 k1 k1")
+        let result = NestedArrayBuilder(stitchLibrary: StitchLibrary()).arrayMaker(row: "k1 k1 k1")
         expect(result).to(equal(["k1", "k1", "k1"]))
     }
 
@@ -20,18 +20,18 @@ class NestedArrayMakerTest: XCTestCase {
 class MultipleStitchExpanderTest: XCTestCase {
 
     func testExpandValidMultipleStitch() throws {
-        let result = NestedArrayBuilder().expandRow(row: ["k4", "p1"])
+        let result = NestedArrayBuilder(stitchLibrary: StitchLibrary()).expandRow(row: ["k4", "p1"])
         expect(result).to(equal(["k1", "k1", "k1", "k1", "p1"]))
     }
 
 
     func testValidNonExpandingStitchesDontExpand() throws {
-        let result = NestedArrayBuilder().expandRow(row: ["k1", "p1"])
+        let result = NestedArrayBuilder(stitchLibrary: StitchLibrary()).expandRow(row: ["k1", "p1"])
         expect(result).to(equal(["k1", "p1"]))
     }
 
     func testExpandValidRepeatStitch() throws {
-        let result = NestedArrayBuilder().expandRow(row: ["k1", "p1", "(2x)"])
+        let result = NestedArrayBuilder(stitchLibrary: StitchLibrary()).expandRow(row: ["k1", "p1", "(2x)"])
         expect(result).to(equal(["k1", "p1", "k1", "p1"]))
     }
 

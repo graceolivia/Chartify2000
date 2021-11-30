@@ -9,7 +9,16 @@ class ValidatorTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        inputValidator = InputValidator(patternNormalizer: PatternNormalizer(), nestedArrayBuilder: NestedArrayBuilder())
+        inputValidator = InputValidator(
+            patternNormalizer: PatternNormalizer(),
+            nestedArrayBuilder: NestedArrayBuilder(stitchLibrary: StitchLibrary()),
+            stitchLibrary: StitchLibrary(),
+            metaDataBuilder: MetaDataBuilder(
+                chartConstructor: ChartConstructor(
+                    stitchLibrary: StitchLibrary()),
+                stitchLibrary: StitchLibrary()
+            )
+        )
     }
 
     func testEmptyRowShouldThrowError() throws {
@@ -23,9 +32,9 @@ class ValidatorTests: XCTestCase {
             arrayOfArrays: [["p1", "p1"], []],
             arrayOfRowInfo: [],
             results: [
-                Result.failure(SwiftCliCore.InputError.emptyRow(row: 2)),
-                Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], []])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], []]))
+                Result.failure(InputError.emptyRow(row: 2)),
+                Result<Success, InputError>.success(Success.patternNestedArray([["p1", "p1"], []])),
+               .success(Success.patternNestedArray([["p1", "p1"], []]))
             ]
         )
         expect(result).to(equal(expectedResult))
@@ -42,11 +51,11 @@ class ValidatorTests: XCTestCase {
             arrayOfArrays: [["g1", "p1"]],
             arrayOfRowInfo: [],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternArray(["g1 p1"])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(SwiftCliCore.InputError.multipleErrors(errors: [
-                    SwiftCliCore.InputError.invalidStitch(invalidStitch: "g1", rowLocation: Optional(1), stitchIndexInRow: Optional(1))
+               .success(Success.patternArray(["g1 p1"])),
+               .failure(InputError.multipleErrors(errors: [
+                    InputError.invalidStitch(invalidStitch: "g1", rowLocation: 1, stitchIndexInRow: 1)
                 ])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["g1", "p1"]]))])
+               .success(Success.patternNestedArray([["g1", "p1"]]))])
         expect(result).to(equal(expectedResult))
 
     }
@@ -62,7 +71,7 @@ class ValidatorTests: XCTestCase {
             arrayOfStrings: ["p1 p1", "p1 p1 p1"],
             arrayOfArrays: [["p1", "p1"], ["p1", "p1", "p1"]],
             arrayOfRowInfo: [
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["p1", "p1"],
                     rowIndex: 0,
                     bottomLine: "└─┴─┘",
@@ -74,7 +83,7 @@ class ValidatorTests: XCTestCase {
                     leftOffset: 0,
                     transRowLeftOffset: 0
                 ),
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["p1", "p1", "p1"],
                     rowIndex: 1,
                     bottomLine: "├─┼─┼─┤\n",
@@ -88,10 +97,10 @@ class ValidatorTests: XCTestCase {
                 )
             ],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternArray(["p1 p1", "p1 p1 p1"])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], ["p1", "p1", "p1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], ["p1", "p1", "p1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(SwiftCliCore.InputError.invalidRowWidth(invalidRowNumber: 2, expectedStitchCount: 2, actualCount: 3))
+               .success(Success.patternArray(["p1 p1", "p1 p1 p1"])),
+               .success(Success.patternNestedArray([["p1", "p1"], ["p1", "p1", "p1"]])),
+               .success(Success.patternNestedArray([["p1", "p1"], ["p1", "p1", "p1"]])),
+               .failure(InputError.invalidRowWidth(invalidRowNumber: 2, expectedStitchCount: 2, actualCount: 3))
             ]
         )
         expect(result).to(equal(expectedResult))
@@ -109,16 +118,16 @@ class ValidatorTests: XCTestCase {
             arrayOfArrays: [[], ["g1", "p1"], ["p1", "g1"]],
             arrayOfRowInfo: [],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(SwiftCliCore.InputError.emptyRow(row: 1)),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(
-                    SwiftCliCore.InputError.multipleErrors(
+               .failure(InputError.emptyRow(row: 1)),
+               .failure(
+                    InputError.multipleErrors(
                         errors: [
-                            SwiftCliCore.InputError.invalidStitch(invalidStitch: "g1", rowLocation: Optional(2), stitchIndexInRow: Optional(1)),
-                            SwiftCliCore.InputError.invalidStitch(invalidStitch: "g1", rowLocation: Optional(3), stitchIndexInRow: Optional(2))
+                            InputError.invalidStitch(invalidStitch: "g1", rowLocation: 2, stitchIndexInRow: 1),
+                            InputError.invalidStitch(invalidStitch: "g1", rowLocation: 3, stitchIndexInRow: 2)
                         ]
                     )
                 ),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([[], ["g1", "p1"], ["p1", "g1"]]))])
+               .success(Success.patternNestedArray([[], ["g1", "p1"], ["p1", "g1"]]))])
         expect(result).to(equal(expectedResult))
     }
 
@@ -134,19 +143,19 @@ class ValidatorTests: XCTestCase {
             arrayOfArrays: [["k0", "p1"]],
             arrayOfRowInfo: [],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternArray(["k0 p1"])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.failure(SwiftCliCore.InputError.multipleErrors(
+               .success(Success.patternArray(["k0 p1"])),
+               .failure(InputError.multipleErrors(
                     errors: [
-                        SwiftCliCore.InputError.invalidStitchNumber(
-                            rowNumber: Optional(1),
+                        InputError.invalidStitchNumber(
+                            rowNumber: 1,
                             invalidStitch: "k0",
                             validStitchType: "k",
                             invalidStitchNumber: "0",
-                            stitchIndexInRow: Optional(1)
+                            stitchIndexInRow: 1
                         )
                     ]
                 )),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["k0", "p1"]]))
+               .success(Success.patternNestedArray([["k0", "p1"]]))
             ]
         )
         expect(result).to(equal(expectedResult))
@@ -163,7 +172,7 @@ class ValidatorTests: XCTestCase {
             arrayOfStrings: ["p1 p1", "p1 p1"],
             arrayOfArrays: [["p1", "p1"], ["p1", "p1"]],
             arrayOfRowInfo: [
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["p1", "p1"],
                     rowIndex: 0,
                     bottomLine: "└─┴─┘",
@@ -175,7 +184,7 @@ class ValidatorTests: XCTestCase {
                     leftOffset: 0,
                     transRowLeftOffset: 0
 ),
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["p1", "p1"],
                     rowIndex: 1,
                     bottomLine: "├─┼─┤\n",
@@ -189,11 +198,11 @@ class ValidatorTests: XCTestCase {
                 )
             ],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternArray(["p1 p1", "p1 p1"])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], ["p1", "p1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["p1", "p1"], ["p1", "p1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternRowInfo([
-                    SwiftCliCore.RowInfo(
+               .success(Success.patternArray(["p1 p1", "p1 p1"])),
+               .success(Success.patternNestedArray([["p1", "p1"], ["p1", "p1"]])),
+               .success(Success.patternNestedArray([["p1", "p1"], ["p1", "p1"]])),
+               .success(Success.patternRowInfo([
+                    RowInfo(
                         row: ["p1", "p1"],
                         rowIndex: 0,
                         bottomLine: "└─┴─┘",
@@ -205,7 +214,7 @@ class ValidatorTests: XCTestCase {
                         leftOffset: 0,
                         transRowLeftOffset: 0
                     ),
-                    SwiftCliCore.RowInfo(
+                    RowInfo(
                         row: ["p1", "p1"],
                         rowIndex: 1,
                         bottomLine: "├─┼─┤\n",
@@ -231,7 +240,7 @@ class ValidatorTests: XCTestCase {
             arrayOfStrings: ["k1 p1", "p1 k1"],
             arrayOfArrays: [["k1", "p1"], ["k1", "p1"]],
             arrayOfRowInfo: [
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["k1", "p1"],
                     rowIndex: 0,
                     bottomLine: "└─┴─┘",
@@ -243,7 +252,7 @@ class ValidatorTests: XCTestCase {
                     leftOffset: 0,
                     transRowLeftOffset: 0
                 ),
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["k1", "p1"],
                     rowIndex: 1,
                     bottomLine: "├─┼─┤\n",
@@ -257,12 +266,12 @@ class ValidatorTests: XCTestCase {
                 )
             ],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternArray(["k1 p1", "p1 k1"])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["k1", "p1"], ["k1", "p1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["k1", "p1"], ["k1", "p1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternRowInfo(
+               .success(Success.patternArray(["k1 p1", "p1 k1"])),
+               .success(Success.patternNestedArray([["k1", "p1"], ["k1", "p1"]])),
+               .success(Success.patternNestedArray([["k1", "p1"], ["k1", "p1"]])),
+               .success(Success.patternRowInfo(
                     [
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["k1", "p1"],
                     rowIndex: 0,
                     bottomLine: "└─┴─┘",
@@ -274,7 +283,7 @@ class ValidatorTests: XCTestCase {
                     leftOffset: 0,
                     transRowLeftOffset: 0
                 ),
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["k1", "p1"],
                     rowIndex: 1,
                     bottomLine: "├─┼─┤\n",
@@ -302,7 +311,7 @@ class ValidatorTests: XCTestCase {
             arrayOfStrings: ["k1 p1", "p1 k1"],
             arrayOfArrays: [["k1", "p1"], ["p1", "k1"]],
             arrayOfRowInfo: [
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["k1", "p1"],
                     rowIndex: 0,
                     bottomLine: "└─┴─┘",
@@ -313,7 +322,7 @@ class ValidatorTests: XCTestCase {
                     rightIncDec: 0,
                     leftOffset: 0,
                     transRowLeftOffset: 0),
-                SwiftCliCore.RowInfo(
+                RowInfo(
                     row: ["p1", "k1"],
                     rowIndex: 1,
                     bottomLine: "├─┼─┤\n",
@@ -325,12 +334,12 @@ class ValidatorTests: XCTestCase {
                     leftOffset: 0,
                     transRowLeftOffset: 0)],
             results: [
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternArray(["k1 p1", "p1 k1"])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["k1", "p1"], ["p1", "k1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternNestedArray([["k1", "p1"], ["p1", "k1"]])),
-                Swift.Result<SwiftCliCore.Success, SwiftCliCore.InputError>.success(SwiftCliCore.Success.patternRowInfo(
+               .success(Success.patternArray(["k1 p1", "p1 k1"])),
+               .success(Success.patternNestedArray([["k1", "p1"], ["p1", "k1"]])),
+               .success(Success.patternNestedArray([["k1", "p1"], ["p1", "k1"]])),
+               .success(Success.patternRowInfo(
                     [
-                        SwiftCliCore.RowInfo(
+                        RowInfo(
                             row: ["k1", "p1"],
                             rowIndex: 0,
                             bottomLine: "└─┴─┘",
@@ -342,7 +351,7 @@ class ValidatorTests: XCTestCase {
                             leftOffset: 0,
                             transRowLeftOffset: 0
                         ),
-                        SwiftCliCore.RowInfo(
+                        RowInfo(
                             row: ["p1", "k1"],
                             rowIndex: 1,
                             bottomLine: "├─┼─┤\n",

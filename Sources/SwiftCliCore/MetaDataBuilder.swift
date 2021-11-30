@@ -21,7 +21,15 @@ public struct RowInfo: Equatable {
 }
 
 public class MetaDataBuilder {
-    public init() {}
+    var chartConstructor: ChartConstructor
+    var stitchLibrary: StitchLibrary
+    public init(
+        chartConstructor: ChartConstructor,
+        stitchLibrary: StitchLibrary
+    ) {
+        self.chartConstructor = chartConstructor
+        self.stitchLibrary = stitchLibrary
+    }
 
     public func buildAllMetaData(stitchArray: [[String]]) -> [RowInfo] {
         var allRowsMetaData = [] as [RowInfo]
@@ -51,15 +59,15 @@ public class MetaDataBuilder {
         rowData.rightIncDec = findRightChanges(stitchRow: stitchRow)
         rowData.width = stitchRow.count
         if rowNumber == 0 {
-            rowData.bottomLine = ChartConstructor().makeBottomRow(width: rowData.width)
+            rowData.bottomLine = chartConstructor.makeBottomRow(width: rowData.width)
         } else {
-            rowData.bottomLine = ChartConstructor().makeMiddleRow(
+            rowData.bottomLine = chartConstructor.makeMiddleRow(
                 width: rowData.width,
                 rDiff: rowData.rightIncDec,
                 lDiff: rowData.leftIncDec
             )
         }
-        rowData.stitchSymbols = ChartConstructor().makeStitchRow(row: rowData.row)
+        rowData.stitchSymbols = chartConstructor.makeStitchRow(row: rowData.row)
         return(rowData)
     }
 
@@ -79,7 +87,7 @@ public class MetaDataBuilder {
         var totalChange = 0
         for stitch in halfStitchRow {
 
-            let lookupStitch: StitchType = try! getStitchInfo(stitch: stitch)
+            let lookupStitch = stitchLibrary.getStitchInfo(stitch: stitch)
             totalChange += lookupStitch.incDecValue
         }
         return totalChange
